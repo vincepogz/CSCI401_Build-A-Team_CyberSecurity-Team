@@ -1,0 +1,16 @@
+[
+    {
+        "type": "employeeType",
+        "values": [
+            "low",
+            "medium",
+            "high"
+        ]
+    },
+    {
+        "type": "employeeSkills",
+        "values": [
+            
+        ]
+    }
+]
