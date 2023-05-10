@@ -1,5 +1,5 @@
 const SKILLS = require('./employeeSkills.json')
-employeeCount = 1;
+employeeCount = 1; 
 
 const DEFAULT_PROPERTIES = {
     

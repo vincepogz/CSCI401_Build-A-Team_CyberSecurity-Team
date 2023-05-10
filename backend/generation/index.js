@@ -18,12 +18,12 @@ class Generation {
         return new Date(Date.now() + msUntilExpiration)
     }
 
-    newEmployee() {
+    newEmployee(employeeType, empployeeName) {
         if (Date.now() > this.expiration){
             throw new Error('This generation expired on ${this.expiration}');
         }
 
-        return new Employee;
+        return new Employee(employeeType,empployeeName);
     }
 };
 
