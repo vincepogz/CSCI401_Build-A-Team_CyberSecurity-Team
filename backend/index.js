@@ -1,10 +1,13 @@
-const Generation = require('./generation/index.js')
+const express = require('express');
+const GenerationEngine = require('./generation/engine');
 
-const generation = new Generation();
+const app = express();
+const engine = new GenerationEngine();
 
-const newEmployee = generation.newEmployee();
+engine.start();
 
-console.log('generation', generation);
-console.log('Employee: ', newEmployee);
+app.get('/employee/new', (req,res) => {
+    res.json({employee: engine.generation.newEmployee()});
+});
 
-console.log('Hello World')
+app.listen(3000, () => console.log('Listening on port 3000'));
