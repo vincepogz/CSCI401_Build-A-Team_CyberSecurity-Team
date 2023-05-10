@@ -1,0 +1,16 @@
+[
+    {
+        "type": "Skill",
+        "values": [
+            "Forensic Investigator",
+            "Malware Analyst",
+            "Security Auditor",
+            "Incident Responder",
+            "Intelligence Analyst",
+            "SOC Analyst",
+            "Network Engineer",
+            "Application Developer",
+            "Application Tester"
+        ]
+    }
+]
