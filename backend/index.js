@@ -1,8 +1,10 @@
-const Generation = require('./generation')
+const Generation = require('./generation/index.js')
 
 const generation = new Generation();
 
-console.log('generation', generation);
+const newEmployee = generation.newEmployee();
 
+console.log('generation', generation);
+console.log('Employee: ', newEmployee);
 
 console.log('Hello World')
