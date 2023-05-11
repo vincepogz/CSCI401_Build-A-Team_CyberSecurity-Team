@@ -4,6 +4,7 @@ employeeCount = 1;
 const DEFAULT_PROPERTIES = {
     
     employeeId: 0,
+    employeeTasked: false,
     employeeName: 'unnamed',
     employeeType: 'unset',
     employeeSalary: 0,
@@ -13,17 +14,17 @@ const DEFAULT_PROPERTIES = {
 
 const getSalaryRange = function (employeeType) {
     if (employeeType == 'high') {
-        return [60000,90000]
+        return [2400,2900]
     } else if (employeeType == 'medium') {
-        return [40000,60000]
+        return [1200,1800]
     } else {
-        return [10000,40000]
+        return [600,900]
     }
 }
 
 const getEmployeeSalary = function (employeeType) {
-    const range = getSalaryRange(employeeType);
-    const employeeSalary = Math.random() * (range[1]-range[0]) | range[0]
+    const salaryRange = getSalaryRange(employeeType);
+    const employeeSalary = Math.random() * (salaryRange[1]-salaryRange[0]) | salaryRange[0]
 
     return employeeSalary
 };
@@ -69,6 +70,7 @@ const getEmployeeSkills = function (employeeType) {
 class Employee {
     constructor(employeeType, employeeName) {
         this.employeeId = employeeCount++ || DEFAULT_PROPERTIES.employeeId;
+        this.employeeTasked = DEFAULT_PROPERTIES.employeeTasked;
         this.employeeName = employeeName || DEFAULT_PROPERTIES.employeeName;
         this.employeeType = employeeType || DEFAULT_PROPERTIES.employeeType;
         this.employeeSalary = getEmployeeSalary(employeeType) || DEFAULT_PROPERTIES.employeeSalary;

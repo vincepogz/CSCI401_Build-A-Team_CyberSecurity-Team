@@ -7,7 +7,16 @@ const engine = new GenerationEngine();
 engine.start();
 
 app.get('/employee/new', (req,res) => {
+    // for (const key in req.query) {
+    //     console.log(key, req.query[key])
+    // }
     res.json({employee: engine.generation.newEmployee()});
+});
+
+
+
+app.get('/mission/new', (req,res) => {
+    res.json({employee: engine.generation.newMission()});
 });
 
 app.listen(3000, () => console.log('Listening on port 3000'));
