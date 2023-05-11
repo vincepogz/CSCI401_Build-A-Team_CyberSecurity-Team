@@ -1,5 +1,6 @@
 const {REFRESH_RATE, SECONDS} = require('../config')
 const Employee = require('../employee/employee')
+const Mission = require('../mission/mission')
 
 const refresRate = REFRESH_RATE * SECONDS;
 
@@ -24,6 +25,14 @@ class Generation {
         }
 
         return new Employee(employeeType,empployeeName);
+    }
+
+    newMission(missionType) {
+        if (Date.now() > this.expiration){
+            throw new Error('This generation expired on ${this.expiration}');
+        }
+
+        return new Mission(missionType);       
     }
 };
 
