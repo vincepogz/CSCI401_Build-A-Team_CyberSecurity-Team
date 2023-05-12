@@ -1,6 +1,6 @@
 import React from "react";
 import {render} from 'react-dom';
-import CompanyDetails from "./components/companyDetails/index";
+import CompanyDetails from "./src/components/companyDetails/index";
 
 render(
   <div>
