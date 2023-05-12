@@ -77,7 +77,7 @@
 176C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\@parcel\node-resolver-core\test\fixture\node_modules\package-main-directory\nested133283838702564364 1
 158C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\walker\index.js133283838706471810 0
 140C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\css-tree\cjs\syntax\node\MediaFeatureRange.cjs133283838707241854 0
-93C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\package.json133283841138133729 0
+93C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\package.json133283844088368441 0
 124C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\resolve\test\precedence\aaa.js133283824519150325 0
 146C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\babel-plugin-transform-class-properties\lib\index.js133283824516214617 0
 110C:\Users\USER\Documents\Project\CSCI401_Build-A-Team_CyberSecurity-Team\frontend\node_modules\type-fest\source133283838702584371 1
