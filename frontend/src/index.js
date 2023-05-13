@@ -1,12 +1,12 @@
 import React from "react";
-import {render} from 'react-dom';
-import CompanyDetails from "./components/companyDetails/index";
+import ReacDOM from 'react-dom/client';
+import App from './App';
 
-render(
-  <div>
-    <h2>Hello World from React!!</h2>
-    <CompanyDetails/>
-  </div>,
 
-  document.getElementById('root')
+const root = ReacDOM.createRoot(document.getElementById('root'));
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );

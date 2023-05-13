@@ -2926,21 +2926,22 @@ $parcel$ReactRefreshHelpers$20e5.prelude(module);
 try {
 "use strict";
 var _react = _interopRequireDefault(require("ddf0ad711a894627"));
-var _reactDom = require("407da3b7d15c6274");
-var _index = _interopRequireDefault(require("496c6e1935cacf5d"));
+var _client = _interopRequireDefault(require("1f97e364a6a8efc9"));
+var _App = _interopRequireDefault(require("11be0f3be26c8c31"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
 }
-(0, _reactDom.render)(/*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("h2", null, "Hello World from React!!"), /*#__PURE__*/ _react["default"].createElement(_index["default"], null)), document.getElementById("root"));
+var root = _client["default"].createRoot(document.getElementById("root"));
+root.render(/*#__PURE__*/ _react["default"].createElement(_react["default"].StrictMode, null, /*#__PURE__*/ _react["default"].createElement(_App["default"], null)));
 
   $parcel$ReactRefreshHelpers$20e5.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ddf0ad711a894627":"21dqq","407da3b7d15c6274":"j6uA9","496c6e1935cacf5d":"2KP1E","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"21dqq":[function(require,module,exports) {
+},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"21dqq":[function(require,module,exports) {
 "use strict";
 module.exports = require("d5378d0448897613");
 
@@ -4810,7 +4811,28 @@ module.exports = require("d5378d0448897613");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{}],"j6uA9":[function(require,module,exports) {
+},{}],"lOjBx":[function(require,module,exports) {
+"use strict";
+var m = require("51a1fedade246ef2");
+var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+exports.createRoot = function(c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+        return m.createRoot(c, o);
+    } finally{
+        i.usingClientEntryPoint = false;
+    }
+};
+exports.hydrateRoot = function(c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+        return m.hydrateRoot(c, h, o);
+    } finally{
+        i.usingClientEntryPoint = false;
+    }
+};
+
+},{"51a1fedade246ef2":"j6uA9"}],"j6uA9":[function(require,module,exports) {
 "use strict";
 function checkDCE() {
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== "function") return;
@@ -26269,11 +26291,96 @@ module.exports = require("102bbe1397a8acc7");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{}],"2KP1E":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$6020 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{}],"2kQhy":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$f00f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$6020.prelude(module);
+$parcel$ReactRefreshHelpers$f00f.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _logo = _interopRequireDefault(require("6a4c6ce6b913d9d1"));
+var _react = _interopRequireDefault(require("48e951655a6cdd2"));
+require("c79628b51096d64a");
+var _index = _interopRequireDefault(require("4d77e0643d2d6fd"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function App() {
+    return /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "App"
+    }, /*#__PURE__*/ _react["default"].createElement("header", {
+        className: "App-header"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        src: _logo["default"],
+        className: "App-logo",
+        alt: "logo"
+    }), /*#__PURE__*/ _react["default"].createElement("p", null, "Edit ", /*#__PURE__*/ _react["default"].createElement("code", null, "src/App.js"), " and save to reload"), /*#__PURE__*/ _react["default"].createElement("a", {
+        className: "App-link",
+        href: "https://reactjs.org",
+        target: "_blank",
+        rel: "noopener noreferrer"
+    }, "Learn React")), /*#__PURE__*/ _react["default"].createElement(_index["default"], null));
+}
+_c = App;
+var _default = App;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "App");
+
+  $parcel$ReactRefreshHelpers$f00f.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"6a4c6ce6b913d9d1":"1NHey","48e951655a6cdd2":"21dqq","c79628b51096d64a":"6n0o6","4d77e0643d2d6fd":"96xQh","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"1NHey":[function(require,module,exports) {
+module.exports = require("dba0b17db1e18eed").getBundleURL("bLxZJ") + "logo.5f13d5c5.svg" + "?" + Date.now();
+
+},{"dba0b17db1e18eed":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"6n0o6":[function() {},{}],"96xQh":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$f722 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$f722.prelude(module);
 
 try {
 "use strict";
@@ -26289,7 +26396,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("85fcd7dbb5a46a8d"));
+var _react = _interopRequireWildcard(require("34e1e2b8efda287e"));
 function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
     var cacheBabelInterop = new WeakMap();
@@ -26452,12 +26559,12 @@ var CompanyDetails = /*#__PURE__*/ function(_Component) {
 var _default = CompanyDetails;
 exports["default"] = _default;
 
-  $parcel$ReactRefreshHelpers$6020.postlude(module);
+  $parcel$ReactRefreshHelpers$f722.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"85fcd7dbb5a46a8d":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"km3Ru":[function(require,module,exports) {
+},{"34e1e2b8efda287e":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"km3Ru":[function(require,module,exports) {
 "use strict";
 var Refresh = require("93239d6b0d6b8fc0");
 function debounce(func, delay) {
