@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -6,9 +6,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 function GameStart(props) {
     
-
     return (
         <>     
+        
         <Modal
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
@@ -28,7 +28,8 @@ function GameStart(props) {
                 id="companyConfirm"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    props.setGame(e.currentTarget.elements.companyConfirm.value, props.company)
+                    props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
+                    props.getNewHires(props.newHires);
                 }}
             >
                 <InputGroup size="md" >
@@ -46,7 +47,7 @@ function GameStart(props) {
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <Button type="submit" onClick={props.onHide} form="companyConfirm">Confirm</Button>
+            <Button className="bg-sky-500" type="submit" onClick={props.onHide} form="companyConfirm">Confirm</Button>
         </Modal.Footer>
 
         </Modal>

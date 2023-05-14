@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import './App.css';
-import GameStart from "./components/gameSystem";
+import GameStart from "./modals/gameSystem";
 import CompanyDashboard from './components/companyDashboard'
+import EmployeeDashboard from './components/employeeDashboard';
 
 
 function App() {
@@ -13,56 +13,61 @@ function App() {
             name: 'New Company',
             current_cash: 0,
             current_cost: 0,
-            img: 'https://this-person-does-not-exist.com/img/avatar-gen11a58ae9880bf7fadad7bab1c65efddd.jpg'
+            img: 'https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png'
         }
     );
 
-    const [employees, setEmployees] = useState([
-        {
-            employeeId: 0,
-            employeeTasked: false,
-            employeeName: 'unnamed',
-            employeeGender: 'unset',
-            employeeType: 'unset',
-            employeeSalary: 0,
-            employeeSkills: [],
-        }
-    ]);
+    const [employees, setEmployees] = useState([]);
 
-    const [activeMissions, setActiveMissions] = useState([
-        {
-            missionId: 0,
-            missionLevel: 'unset',
-            missionReward: 0,
-            missionRequiredPoints: 0,
-            missionCurrentPoints: 0,
-            missionDetail: 'unset',
-            missionExpiration: new Date(),
-            missionAssignedEmployees: []
-        }
-    ])
+    const [newHires, setNewHires] = useState([]);
+
+    const [activeMissions, setActiveMissions] = useState([]);
+
+    function addEmployees() {
+
+    };
 
     function setGame(newName, company) {
-        setCompany({
-            name: newName,
-            current_cash: company.current_cash,
-            current_cost: company.current_cost,
-            img: company.img
-        })
-    }
+        setCompany({...company, name: newName})
+    };
+
+    async function getNewHires(newHires) {
+
+        while (newHires.length != 3) {
+            const response = await fetch('http://localhost:3000/employee/new');
+            const json = await response.json();
+
+            const newHire = {
+                employeeId: json.employee.employeeId,
+                employeeTasked: json.employee.employeeTasked,
+                employeeName: json.employee.employeeName,
+                employeeGender: json.employee.employeeGender,
+                employeeType: json.employee.employeeType,
+                employeeSalary: json.employee.employeeSalary,
+                employeeSkills: json.employee.employeeSkills        
+            }
+
+            newHires.push({newHire}) 
+        }
+
+        console.log(newHires)
+    };
 
     return (
         <>
         <GameStart
             company={company}
             setGame = {setGame}
+            newHires = {newHires}
+            getNewHires = {getNewHires}
             show={modalShow}
             onHide={() => setModalShow(false)}/>
         
         <div className="App">
-            <header className='App-header'>
+            <div className='flex-wrap'>
                 <CompanyDashboard company={company} />
-            </header>
+                <EmployeeDashboard employees={employees} newHires={newHires} addEmployees={addEmployees} />
+            </div>
 
         </div></>
     );

@@ -2936,6 +2936,7 @@ function _typeof(obj) {
 var _react = _interopRequireWildcard(require("ddf0ad711a894627"));
 var _client = _interopRequireDefault(require("1f97e364a6a8efc9"));
 var _App = _interopRequireDefault(require("11be0f3be26c8c31"));
+require("5cf9f156f3c4075c");
 require("4283d18d473a0cf3");
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -2976,7 +2977,7 @@ root.render(/*#__PURE__*/ _react["default"].createElement(_react["default"].Stri
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","4283d18d473a0cf3":"i5LP7"}],"21dqq":[function(require,module,exports) {
+},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","4283d18d473a0cf3":"i5LP7","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","5cf9f156f3c4075c":"6n0o6"}],"21dqq":[function(require,module,exports) {
 "use strict";
 module.exports = require("d5378d0448897613");
 
@@ -26347,9 +26348,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _react = _interopRequireWildcard(require("48e951655a6cdd2"));
-require("c79628b51096d64a");
-var _gameSystem = _interopRequireDefault(require("d5c674b22ba55f75"));
+var _gameSystem = _interopRequireDefault(require("a061848674532474"));
 var _companyDashboard = _interopRequireDefault(require("211529aee10b3c22"));
+var _employeeDashboard = _interopRequireDefault(require("5004080bfc6550bb"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -26380,6 +26381,371 @@ function _interopRequireWildcard(obj, nodeInterop) {
     newObj["default"] = obj;
     if (cache) cache.set(obj, newObj);
     return newObj;
+}
+function _regeneratorRuntime() {
+    "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ 
+    _regeneratorRuntime = function _regeneratorRuntime() {
+        return exports1;
+    };
+    var exports1 = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
+        obj[key] = desc.value;
+    }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+    function define(obj, key, value) {
+        return Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: !0,
+            configurable: !0,
+            writable: !0
+        }), obj[key];
+    }
+    try {
+        define({}, "");
+    } catch (err) {
+        define = function define(obj, key, value) {
+            return obj[key] = value;
+        };
+    }
+    function wrap(innerFn, outerFn, self, tryLocsList) {
+        var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+        return defineProperty(generator, "_invoke", {
+            value: makeInvokeMethod(innerFn, self, context)
+        }), generator;
+    }
+    function tryCatch(fn, obj, arg) {
+        try {
+            return {
+                type: "normal",
+                arg: fn.call(obj, arg)
+            };
+        } catch (err) {
+            return {
+                type: "throw",
+                arg: err
+            };
+        }
+    }
+    exports1.wrap = wrap;
+    var ContinueSentinel = {};
+    function Generator() {}
+    function GeneratorFunction() {}
+    function GeneratorFunctionPrototype() {}
+    var IteratorPrototype = {};
+    define(IteratorPrototype, iteratorSymbol, function() {
+        return this;
+    });
+    var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+    NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+    var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+    function defineIteratorMethods(prototype) {
+        [
+            "next",
+            "throw",
+            "return"
+        ].forEach(function(method) {
+            define(prototype, method, function(arg) {
+                return this._invoke(method, arg);
+            });
+        });
+    }
+    function AsyncIterator(generator, PromiseImpl) {
+        function invoke(method, arg, resolve, reject) {
+            var record = tryCatch(generator[method], generator, arg);
+            if ("throw" !== record.type) {
+                var result = record.arg, value = result.value;
+                return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function(value) {
+                    invoke("next", value, resolve, reject);
+                }, function(err) {
+                    invoke("throw", err, resolve, reject);
+                }) : PromiseImpl.resolve(value).then(function(unwrapped) {
+                    result.value = unwrapped, resolve(result);
+                }, function(error) {
+                    return invoke("throw", error, resolve, reject);
+                });
+            }
+            reject(record.arg);
+        }
+        var previousPromise;
+        defineProperty(this, "_invoke", {
+            value: function value(method, arg) {
+                function callInvokeWithMethodAndArg() {
+                    return new PromiseImpl(function(resolve, reject) {
+                        invoke(method, arg, resolve, reject);
+                    });
+                }
+                return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+            }
+        });
+    }
+    function makeInvokeMethod(innerFn, self, context) {
+        var state = "suspendedStart";
+        return function(method, arg) {
+            if ("executing" === state) throw new Error("Generator is already running");
+            if ("completed" === state) {
+                if ("throw" === method) throw arg;
+                return doneResult();
+            }
+            for(context.method = method, context.arg = arg;;){
+                var delegate = context.delegate;
+                if (delegate) {
+                    var delegateResult = maybeInvokeDelegate(delegate, context);
+                    if (delegateResult) {
+                        if (delegateResult === ContinueSentinel) continue;
+                        return delegateResult;
+                    }
+                }
+                if ("next" === context.method) context.sent = context._sent = context.arg;
+                else if ("throw" === context.method) {
+                    if ("suspendedStart" === state) throw state = "completed", context.arg;
+                    context.dispatchException(context.arg);
+                } else "return" === context.method && context.abrupt("return", context.arg);
+                state = "executing";
+                var record = tryCatch(innerFn, self, context);
+                if ("normal" === record.type) {
+                    if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+                    return {
+                        value: record.arg,
+                        done: context.done
+                    };
+                }
+                "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+            }
+        };
+    }
+    function maybeInvokeDelegate(delegate, context) {
+        var methodName = context.method, method = delegate.iterator[methodName];
+        if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
+        var record = tryCatch(method, delegate.iterator, context.arg);
+        if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+        var info = record.arg;
+        return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+    }
+    function pushTryEntry(locs) {
+        var entry = {
+            tryLoc: locs[0]
+        };
+        1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+    }
+    function resetTryEntry(entry) {
+        var record = entry.completion || {};
+        record.type = "normal", delete record.arg, entry.completion = record;
+    }
+    function Context(tryLocsList) {
+        this.tryEntries = [
+            {
+                tryLoc: "root"
+            }
+        ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+    }
+    function values(iterable) {
+        if (iterable) {
+            var iteratorMethod = iterable[iteratorSymbol];
+            if (iteratorMethod) return iteratorMethod.call(iterable);
+            if ("function" == typeof iterable.next) return iterable;
+            if (!isNaN(iterable.length)) {
+                var i = -1, next = function next() {
+                    for(; ++i < iterable.length;)if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+                    return next.value = undefined, next.done = !0, next;
+                };
+                return next.next = next;
+            }
+        }
+        return {
+            next: doneResult
+        };
+    }
+    function doneResult() {
+        return {
+            value: undefined,
+            done: !0
+        };
+    }
+    return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+        value: GeneratorFunctionPrototype,
+        configurable: !0
+    }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+        value: GeneratorFunction,
+        configurable: !0
+    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports1.isGeneratorFunction = function(genFun) {
+        var ctor = "function" == typeof genFun && genFun.constructor;
+        return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
+    }, exports1.mark = function(genFun) {
+        return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+    }, exports1.awrap = function(arg) {
+        return {
+            __await: arg
+        };
+    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function() {
+        return this;
+    }), exports1.AsyncIterator = AsyncIterator, exports1.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+        void 0 === PromiseImpl && (PromiseImpl = Promise);
+        var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+        return exports1.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+            return result.done ? result.value : iter.next();
+        });
+    }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function() {
+        return this;
+    }), define(Gp, "toString", function() {
+        return "[object Generator]";
+    }), exports1.keys = function(val) {
+        var object = Object(val), keys = [];
+        for(var key in object)keys.push(key);
+        return keys.reverse(), function next() {
+            for(; keys.length;){
+                var key = keys.pop();
+                if (key in object) return next.value = key, next.done = !1, next;
+            }
+            return next.done = !0, next;
+        };
+    }, exports1.values = values, Context.prototype = {
+        constructor: Context,
+        reset: function reset(skipTempReset) {
+            if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for(var name in this)"t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+        },
+        stop: function stop() {
+            this.done = !0;
+            var rootRecord = this.tryEntries[0].completion;
+            if ("throw" === rootRecord.type) throw rootRecord.arg;
+            return this.rval;
+        },
+        dispatchException: function dispatchException(exception) {
+            if (this.done) throw exception;
+            var context = this;
+            function handle(loc, caught) {
+                return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+            }
+            for(var i = this.tryEntries.length - 1; i >= 0; --i){
+                var entry = this.tryEntries[i], record = entry.completion;
+                if ("root" === entry.tryLoc) return handle("end");
+                if (entry.tryLoc <= this.prev) {
+                    var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
+                    if (hasCatch && hasFinally) {
+                        if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+                        if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                    } else if (hasCatch) {
+                        if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+                    } else {
+                        if (!hasFinally) throw new Error("try statement without catch or finally");
+                        if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                    }
+                }
+            }
+        },
+        abrupt: function abrupt(type, arg) {
+            for(var i = this.tryEntries.length - 1; i >= 0; --i){
+                var entry = this.tryEntries[i];
+                if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+                    var finallyEntry = entry;
+                    break;
+                }
+            }
+            finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+            var record = finallyEntry ? finallyEntry.completion : {};
+            return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+        },
+        complete: function complete(record, afterLoc) {
+            if ("throw" === record.type) throw record.arg;
+            return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+        },
+        finish: function finish(finallyLoc) {
+            for(var i = this.tryEntries.length - 1; i >= 0; --i){
+                var entry = this.tryEntries[i];
+                if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+            }
+        },
+        "catch": function _catch(tryLoc) {
+            for(var i = this.tryEntries.length - 1; i >= 0; --i){
+                var entry = this.tryEntries[i];
+                if (entry.tryLoc === tryLoc) {
+                    var record = entry.completion;
+                    if ("throw" === record.type) {
+                        var thrown = record.arg;
+                        resetTryEntry(entry);
+                    }
+                    return thrown;
+                }
+            }
+            throw new Error("illegal catch attempt");
+        },
+        delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+            return this.delegate = {
+                iterator: values(iterable),
+                resultName: resultName,
+                nextLoc: nextLoc
+            }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+        }
+    }, exports1;
+}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+    try {
+        var info = gen[key](arg);
+        var value = info.value;
+    } catch (error) {
+        reject(error);
+        return;
+    }
+    if (info.done) resolve(value);
+    else Promise.resolve(value).then(_next, _throw);
+}
+function _asyncToGenerator(fn) {
+    return function() {
+        var self = this, args = arguments;
+        return new Promise(function(resolve, reject) {
+            var gen = fn.apply(self, args);
+            function _next(value) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+            }
+            function _throw(err) {
+                asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+            }
+            _next(undefined);
+        });
+    };
+}
+function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+        var symbols = Object.getOwnPropertySymbols(object);
+        enumerableOnly && (symbols = symbols.filter(function(sym) {
+            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+}
+function _objectSpread(target) {
+    for(var i = 1; i < arguments.length; i++){
+        var source = null != arguments[i] ? arguments[i] : {};
+        i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
+            _defineProperty(target, key, source[key]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+    }
+    return target;
+}
+function _defineProperty(obj, key, value) {
+    key = _toPropertyKey(key);
+    if (key in obj) Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+    });
+    else obj[key] = value;
+    return obj;
+}
+function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return _typeof(key) === "symbol" ? key : String(key);
+}
+function _toPrimitive(input, hint) {
+    if (_typeof(input) !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+        var res = prim.call(input, hint || "default");
+        if (_typeof(res) !== "object") return res;
+        throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
 }
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -26430,52 +26796,81 @@ function App() {
         name: "New Company",
         current_cash: 0,
         current_cost: 0,
-        img: "https://this-person-does-not-exist.com/img/avatar-gen11a58ae9880bf7fadad7bab1c65efddd.jpg"
+        img: "https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png"
     }), _useState4 = _slicedToArray(_useState3, 2), company = _useState4[0], setCompany = _useState4[1];
-    var _useState5 = (0, _react.useState)([
-        {
-            employeeId: 0,
-            employeeTasked: false,
-            employeeName: "unnamed",
-            employeeGender: "unset",
-            employeeType: "unset",
-            employeeSalary: 0,
-            employeeSkills: []
-        }
-    ]), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
-    var _useState7 = (0, _react.useState)([
-        {
-            missionId: 0,
-            missionLevel: "unset",
-            missionReward: 0,
-            missionRequiredPoints: 0,
-            missionCurrentPoints: 0,
-            missionDetail: "unset",
-            missionExpiration: new Date(),
-            missionAssignedEmployees: []
-        }
-    ]), _useState8 = _slicedToArray(_useState7, 2), activeMissions = _useState8[0], setActiveMissions = _useState8[1];
+    var _useState5 = (0, _react.useState)([]), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
+    var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
+    var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
+    function addEmployees() {}
     function setGame(newName, company) {
-        setCompany({
-            name: newName,
-            current_cash: company.current_cash,
-            current_cost: company.current_cost,
-            img: company.img
-        });
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            name: newName
+        }));
+    }
+    function getNewHires(_x2) {
+        return _getNewHires.apply(this, arguments);
+    }
+    function _getNewHires() {
+        _getNewHires = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee(newHires) {
+            var response, json, newHire;
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+                while(true)switch(_context.prev = _context.next){
+                    case 0:
+                        if (!(newHires.length != 3)) {
+                            _context.next = 11;
+                            break;
+                        }
+                        _context.next = 3;
+                        return fetch("http://localhost:3000/employee/new");
+                    case 3:
+                        response = _context.sent;
+                        _context.next = 6;
+                        return response.json();
+                    case 6:
+                        json = _context.sent;
+                        newHire = {
+                            employeeId: json.employee.employeeId,
+                            employeeTasked: json.employee.employeeTasked,
+                            employeeName: json.employee.employeeName,
+                            employeeGender: json.employee.employeeGender,
+                            employeeType: json.employee.employeeType,
+                            employeeSalary: json.employee.employeeSalary,
+                            employeeSkills: json.employee.employeeSkills
+                        };
+                        newHires.push({
+                            newHire: newHire
+                        });
+                        _context.next = 0;
+                        break;
+                    case 11:
+                        console.log(newHires);
+                    case 12:
+                    case "end":
+                        return _context.stop();
+                }
+            }, _callee);
+        }));
+        return _getNewHires.apply(this, arguments);
     }
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
         company: company,
         setGame: setGame,
+        newHires: newHires,
+        getNewHires: getNewHires,
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
-    }, /*#__PURE__*/ _react["default"].createElement("header", {
-        className: "App-header"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex-wrap"
     }, /*#__PURE__*/ _react["default"].createElement(_companyDashboard["default"], {
         company: company
+    }), /*#__PURE__*/ _react["default"].createElement(_employeeDashboard["default"], {
+        employees: employees,
+        newHires: newHires,
+        addEmployees: addEmployees
     }))));
 }
 _c = App;
@@ -26489,176 +26884,11 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"48e951655a6cdd2":"21dqq","c79628b51096d64a":"6n0o6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","211529aee10b3c22":"eKbuG","d5c674b22ba55f75":"cHbQU"}],"6n0o6":[function() {},{}],"km3Ru":[function(require,module,exports) {
-"use strict";
-var Refresh = require("93239d6b0d6b8fc0");
-function debounce(func, delay) {
-    {
-        let timeout = undefined;
-        let lastTime = 0;
-        return function(args) {
-            // Call immediately if last call was more than the delay ago.
-            // Otherwise, set a timeout. This means the first call is fast
-            // (for the common case of a single update), and subsequent updates
-            // are batched.
-            let now = Date.now();
-            if (now - lastTime > delay) {
-                lastTime = now;
-                func.call(null, args);
-            } else {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = undefined;
-                    lastTime = Date.now();
-                    func.call(null, args);
-                }, delay);
-            }
-        };
-    }
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"93239d6b0d6b8fc0":"786KC"}],"eKbuG":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$5f5b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","5004080bfc6550bb":"h4Wkw","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"8zMP7":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6d90 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$5f5b.prelude(module);
-
-try {
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports["default"] = void 0;
-var _react = _interopRequireDefault(require("dc053196478710ab"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        "default": obj
-    };
-}
-function Company(props) {
-    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, "Company Name: ", props.company.name, /*#__PURE__*/ _react["default"].createElement("br", null), "Current Cash: $", props.company.current_cash, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.current_cost, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.img));
-}
-_c = Company;
-var _default = Company;
-exports["default"] = _default;
-var _c;
-$RefreshReg$(_c, "Company");
-
-  $parcel$ReactRefreshHelpers$5f5b.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"dc053196478710ab":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cHbQU":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ebed = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ebed.prelude(module);
+$parcel$ReactRefreshHelpers$6d90.prelude(module);
 
 try {
 "use strict";
@@ -26674,11 +26904,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("34c3b6f8cfbe84a6"));
-var _Button = _interopRequireDefault(require("b40dfd9027767f29"));
-var _Modal = _interopRequireDefault(require("a3daf1b733677103"));
-var _Form = _interopRequireDefault(require("3a8e21719c6a5aa6"));
-var _InputGroup = _interopRequireDefault(require("93ec9e35dcffddfb"));
+var _react = _interopRequireWildcard(require("a2b6a23940abc5dd"));
+var _Button = _interopRequireDefault(require("3b0134f00bfc247b"));
+var _Modal = _interopRequireDefault(require("93a3c05e0893c259"));
+var _Form = _interopRequireDefault(require("cd37e48a63a582cf"));
+var _InputGroup = _interopRequireDefault(require("2397000a314427b"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -26733,6 +26963,7 @@ function GameStart(props) {
         onSubmit: function onSubmit(e) {
             e.preventDefault();
             props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
+            props.getNewHires(props.newHires);
         }
     }, /*#__PURE__*/ _react["default"].createElement(_InputGroup["default"], {
         size: "md"
@@ -26745,6 +26976,7 @@ function GameStart(props) {
         "aria-describedby": "inputGroup-sizing-sm",
         placeholder: "Enter your Company Name here"
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
         type: "submit",
         onClick: props.onHide,
         form: "companyConfirm"
@@ -26756,12 +26988,12 @@ exports["default"] = _default;
 var _c;
 $RefreshReg$(_c, "GameStart");
 
-  $parcel$ReactRefreshHelpers$ebed.postlude(module);
+  $parcel$ReactRefreshHelpers$6d90.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"34c3b6f8cfbe84a6":"21dqq","b40dfd9027767f29":"aPzUt","a3daf1b733677103":"aNVmp","3a8e21719c6a5aa6":"iBZ80","93ec9e35dcffddfb":"htx7r","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aPzUt":[function(require,module,exports) {
+},{"a2b6a23940abc5dd":"21dqq","3b0134f00bfc247b":"aPzUt","93a3c05e0893c259":"aNVmp","cd37e48a63a582cf":"iBZ80","2397000a314427b":"htx7r","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aPzUt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
@@ -31579,6 +31811,455 @@ const context = /*#__PURE__*/ _react.createContext(null);
 context.displayName = "InputGroupContext";
 exports.default = context;
 
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"km3Ru":[function(require,module,exports) {
+"use strict";
+var Refresh = require("93239d6b0d6b8fc0");
+function debounce(func, delay) {
+    {
+        let timeout = undefined;
+        let lastTime = 0;
+        return function(args) {
+            // Call immediately if last call was more than the delay ago.
+            // Otherwise, set a timeout. This means the first call is fast
+            // (for the common case of a single update), and subsequent updates
+            // are batched.
+            let now = Date.now();
+            if (now - lastTime > delay) {
+                lastTime = now;
+                func.call(null, args);
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    timeout = undefined;
+                    lastTime = Date.now();
+                    func.call(null, args);
+                }, delay);
+            }
+        };
+    }
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"93239d6b0d6b8fc0":"786KC"}],"eKbuG":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$5f5b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$5f5b.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("dc053196478710ab"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function Company(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:shrink-0"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        className: "h-48 w-full object-cover md:h-full md:w-48 object-scale-down",
+        src: props.company.img,
+        alt: "Modern building architecture"
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "p-8"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "uppercase tracking-wide text-lg text-indigo-500 font-semibold"
+    }, props.company.name), /*#__PURE__*/ _react["default"].createElement("a", {
+        href: "#",
+        className: "block mt-6 text-lg leading-tight font-medium text-black hover:underline"
+    }, "Company Statistics:"), /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "mt-2 text-slate-500"
+    }, "Current Cash: $ ", props.company.current_cash), /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "mt-2 text-slate-500"
+    }, "Operation Cost: $ ", props.company.current_cost))))));
+}
+_c = Company;
+var _default = Company;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "Company");
+
+  $parcel$ReactRefreshHelpers$5f5b.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"dc053196478710ab":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"h4Wkw":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$2edc = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$2edc.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("cca1feee84ce1212"));
+var _Button = _interopRequireDefault(require("be03b221d3dcffbc"));
+var _threeWindowModal = _interopRequireDefault(require("7079be894d5b5a30"));
+var _viewActiveEmployees = _interopRequireDefault(require("a292fb96eaad6204"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function EmployeeDashboard(props) {
+    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), hireEmployees = _useState2[0], setHireEmployees = _useState2[1];
+    var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), viewEmployees = _useState4[0], setViewEmployees = _useState4[1];
+    var _useState5 = (0, _react.useState)(props.newHires), _useState6 = _slicedToArray(_useState5, 2), newHires = _useState6[0], setNewHires = _useState6[1];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:shrink-0"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        className: "h-48 w-full object-cover md:h-full md:w-48 object-scale-down",
+        src: "https://cdn-icons-png.flaticon.com/512/4807/4807598.png",
+        alt: "Modern building architecture"
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "p-8"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold"
+    }, "Options"), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex flex-wrap"
+    }, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500 m-2",
+        variant: "primary",
+        onClick: function onClick() {
+            setHireEmployees(true);
+        }
+    }, "Hire New Employees"), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500 m-2",
+        variant: "primary",
+        onClick: function onClick() {
+            return setViewEmployees(true);
+        }
+    }, "View Active Employees")), /*#__PURE__*/ _react["default"].createElement(_threeWindowModal["default"], {
+        show: hireEmployees,
+        onHide: function onHide() {
+            return setHireEmployees(false);
+        }
+    }), /*#__PURE__*/ _react["default"].createElement(_viewActiveEmployees["default"], {
+        show: viewEmployees,
+        onHide: function onHide() {
+            return setViewEmployees(false);
+        }
+    }))))));
+}
+_c = EmployeeDashboard;
+var _default = EmployeeDashboard;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "EmployeeDashboard");
+
+  $parcel$ReactRefreshHelpers$2edc.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"cca1feee84ce1212":"21dqq","be03b221d3dcffbc":"aPzUt","7079be894d5b5a30":"5rmvM","a292fb96eaad6204":"cs2jn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"5rmvM":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$b5ea = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$b5ea.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("ef28fd2d071dc9f9"));
+var _Button = _interopRequireDefault(require("3ee42be7dbbc11f7"));
+var _Modal = _interopRequireDefault(require("64f7d0923d462bb0"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function ThreeWindowModal(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Three Window Modal")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: props.onHide
+    }, "Close")));
+}
+_c = ThreeWindowModal;
+var _default = ThreeWindowModal;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ThreeWindowModal");
+
+  $parcel$ReactRefreshHelpers$b5ea.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"ef28fd2d071dc9f9":"21dqq","3ee42be7dbbc11f7":"aPzUt","64f7d0923d462bb0":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cs2jn":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$9fd0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$9fd0.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("7d9a1303080e30e5"));
+var _Button = _interopRequireDefault(require("5f512883aff6921d"));
+var _Modal = _interopRequireDefault(require("4e78135587bbb623"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function ViewActiveEmployees(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Active Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: props.onHide
+    }, "Close")));
+}
+_c = ViewActiveEmployees;
+var _default = ViewActiveEmployees;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ViewActiveEmployees");
+
+  $parcel$ReactRefreshHelpers$9fd0.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"7d9a1303080e30e5":"21dqq","5f512883aff6921d":"aPzUt","4e78135587bbb623":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"i5LP7":[function() {},{}],"6n0o6":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map
