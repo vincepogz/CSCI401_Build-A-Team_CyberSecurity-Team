@@ -6,7 +6,7 @@ import EmployeeDashboard from './components/employeeDashboard';
 
 function App() {
 
-    const [modalShow, setModalShow] = useState(false);
+    const [modalShow, setModalShow] = useState(true);
 
     const [company, setCompany] = useState(
         {
@@ -17,56 +17,56 @@ function App() {
         }
     );
 
-    const [employees, setEmployees] = useState([
-        {
-            employeeId: 0,
-            employeeTasked: false,
-            employeeName: 'unnamed',
-            employeeGender: 'unset',
-            employeeType: 'unset',
-            employeeSalary: 0,
-            employeeSkills: [],
-        }
-    ]);
+    const [employees, setEmployees] = useState([]);
 
-    const [activeMissions, setActiveMissions] = useState([
-        {
-            missionId: 0,
-            missionLevel: 'unset',
-            missionReward: 0,
-            missionRequiredPoints: 0,
-            missionCurrentPoints: 0,
-            missionDetail: 'unset',
-            missionExpiration: new Date(),
-            missionAssignedEmployees: []
-        }
-    ])
+    const [newHires, setNewHires] = useState([]);
 
-    function editEmployees() {
+    const [activeMissions, setActiveMissions] = useState([]);
+
+    function addEmployees() {
 
     };
 
-    function editGame(newName, company) {
-        setCompany({
-            name: newName,
-            current_cash: company.current_cash,
-            current_cost: company.current_cost,
-            img: company.img
-        })
-    }
+    function setGame(newName, company) {
+        setCompany({...company, name: newName})
+    };
+
+    async function getNewHires(newHires) {
+
+        while (newHires.length != 3) {
+            const response = await fetch('http://localhost:3000/employee/new');
+            const json = await response.json();
+
+            const newHire = {
+                employeeId: json.employee.employeeId,
+                employeeTasked: json.employee.employeeTasked,
+                employeeName: json.employee.employeeName,
+                employeeGender: json.employee.employeeGender,
+                employeeType: json.employee.employeeType,
+                employeeSalary: json.employee.employeeSalary,
+                employeeSkills: json.employee.employeeSkills        
+            }
+
+            newHires.push({newHire}) 
+        }
+
+        console.log(newHires)
+    };
 
     return (
         <>
         <GameStart
             company={company}
-            setGame = {editGame}
+            setGame = {setGame}
+            newHires = {newHires}
+            getNewHires = {getNewHires}
             show={modalShow}
             onHide={() => setModalShow(false)}/>
         
         <div className="App">
             <div className='flex-wrap'>
                 <CompanyDashboard company={company} />
-                <EmployeeDashboard employees={employees} editEmployees={editEmployees} />
+                <EmployeeDashboard employees={employees} newHires={newHires} addEmployees={addEmployees} />
             </div>
 
         </div></>
