@@ -7,8 +7,9 @@ const app = express();
 const engine = new GenerationEngine();
 
 engine.start();
-app.use(cors({ origin: 'http://localhost:1234'}, {origin: FRONTEND_ENDPOINT}));
+app.use(cors({origin: FRONTEND_ENDPOINT},{ origin: 'http://localhost:1234'}));
 app.get('/employee/new', (req,res) => {
+    console.log(req)
     res.json({employee: engine.generation.newEmployee()});
 });
 
