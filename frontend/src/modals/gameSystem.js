@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -46,7 +46,7 @@ function GameStart(props) {
             </Form>
         </Modal.Body>
         <Modal.Footer>
-            <Button type="submit" onClick={props.onHide} form="companyConfirm">Confirm</Button>
+            <Button className="bg-sky-500" type="submit" onClick={props.onHide} form="companyConfirm">Confirm</Button>
         </Modal.Footer>
 
         </Modal>

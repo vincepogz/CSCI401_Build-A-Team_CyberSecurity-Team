@@ -2936,6 +2936,7 @@ function _typeof(obj) {
 var _react = _interopRequireWildcard(require("ddf0ad711a894627"));
 var _client = _interopRequireDefault(require("1f97e364a6a8efc9"));
 var _App = _interopRequireDefault(require("11be0f3be26c8c31"));
+require("5cf9f156f3c4075c");
 require("4283d18d473a0cf3");
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -2976,7 +2977,7 @@ root.render(/*#__PURE__*/ _react["default"].createElement(_react["default"].Stri
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","4283d18d473a0cf3":"i5LP7"}],"21dqq":[function(require,module,exports) {
+},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","4283d18d473a0cf3":"i5LP7","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","5cf9f156f3c4075c":"6n0o6"}],"21dqq":[function(require,module,exports) {
 "use strict";
 module.exports = require("d5378d0448897613");
 
@@ -26347,9 +26348,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _react = _interopRequireWildcard(require("48e951655a6cdd2"));
-require("c79628b51096d64a");
-var _gameSystem = _interopRequireDefault(require("d5c674b22ba55f75"));
+var _gameSystem = _interopRequireDefault(require("a061848674532474"));
 var _companyDashboard = _interopRequireDefault(require("211529aee10b3c22"));
+var _employeeDashboard = _interopRequireDefault(require("5004080bfc6550bb"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -26425,12 +26426,12 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function App() {
-    var _useState = (0, _react.useState)(true), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
     var _useState3 = (0, _react.useState)({
         name: "New Company",
         current_cash: 0,
         current_cost: 0,
-        img: "https://this-person-does-not-exist.com/img/avatar-gen11a58ae9880bf7fadad7bab1c65efddd.jpg"
+        img: "https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png"
     }), _useState4 = _slicedToArray(_useState3, 2), company = _useState4[0], setCompany = _useState4[1];
     var _useState5 = (0, _react.useState)([
         {
@@ -26455,7 +26456,8 @@ function App() {
             missionAssignedEmployees: []
         }
     ]), _useState8 = _slicedToArray(_useState7, 2), activeMissions = _useState8[0], setActiveMissions = _useState8[1];
-    function setGame(newName, company) {
+    function editEmployees() {}
+    function editGame(newName, company) {
         setCompany({
             name: newName,
             current_cash: company.current_cash,
@@ -26465,17 +26467,20 @@ function App() {
     }
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
         company: company,
-        setGame: setGame,
+        setGame: editGame,
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
-    }, /*#__PURE__*/ _react["default"].createElement("header", {
-        className: "App-header"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex-wrap"
     }, /*#__PURE__*/ _react["default"].createElement(_companyDashboard["default"], {
         company: company
+    }), /*#__PURE__*/ _react["default"].createElement(_employeeDashboard["default"], {
+        employees: employees,
+        editEmployees: editEmployees
     }))));
 }
 _c = App;
@@ -26489,144 +26494,11 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"48e951655a6cdd2":"21dqq","c79628b51096d64a":"6n0o6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","211529aee10b3c22":"eKbuG","d5c674b22ba55f75":"cHbQU"}],"6n0o6":[function() {},{}],"km3Ru":[function(require,module,exports) {
-"use strict";
-var Refresh = require("93239d6b0d6b8fc0");
-function debounce(func, delay) {
-    {
-        let timeout = undefined;
-        let lastTime = 0;
-        return function(args) {
-            // Call immediately if last call was more than the delay ago.
-            // Otherwise, set a timeout. This means the first call is fast
-            // (for the common case of a single update), and subsequent updates
-            // are batched.
-            let now = Date.now();
-            if (now - lastTime > delay) {
-                lastTime = now;
-                func.call(null, args);
-            } else {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = undefined;
-                    lastTime = Date.now();
-                    func.call(null, args);
-                }, delay);
-            }
-        };
-    }
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
-    }
-}
-
-},{"93239d6b0d6b8fc0":"786KC"}],"eKbuG":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$5f5b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","5004080bfc6550bb":"h4Wkw"}],"8zMP7":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6d90 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$5f5b.prelude(module);
+$parcel$ReactRefreshHelpers$6d90.prelude(module);
 
 try {
 "use strict";
@@ -26634,81 +26506,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("dc053196478710ab"));
+var _react = _interopRequireDefault(require("a2b6a23940abc5dd"));
+var _Button = _interopRequireDefault(require("3b0134f00bfc247b"));
+var _Modal = _interopRequireDefault(require("93a3c05e0893c259"));
+var _Form = _interopRequireDefault(require("cd37e48a63a582cf"));
+var _InputGroup = _interopRequireDefault(require("2397000a314427b"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
-}
-function Company(props) {
-    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, "Company Name: ", props.company.name, /*#__PURE__*/ _react["default"].createElement("br", null), "Current Cash: $", props.company.current_cash, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.current_cost, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.img));
-}
-_c = Company;
-var _default = Company;
-exports["default"] = _default;
-var _c;
-$RefreshReg$(_c, "Company");
-
-  $parcel$ReactRefreshHelpers$5f5b.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"dc053196478710ab":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cHbQU":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$ebed = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$ebed.prelude(module);
-
-try {
-"use strict";
-function _typeof(obj) {
-    "@babel/helpers - typeof";
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-        return typeof obj;
-    } : function(obj) {
-        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
-}
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("34c3b6f8cfbe84a6"));
-var _Button = _interopRequireDefault(require("b40dfd9027767f29"));
-var _Modal = _interopRequireDefault(require("a3daf1b733677103"));
-var _Form = _interopRequireDefault(require("3a8e21719c6a5aa6"));
-var _InputGroup = _interopRequireDefault(require("93ec9e35dcffddfb"));
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        "default": obj
-    };
-}
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interopRequireWildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) return obj;
-    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
-        "default": obj
-    };
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) return cache.get(obj);
-    var newObj = {};
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
-        else newObj[key] = obj[key];
-    }
-    newObj["default"] = obj;
-    if (cache) cache.set(obj, newObj);
-    return newObj;
 }
 function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -26745,6 +26551,7 @@ function GameStart(props) {
         "aria-describedby": "inputGroup-sizing-sm",
         placeholder: "Enter your Company Name here"
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
         type: "submit",
         onClick: props.onHide,
         form: "companyConfirm"
@@ -26756,12 +26563,12 @@ exports["default"] = _default;
 var _c;
 $RefreshReg$(_c, "GameStart");
 
-  $parcel$ReactRefreshHelpers$ebed.postlude(module);
+  $parcel$ReactRefreshHelpers$6d90.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"34c3b6f8cfbe84a6":"21dqq","b40dfd9027767f29":"aPzUt","a3daf1b733677103":"aNVmp","3a8e21719c6a5aa6":"iBZ80","93ec9e35dcffddfb":"htx7r","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aPzUt":[function(require,module,exports) {
+},{"a2b6a23940abc5dd":"21dqq","3b0134f00bfc247b":"aPzUt","93a3c05e0893c259":"aNVmp","cd37e48a63a582cf":"iBZ80","2397000a314427b":"htx7r","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aPzUt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
@@ -31579,6 +31386,454 @@ const context = /*#__PURE__*/ _react.createContext(null);
 context.displayName = "InputGroupContext";
 exports.default = context;
 
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"km3Ru":[function(require,module,exports) {
+"use strict";
+var Refresh = require("93239d6b0d6b8fc0");
+function debounce(func, delay) {
+    {
+        let timeout = undefined;
+        let lastTime = 0;
+        return function(args) {
+            // Call immediately if last call was more than the delay ago.
+            // Otherwise, set a timeout. This means the first call is fast
+            // (for the common case of a single update), and subsequent updates
+            // are batched.
+            let now = Date.now();
+            if (now - lastTime > delay) {
+                lastTime = now;
+                func.call(null, args);
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    timeout = undefined;
+                    lastTime = Date.now();
+                    func.call(null, args);
+                }, delay);
+            }
+        };
+    }
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30); // Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+} // When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        Refresh.register(exportValue, id + " %exports% " + key);
+    }
+}
+
+},{"93239d6b0d6b8fc0":"786KC"}],"eKbuG":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$5f5b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$5f5b.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("dc053196478710ab"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function Company(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:shrink-0"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        className: "h-48 w-full object-cover md:h-full md:w-48 object-scale-down",
+        src: props.company.img,
+        alt: "Modern building architecture"
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "p-8"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "uppercase tracking-wide text-lg text-indigo-500 font-semibold"
+    }, props.company.name), /*#__PURE__*/ _react["default"].createElement("a", {
+        href: "#",
+        className: "block mt-6 text-lg leading-tight font-medium text-black hover:underline"
+    }, "Company Statistics:"), /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "mt-2 text-slate-500"
+    }, "Current Cash: $ ", props.company.current_cash), /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "mt-2 text-slate-500"
+    }, "Operation Cost: $ ", props.company.current_cost))))));
+}
+_c = Company;
+var _default = Company;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "Company");
+
+  $parcel$ReactRefreshHelpers$5f5b.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"dc053196478710ab":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"h4Wkw":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$2edc = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$2edc.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("cca1feee84ce1212"));
+var _Button = _interopRequireDefault(require("be03b221d3dcffbc"));
+var _threeWindowModal = _interopRequireDefault(require("7079be894d5b5a30"));
+var _viewActiveEmployees = _interopRequireDefault(require("a292fb96eaad6204"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function EmployeeDashboard(props) {
+    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), hireEmployees = _useState2[0], setHireEmployees = _useState2[1];
+    var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), viewEmployees = _useState4[0], setViewEmployees = _useState4[1];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:shrink-0"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        className: "h-48 w-full object-cover md:h-full md:w-48 object-scale-down",
+        src: "https://cdn-icons-png.flaticon.com/512/4807/4807598.png",
+        alt: "Modern building architecture"
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "p-8"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold"
+    }, "Options"), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex flex-wrap"
+    }, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500 m-2",
+        variant: "primary",
+        onClick: function onClick() {
+            return setHireEmployees(true);
+        }
+    }, "Hire New Employees"), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500 m-2",
+        variant: "primary",
+        onClick: function onClick() {
+            return setViewEmployees(true);
+        }
+    }, "View Active Employees")), /*#__PURE__*/ _react["default"].createElement(_threeWindowModal["default"], {
+        show: hireEmployees,
+        onHide: function onHide() {
+            return setHireEmployees(false);
+        }
+    }), /*#__PURE__*/ _react["default"].createElement(_viewActiveEmployees["default"], {
+        show: viewEmployees,
+        onHide: function onHide() {
+            return setViewEmployees(false);
+        }
+    }))))));
+}
+_c = EmployeeDashboard;
+var _default = EmployeeDashboard;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "EmployeeDashboard");
+
+  $parcel$ReactRefreshHelpers$2edc.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"cca1feee84ce1212":"21dqq","be03b221d3dcffbc":"aPzUt","7079be894d5b5a30":"5rmvM","a292fb96eaad6204":"cs2jn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"5rmvM":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$b5ea = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$b5ea.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("ef28fd2d071dc9f9"));
+var _Button = _interopRequireDefault(require("3ee42be7dbbc11f7"));
+var _Modal = _interopRequireDefault(require("64f7d0923d462bb0"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function ThreeWindowModal(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Modal heading")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: props.onHide
+    }, "Close")));
+}
+_c = ThreeWindowModal;
+var _default = ThreeWindowModal;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ThreeWindowModal");
+
+  $parcel$ReactRefreshHelpers$b5ea.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"ef28fd2d071dc9f9":"21dqq","3ee42be7dbbc11f7":"aPzUt","64f7d0923d462bb0":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cs2jn":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$9fd0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$9fd0.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("7d9a1303080e30e5"));
+var _Button = _interopRequireDefault(require("5f512883aff6921d"));
+var _Modal = _interopRequireDefault(require("4e78135587bbb623"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function ViewActiveEmployees(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Modal heading")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: props.onHide
+    }, "Close")));
+}
+_c = ViewActiveEmployees;
+var _default = ViewActiveEmployees;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ViewActiveEmployees");
+
+  $parcel$ReactRefreshHelpers$9fd0.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"7d9a1303080e30e5":"21dqq","5f512883aff6921d":"aPzUt","4e78135587bbb623":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"i5LP7":[function() {},{}],"6n0o6":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map

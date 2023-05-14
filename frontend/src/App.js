@@ -1,19 +1,19 @@
 import React, {useState} from 'react';
-import './App.css';
-import GameStart from "./components/gameSystem";
+import GameStart from "./modals/gameSystem";
 import CompanyDashboard from './components/companyDashboard'
+import EmployeeDashboard from './components/employeeDashboard';
 
 
 function App() {
 
-    const [modalShow, setModalShow] = useState(true);
+    const [modalShow, setModalShow] = useState(false);
 
     const [company, setCompany] = useState(
         {
             name: 'New Company',
             current_cash: 0,
             current_cost: 0,
-            img: 'https://this-person-does-not-exist.com/img/avatar-gen11a58ae9880bf7fadad7bab1c65efddd.jpg'
+            img: 'https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png'
         }
     );
 
@@ -42,7 +42,11 @@ function App() {
         }
     ])
 
-    function setGame(newName, company) {
+    function editEmployees() {
+
+    };
+
+    function editGame(newName, company) {
         setCompany({
             name: newName,
             current_cash: company.current_cash,
@@ -55,14 +59,15 @@ function App() {
         <>
         <GameStart
             company={company}
-            setGame = {setGame}
+            setGame = {editGame}
             show={modalShow}
             onHide={() => setModalShow(false)}/>
         
         <div className="App">
-            <header className='App-header'>
+            <div className='flex-wrap'>
                 <CompanyDashboard company={company} />
-            </header>
+                <EmployeeDashboard employees={employees} editEmployees={editEmployees} />
+            </div>
 
         </div></>
     );
