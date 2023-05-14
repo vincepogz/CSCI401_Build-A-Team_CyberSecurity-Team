@@ -34,7 +34,7 @@ function App() {
     async function getNewHires(newHires) {
 
         while (newHires.length != 3) {
-            const response = await fetch('http://localhost:3000/employee/new');
+            const response = await fetch('https://build-a-team-backend.vercel.app/employee/new');
             const json = await response.json();
 
             const newHire = {
