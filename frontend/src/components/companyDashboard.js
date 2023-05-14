@@ -9,6 +9,8 @@ function Company(props) {
             Current Cash: ${props.company.current_cash}
             <br/>
             Operation Cost: ${props.company.current_cost}
+            <br/>
+            Operation Cost: ${props.company.img}
         </div>
         </>
     )
