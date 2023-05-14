@@ -43,7 +43,6 @@ function App() {
     ])
 
     function setGame(newName) {
-        console.log("Hello from App.js", newName)
         setCompany({name: newName})
     }
 
@@ -57,7 +56,7 @@ function App() {
         
         <div className="App">
             <header className='App-header'>
-                <CompanyDashboard company={company} />
+                <CompanyDashboard companyName={company.name} />
             </header>
 
         </div></>

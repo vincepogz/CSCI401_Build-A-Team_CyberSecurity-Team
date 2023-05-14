@@ -26456,7 +26456,6 @@ function App() {
         }
     ]), _useState8 = _slicedToArray(_useState7, 2), activeMissions = _useState8[0], setActiveMissions = _useState8[1];
     function setGame(newName) {
-        console.log("Hello from App.js", newName);
         setCompany({
             name: newName
         });
@@ -26473,7 +26472,7 @@ function App() {
     }, /*#__PURE__*/ _react["default"].createElement("header", {
         className: "App-header"
     }, /*#__PURE__*/ _react["default"].createElement(_companyDashboard["default"], {
-        company: company
+        companyName: company.name
     }))));
 }
 _c = App;
