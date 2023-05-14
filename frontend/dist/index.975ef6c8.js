@@ -31673,6 +31673,17 @@ function _arrayWithHoles(arr) {
 function EmployeeDashboard(props) {
     var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), hireEmployees = _useState2[0], setHireEmployees = _useState2[1];
     var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), viewEmployees = _useState4[0], setViewEmployees = _useState4[1];
+    var _useState5 = (0, _react.useState)([]), _useState6 = _slicedToArray(_useState5, 2), newHires = _useState6[0], setNewHires = _useState6[1];
+    function getNewHires() {
+        console.log("from employee dasboard");
+        fetch("http://localhost:3000/employee/new").then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            console.log("json", json);
+        })["catch"](function(err) {
+            return console.error("error", err);
+        });
+    }
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
     }, /*#__PURE__*/ _react["default"].createElement("div", {
@@ -31693,7 +31704,8 @@ function EmployeeDashboard(props) {
         className: "bg-sky-500 m-2",
         variant: "primary",
         onClick: function onClick() {
-            return setHireEmployees(true);
+            setHireEmployees(true);
+            getNewHires();
         }
     }, "Hire New Employees"), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500 m-2",
@@ -31763,7 +31775,7 @@ function ThreeWindowModal(props) {
         closeButton: true
     }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
         id: "contained-modal-title-vcenter"
-    }, "Modal heading")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+    }, "Three Window Modal")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         onClick: props.onHide
     }, "Close")));
@@ -31818,7 +31830,7 @@ function ViewActiveEmployees(props) {
         closeButton: true
     }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
         id: "contained-modal-title-vcenter"
-    }, "Modal heading")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+    }, "Active Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         onClick: props.onHide
     }, "Close")));

@@ -6,6 +6,15 @@ import ViewActiveEmployees from '../modals/viewActiveEmployees';
 function EmployeeDashboard(props) {
     const [hireEmployees, setHireEmployees] = useState(false);
     const [viewEmployees, setViewEmployees] = useState(false);
+    const [newHires, setNewHires] = useState([]);
+
+    function getNewHires() {
+        console.log("from employee dasboard")
+        fetch('http://localhost:3000/employee/new')
+        .then(response => response.json())
+        .then(json => {console.log('json', json)})
+        .catch(err => console.error('error', err))
+    }
 
     return(
         <>
@@ -18,7 +27,7 @@ function EmployeeDashboard(props) {
                     <div className="p-8">
                         <div className="mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold">Options</div>
                         <div className="flex flex-wrap">
-                            <Button className="bg-sky-500 m-2" variant="primary" onClick={() => setHireEmployees(true)}>
+                            <Button className="bg-sky-500 m-2" variant="primary" onClick={() => {setHireEmployees(true); getNewHires()} }>
                                 Hire New Employees
                             </Button>
                             <Button className="bg-sky-500 m-2" variant="primary" onClick={() => setViewEmployees(true)}>
