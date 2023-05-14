@@ -42,21 +42,26 @@ function App() {
         }
     ])
 
-    function setGame(newName) {
-        setCompany({name: newName})
+    function setGame(newName, company) {
+        setCompany({
+            name: newName,
+            current_cash: company.current_cash,
+            current_cost: company.current_cost,
+            img: company.img
+        })
     }
 
     return (
         <>
         <GameStart
-            name={company}
+            company={company}
             setGame = {setGame}
             show={modalShow}
             onHide={() => setModalShow(false)}/>
         
         <div className="App">
             <header className='App-header'>
-                <CompanyDashboard companyName={company.name} />
+                <CompanyDashboard company={company} />
             </header>
 
         </div></>

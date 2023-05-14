@@ -28,7 +28,7 @@ function GameStart(props) {
                 id="companyConfirm"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    props.setGame(e.currentTarget.elements.companyConfirm.value)
+                    props.setGame(e.currentTarget.elements.companyConfirm.value, props.company)
                 }}
             >
                 <InputGroup size="md" >

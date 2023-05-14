@@ -26455,13 +26455,16 @@ function App() {
             missionAssignedEmployees: []
         }
     ]), _useState8 = _slicedToArray(_useState7, 2), activeMissions = _useState8[0], setActiveMissions = _useState8[1];
-    function setGame(newName) {
+    function setGame(newName, company) {
         setCompany({
-            name: newName
+            name: newName,
+            current_cash: company.current_cash,
+            current_cost: company.current_cost,
+            img: company.img
         });
     }
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
-        name: company,
+        company: company,
         setGame: setGame,
         show: modalShow,
         onHide: function onHide() {
@@ -26472,7 +26475,7 @@ function App() {
     }, /*#__PURE__*/ _react["default"].createElement("header", {
         className: "App-header"
     }, /*#__PURE__*/ _react["default"].createElement(_companyDashboard["default"], {
-        companyName: company.name
+        company: company
     }))));
 }
 _c = App;
@@ -26638,7 +26641,7 @@ function _interopRequireDefault(obj) {
     };
 }
 function Company(props) {
-    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, "Company Name: ", props.company.name, /*#__PURE__*/ _react["default"].createElement("br", null), "Current Cash: $", props.company.current_cash, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.current_cost));
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, "Company Name: ", props.company.name, /*#__PURE__*/ _react["default"].createElement("br", null), "Current Cash: $", props.company.current_cash, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.current_cost, /*#__PURE__*/ _react["default"].createElement("br", null), "Operation Cost: $", props.company.img));
 }
 _c = Company;
 var _default = Company;
@@ -26729,7 +26732,7 @@ function GameStart(props) {
         id: "companyConfirm",
         onSubmit: function onSubmit(e) {
             e.preventDefault();
-            props.setGame(e.currentTarget.elements.companyConfirm.value);
+            props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
         }
     }, /*#__PURE__*/ _react["default"].createElement(_InputGroup["default"], {
         size: "md"
