@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import GameSystemModal from "./components/gameSystem";
+import GameStart from "./components/gameSystem";
 import CompanyDashboard from './components/companyDashboard'
 
 
@@ -42,9 +42,16 @@ function App() {
         }
     ])
 
+    function setGame(newName) {
+        console.log("Hello from App.js", newName)
+        setCompany({name: newName})
+    }
+
     return (
         <>
-        <GameSystemModal
+        <GameStart
+            name={company}
+            setGame = {setGame}
             show={modalShow}
             onHide={() => setModalShow(false)}/>
         
