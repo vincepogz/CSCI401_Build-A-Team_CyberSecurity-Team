@@ -27,7 +27,7 @@ function EmployeeStats(props) {
             <ListGroup.Item>{skillDetails[2].skillName}: {skillDetails[2].skillValue}</ListGroup.Item>
           </ListGroup>
           <Card.Body>
-          <Button className="bg-green-500" variant="success" onClick={props.onHide}>Accept</Button>
+          <Button className="bg-green-500" variant="success" onClick={()=>{props.onHide(); props.addEmployee(props.newHire)}}>Accept</Button>
           </Card.Body>
         </Card>
         </div>

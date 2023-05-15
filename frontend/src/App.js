@@ -23,8 +23,9 @@ function App() {
 
     const [activeMissions, setActiveMissions] = useState([]);
 
-    function addEmployees() {
-
+    function addEmployee(employee) {
+        employees.push(employee)
+        newHires.pop(employee)
     };
 
     function setGame(newName, company) {
@@ -34,7 +35,7 @@ function App() {
     async function getNewHires(newHires) {
 
         while (newHires.length != 3) {
-            const response = await fetch('https://build-a-team-backend.vercel.app/employee/new');
+            const response = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
             const json = await response.json();
 
             const newHire = {
@@ -49,9 +50,9 @@ function App() {
 
             newHires.push({newHire}) 
         }
-
-        console.log(newHires)
     };
+
+
 
     return (
         <>
@@ -66,7 +67,10 @@ function App() {
         <div className="App">
             <div className='flex-wrap'>
                 <CompanyDashboard company={company} />
-                <EmployeeDashboard employees={employees} newHires={newHires} addEmployees={addEmployees} />
+                <EmployeeDashboard 
+                    employees={employees} 
+                    newHires={newHires} 
+                    addEmployee={addEmployee} />
             </div>
 
         </div></>

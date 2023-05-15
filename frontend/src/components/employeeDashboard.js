@@ -6,7 +6,7 @@ import ViewActiveEmployees from '../modals/viewActiveEmployees';
 function EmployeeDashboard(props) {
     const [hireEmployees, setHireEmployees] = useState(false);
     const [viewEmployees, setViewEmployees] = useState(false);
-
+    const [employees, setEmployees] = useState(props.employees)
     const [newHires, setNewHires] = useState(props.newHires);
 
     return(
@@ -20,7 +20,7 @@ function EmployeeDashboard(props) {
                     <div className="p-8">
                         <div className="mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold">Options</div>
                         <div className="flex flex-wrap">
-                            <Button className="bg-sky-500 m-2" variant="primary" onClick={() => {setHireEmployees(true)}}>
+                            <Button className="bg-sky-500 m-2" variant="primary" onClick={() => setHireEmployees(true)}>
                                 Hire New Employees
                             </Button>
                             <Button className="bg-sky-500 m-2" variant="primary" onClick={() => setViewEmployees(true)}>
@@ -28,12 +28,12 @@ function EmployeeDashboard(props) {
                             </Button>
                         </div>
                         
-
                         <ThreeWindowModal
                             title="Hire New Employees"
                             option="Accept"
                             newHires = {newHires}
                             show={hireEmployees}
+                            addEmployee={props.addEmployee}
                             onHide={() => setHireEmployees(false)}
                         />
                         <ViewActiveEmployees

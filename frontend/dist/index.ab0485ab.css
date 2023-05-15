@@ -12437,14 +12437,6 @@ img, video {
   place-content: center;
 }
 
-.place-items-start {
-  place-items: start;
-}
-
-.place-items-end {
-  place-items: end;
-}
-
 .place-items-center {
   place-items: center;
 }
@@ -12461,6 +12453,11 @@ img, video {
   border-width: 1px;
 }
 
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+}
+
 .bg-sky-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(14 165 233 / var(--tw-bg-opacity));
@@ -12469,11 +12466,6 @@ img, video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-green-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
 }
 
 .object-cover {

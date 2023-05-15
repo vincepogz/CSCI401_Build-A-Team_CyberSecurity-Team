@@ -26801,7 +26801,10 @@ function App() {
     var _useState5 = (0, _react.useState)([]), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
     var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
     var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
-    function addEmployees() {}
+    function addEmployee(employee) {
+        employees.push(employee);
+        newHires.pop(employee);
+    }
     function setGame(newName, company) {
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             name: newName
@@ -26843,8 +26846,6 @@ function App() {
                         _context.next = 0;
                         break;
                     case 11:
-                        console.log(newHires);
-                    case 12:
                     case "end":
                         return _context.stop();
                 }
@@ -26870,7 +26871,7 @@ function App() {
     }), /*#__PURE__*/ _react["default"].createElement(_employeeDashboard["default"], {
         employees: employees,
         newHires: newHires,
-        addEmployees: addEmployees
+        addEmployee: addEmployee
     }))));
 }
 _c = App;
@@ -32098,7 +32099,8 @@ function _arrayWithHoles(arr) {
 function EmployeeDashboard(props) {
     var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), hireEmployees = _useState2[0], setHireEmployees = _useState2[1];
     var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), viewEmployees = _useState4[0], setViewEmployees = _useState4[1];
-    var _useState5 = (0, _react.useState)(props.newHires), _useState6 = _slicedToArray(_useState5, 2), newHires = _useState6[0], setNewHires = _useState6[1];
+    var _useState5 = (0, _react.useState)(props.employees), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
+    var _useState7 = (0, _react.useState)(props.newHires), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
     }, /*#__PURE__*/ _react["default"].createElement("div", {
@@ -32119,7 +32121,7 @@ function EmployeeDashboard(props) {
         className: "bg-sky-500 m-2",
         variant: "primary",
         onClick: function onClick() {
-            setHireEmployees(true);
+            return setHireEmployees(true);
         }
     }, "Hire New Employees"), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500 m-2",
@@ -32132,6 +32134,7 @@ function EmployeeDashboard(props) {
         option: "Accept",
         newHires: newHires,
         show: hireEmployees,
+        addEmployee: props.addEmployee,
         onHide: function onHide() {
             return setHireEmployees(false);
         }
@@ -32176,7 +32179,7 @@ exports["default"] = void 0;
 var _react = _interopRequireWildcard(require("ef28fd2d071dc9f9"));
 var _Button = _interopRequireDefault(require("3ee42be7dbbc11f7"));
 var _Modal = _interopRequireDefault(require("64f7d0923d462bb0"));
-var _employeeStat = _interopRequireDefault(require("90729098d8d658da"));
+var _employeeHireStat = _interopRequireDefault(require("7aa5e11806fafd12"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -32274,9 +32277,10 @@ function ThreeWindowModal(props) {
     }, props.title)), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "flex flex-wrap place-content-center"
     }, newHires.map(function(newHire) {
-        return /*#__PURE__*/ _react["default"].createElement(_employeeStat["default"], {
+        return /*#__PURE__*/ _react["default"].createElement(_employeeHireStat["default"], {
             newHire: newHire,
-            onHide: props.onHide
+            onHide: props.onHide,
+            addEmployee: props.addEmployee
         });
     }))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
@@ -32294,11 +32298,11 @@ $RefreshReg$(_c, "ThreeWindowModal");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ef28fd2d071dc9f9":"21dqq","3ee42be7dbbc11f7":"aPzUt","64f7d0923d462bb0":"aNVmp","90729098d8d658da":"iZsC1","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iZsC1":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$7000 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"ef28fd2d071dc9f9":"21dqq","3ee42be7dbbc11f7":"aPzUt","64f7d0923d462bb0":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","7aa5e11806fafd12":"dAHDA"}],"dAHDA":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$b881 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$7000.prelude(module);
+$parcel$ReactRefreshHelpers$b881.prelude(module);
 
 try {
 "use strict";
@@ -32314,10 +32318,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("8ffa620cee8321a5"));
-var _Card = _interopRequireDefault(require("6bd227e35f32dabf"));
-var _ListGroup = _interopRequireDefault(require("e1043a4500010ce7"));
-var _Button = _interopRequireDefault(require("b08e0d990cd12b54"));
+var _react = _interopRequireWildcard(require("120044300709c736"));
+var _Card = _interopRequireDefault(require("3a2a73402f6a6aa9"));
+var _ListGroup = _interopRequireDefault(require("486c1a77c0d36f8b"));
+var _Button = _interopRequireDefault(require("7fc03a4bfe5b0449"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -32366,7 +32370,10 @@ function EmployeeStats(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employeeDetail["newHire"].employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[0].skillName, ": ", skillDetails[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[1].skillName, ": ", skillDetails[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[2].skillName, ": ", skillDetails[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-green-500",
         variant: "success",
-        onClick: props.onHide
+        onClick: function onClick() {
+            props.onHide();
+            props.addEmployee(props.newHire);
+        }
     }, "Accept")))));
 }
 _c = EmployeeStats;
@@ -32375,12 +32382,12 @@ exports["default"] = _default;
 var _c;
 $RefreshReg$(_c, "EmployeeStats");
 
-  $parcel$ReactRefreshHelpers$7000.postlude(module);
+  $parcel$ReactRefreshHelpers$b881.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"8ffa620cee8321a5":"21dqq","6bd227e35f32dabf":"lAynp","e1043a4500010ce7":"4tGXh","b08e0d990cd12b54":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lAynp":[function(require,module,exports) {
+},{"120044300709c736":"21dqq","3a2a73402f6a6aa9":"lAynp","486c1a77c0d36f8b":"4tGXh","7fc03a4bfe5b0449":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lAynp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
