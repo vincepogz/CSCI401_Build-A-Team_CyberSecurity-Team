@@ -30,6 +30,9 @@ function EmployeeDashboard(props) {
                         
 
                         <ThreeWindowModal
+                            title="Hire New Employees"
+                            option="Accept"
+                            newHires = {newHires}
                             show={hireEmployees}
                             onHide={() => setHireEmployees(false)}
                         />
