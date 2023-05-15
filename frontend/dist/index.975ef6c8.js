@@ -26794,7 +26794,7 @@ function App() {
     var _useState = (0, _react.useState)(true), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
     var _useState3 = (0, _react.useState)({
         name: "New Company",
-        current_cash: 0,
+        current_cash: 25000,
         current_cost: 0,
         img: "https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png"
     }), _useState4 = _slicedToArray(_useState3, 2), company = _useState4[0], setCompany = _useState4[1];
@@ -26802,8 +26802,15 @@ function App() {
     var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
     var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
     function addEmployee(employee) {
+        var employeeDetail = JSON.parse(JSON.stringify(employee));
+        var employeeSalary = employeeDetail["newHire"].employeeSalary;
+        var new_cost = company.current_cost + employeeSalary;
         employees.push(employee);
         newHires.pop(employee);
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            current_cost: new_cost
+        }));
+        console.log(company);
     }
     function setGame(newName, company) {
         setCompany(_objectSpread(_objectSpread({}, company), {}, {

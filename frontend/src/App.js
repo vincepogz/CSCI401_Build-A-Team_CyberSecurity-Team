@@ -11,7 +11,7 @@ function App() {
     const [company, setCompany] = useState(
         {
             name: 'New Company',
-            current_cash: 0,
+            current_cash: 25000,
             current_cost: 0,
             img: 'https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png'
         }
@@ -24,8 +24,14 @@ function App() {
     const [activeMissions, setActiveMissions] = useState([]);
 
     function addEmployee(employee) {
+        const employeeDetail = JSON.parse(JSON.stringify(employee))
+        const employeeSalary = employeeDetail['newHire'].employeeSalary;
+        const new_cost = company.current_cost + employeeSalary
+
         employees.push(employee)
         newHires.pop(employee)
+        setCompany({...company, current_cost: new_cost})
+        console.log(company)
     };
 
     function setGame(newName, company) {
