@@ -16,4 +16,4 @@ app.get('/mission/new', (req,res) => {
     res.json({employee: engine.generation.newMission()});
 });
 
-app.listen(3000, () => console.log(`Listening to port: ${PORT}`));
+app.listen({PORT}, () => console.log(`Listening to port: ${PORT}`));
