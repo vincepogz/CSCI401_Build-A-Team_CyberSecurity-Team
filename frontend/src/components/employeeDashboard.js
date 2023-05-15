@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
-import ThreeWindowModal from '../modals/threeWindowModal';
-import ViewActiveEmployees from '../modals/viewActiveEmployees';
+import NewEmployeeModal from '../modals/newEmployeeModal';
+import ActiveEmployeeModal from '../modals/activeEmployeeModal';
 
 function EmployeeDashboard(props) {
     const [hireEmployees, setHireEmployees] = useState(false);
     const [viewEmployees, setViewEmployees] = useState(false);
-    const [employees, setEmployees] = useState(props.employees)
-    const [newHires, setNewHires] = useState(props.newHires);
+    const [employees] = useState(props.employees);
+    const [newHires] = useState(props.newHires);
 
     return(
         <>
@@ -18,7 +18,7 @@ function EmployeeDashboard(props) {
                         <img className="h-48 w-full object-cover md:h-full md:w-48 object-scale-down" src="https://cdn-icons-png.flaticon.com/512/4807/4807598.png" alt="Modern building architecture"/>
                     </div>
                     <div className="p-8">
-                        <div className="mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold">Options</div>
+                        <div className="mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold">EMPLOYEE DASHBOARD</div>
                         <div className="flex flex-wrap">
                             <Button className="bg-sky-500 m-2" variant="primary" onClick={() => setHireEmployees(true)}>
                                 Hire New Employees
@@ -28,15 +28,17 @@ function EmployeeDashboard(props) {
                             </Button>
                         </div>
                         
-                        <ThreeWindowModal
+                        <NewEmployeeModal
                             title="Hire New Employees"
-                            option="Accept"
                             newHires = {newHires}
                             show={hireEmployees}
                             addEmployee={props.addEmployee}
                             onHide={() => setHireEmployees(false)}
                         />
-                        <ViewActiveEmployees
+                        <ActiveEmployeeModal
+                            title="View Active Employees"
+                            employees = {employees}
+                            removeEmployee = {props.removeEmployee}
                             show={viewEmployees}
                             onHide={() => setViewEmployees(false)}
                         />

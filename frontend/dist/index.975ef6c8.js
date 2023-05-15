@@ -26802,32 +26802,42 @@ function App() {
     var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
     var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
     function addEmployee(employee) {
-        var employeeDetail = JSON.parse(JSON.stringify(employee));
-        var employeeSalary = employeeDetail["newHire"].employeeSalary;
-        var new_cost = company.current_cost + employeeSalary;
+        var new_cost = company.current_cost + employee.employeeSalary;
         employees.push(employee);
-        newHires.pop(employee);
+        var index = newHires.findIndex(function(obj) {
+            return obj.employeeId === employee.employeeId;
+        });
+        newHires.splice(index, 1);
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             current_cost: new_cost
         }));
-        console.log(company);
+    }
+    function removeEmployee(employee) {
+        var new_cost = company.current_cost - employee.employeeSalary;
+        var index = newHires.findIndex(function(obj) {
+            return obj.employeeId === employee.employeeId;
+        });
+        employees.splice(index, 1);
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            current_cost: new_cost
+        }));
     }
     function setGame(newName, company) {
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             name: newName
         }));
     }
-    function getNewHires(_x2) {
+    function getNewHires() {
         return _getNewHires.apply(this, arguments);
     }
     function _getNewHires() {
-        _getNewHires = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee(newHires) {
-            var response, json, newHire;
+        _getNewHires = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee() {
+            var response, json;
             return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while(true)switch(_context.prev = _context.next){
                     case 0:
-                        if (!(newHires.length != 3)) {
-                            _context.next = 11;
+                        if (!(newHires.length != 18)) {
+                            _context.next = 10;
                             break;
                         }
                         _context.next = 3;
@@ -26838,7 +26848,7 @@ function App() {
                         return response.json();
                     case 6:
                         json = _context.sent;
-                        newHire = {
+                        newHires.push({
                             employeeId: json.employee.employeeId,
                             employeeTasked: json.employee.employeeTasked,
                             employeeName: json.employee.employeeName,
@@ -26846,13 +26856,10 @@ function App() {
                             employeeType: json.employee.employeeType,
                             employeeSalary: json.employee.employeeSalary,
                             employeeSkills: json.employee.employeeSkills
-                        };
-                        newHires.push({
-                            newHire: newHire
                         });
                         _context.next = 0;
                         break;
-                    case 11:
+                    case 10:
                     case "end":
                         return _context.stop();
                 }
@@ -26878,7 +26885,8 @@ function App() {
     }), /*#__PURE__*/ _react["default"].createElement(_employeeDashboard["default"], {
         employees: employees,
         newHires: newHires,
-        addEmployee: addEmployee
+        addEmployee: addEmployee,
+        removeEmployee: removeEmployee
     }))));
 }
 _c = App;
@@ -32027,8 +32035,8 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _react = _interopRequireWildcard(require("cca1feee84ce1212"));
 var _Button = _interopRequireDefault(require("be03b221d3dcffbc"));
-var _threeWindowModal = _interopRequireDefault(require("7079be894d5b5a30"));
-var _viewActiveEmployees = _interopRequireDefault(require("a292fb96eaad6204"));
+var _newEmployeeModal = _interopRequireDefault(require("c7295c35e849b04e"));
+var _activeEmployeeModal = _interopRequireDefault(require("f40c4067a1dfbf30"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -32106,8 +32114,8 @@ function _arrayWithHoles(arr) {
 function EmployeeDashboard(props) {
     var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), hireEmployees = _useState2[0], setHireEmployees = _useState2[1];
     var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), viewEmployees = _useState4[0], setViewEmployees = _useState4[1];
-    var _useState5 = (0, _react.useState)(props.employees), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
-    var _useState7 = (0, _react.useState)(props.newHires), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
+    var _useState5 = (0, _react.useState)(props.employees), _useState6 = _slicedToArray(_useState5, 1), employees = _useState6[0];
+    var _useState7 = (0, _react.useState)(props.newHires), _useState8 = _slicedToArray(_useState7, 1), newHires = _useState8[0];
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "m-2 max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
     }, /*#__PURE__*/ _react["default"].createElement("div", {
@@ -32122,7 +32130,7 @@ function EmployeeDashboard(props) {
         className: "p-8"
     }, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold"
-    }, "Options"), /*#__PURE__*/ _react["default"].createElement("div", {
+    }, "EMPLOYEE DASHBOARD"), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "flex flex-wrap"
     }, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500 m-2",
@@ -32136,16 +32144,18 @@ function EmployeeDashboard(props) {
         onClick: function onClick() {
             return setViewEmployees(true);
         }
-    }, "View Active Employees")), /*#__PURE__*/ _react["default"].createElement(_threeWindowModal["default"], {
+    }, "View Active Employees")), /*#__PURE__*/ _react["default"].createElement(_newEmployeeModal["default"], {
         title: "Hire New Employees",
-        option: "Accept",
         newHires: newHires,
         show: hireEmployees,
         addEmployee: props.addEmployee,
         onHide: function onHide() {
             return setHireEmployees(false);
         }
-    }), /*#__PURE__*/ _react["default"].createElement(_viewActiveEmployees["default"], {
+    }), /*#__PURE__*/ _react["default"].createElement(_activeEmployeeModal["default"], {
+        title: "View Active Employees",
+        employees: employees,
+        removeEmployee: props.removeEmployee,
         show: viewEmployees,
         onHide: function onHide() {
             return setViewEmployees(false);
@@ -32163,11 +32173,11 @@ $RefreshReg$(_c, "EmployeeDashboard");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"cca1feee84ce1212":"21dqq","be03b221d3dcffbc":"aPzUt","7079be894d5b5a30":"5rmvM","a292fb96eaad6204":"cs2jn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"5rmvM":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$b5ea = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"cca1feee84ce1212":"21dqq","be03b221d3dcffbc":"aPzUt","c7295c35e849b04e":"f9Xmk","f40c4067a1dfbf30":"i78Vd","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"f9Xmk":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$cd6b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$b5ea.prelude(module);
+$parcel$ReactRefreshHelpers$cd6b.prelude(module);
 
 try {
 "use strict";
@@ -32183,10 +32193,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("ef28fd2d071dc9f9"));
-var _Button = _interopRequireDefault(require("3ee42be7dbbc11f7"));
-var _Modal = _interopRequireDefault(require("64f7d0923d462bb0"));
-var _employeeHireStat = _interopRequireDefault(require("7aa5e11806fafd12"));
+var _react = _interopRequireWildcard(require("573ef6ffd7ded28f"));
+var _Button = _interopRequireDefault(require("21544b10c04a554e"));
+var _Modal = _interopRequireDefault(require("e84839e75cc9584c"));
+var _newEmployeeStat = _interopRequireDefault(require("eec76a7e4d6509ff"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -32271,7 +32281,7 @@ function _iterableToArrayLimit(arr, i) {
 function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
-function ThreeWindowModal(props) {
+function NewEmployeeModal(props) {
     var _useState = (0, _react.useState)(props.newHires), _useState2 = _slicedToArray(_useState, 2), newHires = _useState2[0], setNewHires = _useState2[1];
     return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
@@ -32284,7 +32294,7 @@ function ThreeWindowModal(props) {
     }, props.title)), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "flex flex-wrap place-content-center"
     }, newHires.map(function(newHire) {
-        return /*#__PURE__*/ _react["default"].createElement(_employeeHireStat["default"], {
+        return /*#__PURE__*/ _react["default"].createElement(_newEmployeeStat["default"], {
             newHire: newHire,
             onHide: props.onHide,
             addEmployee: props.addEmployee
@@ -32294,75 +32304,39 @@ function ThreeWindowModal(props) {
         onClick: props.onHide
     }, "Close")));
 }
-_c = ThreeWindowModal;
-var _default = ThreeWindowModal;
+_c = NewEmployeeModal;
+var _default = NewEmployeeModal;
 exports["default"] = _default;
 var _c;
-$RefreshReg$(_c, "ThreeWindowModal");
+$RefreshReg$(_c, "NewEmployeeModal");
 
-  $parcel$ReactRefreshHelpers$b5ea.postlude(module);
+  $parcel$ReactRefreshHelpers$cd6b.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ef28fd2d071dc9f9":"21dqq","3ee42be7dbbc11f7":"aPzUt","64f7d0923d462bb0":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","7aa5e11806fafd12":"dAHDA"}],"dAHDA":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$b881 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"573ef6ffd7ded28f":"21dqq","21544b10c04a554e":"aPzUt","e84839e75cc9584c":"aNVmp","eec76a7e4d6509ff":"kuYyD","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"kuYyD":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$a7ca = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$b881.prelude(module);
+$parcel$ReactRefreshHelpers$a7ca.prelude(module);
 
 try {
 "use strict";
-function _typeof(obj) {
-    "@babel/helpers - typeof";
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-        return typeof obj;
-    } : function(obj) {
-        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
-}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("120044300709c736"));
-var _Card = _interopRequireDefault(require("3a2a73402f6a6aa9"));
-var _ListGroup = _interopRequireDefault(require("486c1a77c0d36f8b"));
-var _Button = _interopRequireDefault(require("7fc03a4bfe5b0449"));
+var _react = _interopRequireDefault(require("c5e6e8a44b2e0986"));
+var _Card = _interopRequireDefault(require("d2a459ec8e19ff16"));
+var _ListGroup = _interopRequireDefault(require("f05fb3c58270a7b7"));
+var _Button = _interopRequireDefault(require("389d35c158843314"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
 }
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interopRequireWildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) return obj;
-    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
-        "default": obj
-    };
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) return cache.get(obj);
-    var newObj = {};
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
-        else newObj[key] = obj[key];
-    }
-    newObj["default"] = obj;
-    if (cache) cache.set(obj, newObj);
-    return newObj;
-}
-function EmployeeStats(props) {
-    var employeeDetail = JSON.parse(JSON.stringify(props.newHire));
-    var skillDetails = JSON.parse(JSON.stringify(employeeDetail["newHire"].employeeSkills));
+function NewEmployeeStat(props) {
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "place-items-center ",
         style: {
@@ -32372,29 +32346,28 @@ function EmployeeStats(props) {
         className: "mt-3",
         variant: "top",
         src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
-    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employeeDetail["newHire"].employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
+    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, props.newHire.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
         className: "list-group-flush"
-    }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employeeDetail["newHire"].employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[0].skillName, ": ", skillDetails[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[1].skillName, ": ", skillDetails[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, skillDetails[2].skillName, ": ", skillDetails[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+    }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", props.newHire.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[0].skillName, ": ", props.newHire.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[1].skillName, ": ", props.newHire.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[2].skillName, ": ", props.newHire.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-green-500",
         variant: "success",
         onClick: function onClick() {
-            props.onHide();
             props.addEmployee(props.newHire);
         }
     }, "Accept")))));
 }
-_c = EmployeeStats;
-var _default = EmployeeStats;
+_c = NewEmployeeStat;
+var _default = NewEmployeeStat;
 exports["default"] = _default;
 var _c;
-$RefreshReg$(_c, "EmployeeStats");
+$RefreshReg$(_c, "NewEmployeeStat");
 
-  $parcel$ReactRefreshHelpers$b881.postlude(module);
+  $parcel$ReactRefreshHelpers$a7ca.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"120044300709c736":"21dqq","3a2a73402f6a6aa9":"lAynp","486c1a77c0d36f8b":"4tGXh","7fc03a4bfe5b0449":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lAynp":[function(require,module,exports) {
+},{"c5e6e8a44b2e0986":"21dqq","d2a459ec8e19ff16":"lAynp","f05fb3c58270a7b7":"4tGXh","389d35c158843314":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lAynp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _classnames = require("classnames");
@@ -33274,25 +33247,62 @@ const ListGroupItem = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , active , dis
 ListGroupItem.displayName = "ListGroupItem";
 exports.default = ListGroupItem;
 
-},{"classnames":"jocGM","react":"21dqq","warning":"eUVzU","@restart/hooks/useEventCallback":"7ONdq","@restart/ui/NavItem":"2cGYS","@restart/ui/SelectableContext":"8zLqy","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cs2jn":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$9fd0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"classnames":"jocGM","react":"21dqq","warning":"eUVzU","@restart/hooks/useEventCallback":"7ONdq","@restart/ui/NavItem":"2cGYS","@restart/ui/SelectableContext":"8zLqy","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i78Vd":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$0426 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$9fd0.prelude(module);
+$parcel$ReactRefreshHelpers$0426.prelude(module);
 
 try {
 "use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("7d9a1303080e30e5"));
-var _Button = _interopRequireDefault(require("5f512883aff6921d"));
-var _Modal = _interopRequireDefault(require("4e78135587bbb623"));
+var _react = _interopRequireWildcard(require("e07349b732318476"));
+var _Button = _interopRequireDefault(require("388af69793cc6c35"));
+var _Modal = _interopRequireDefault(require("fcf1e416d13b2338"));
+var _Row = _interopRequireDefault(require("9a2ddcaa188d11c2"));
+var _Col = _interopRequireDefault(require("f5f9edac9afc2b85"));
+var _activeEmployeeList = _interopRequireDefault(require("1ff10f82b63891ea"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
 }
 function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -33304,7 +33314,51 @@ function _extends() {
     };
     return _extends.apply(this, arguments);
 }
-function ViewActiveEmployees(props) {
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function ActiveEmployeeModal(props) {
+    var _useState = (0, _react.useState)(props.employees), _useState2 = _slicedToArray(_useState, 1), employees = _useState2[0];
     return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
         "aria-labelledby": "contained-modal-title-vcenter",
@@ -33313,22 +33367,421 @@ function ViewActiveEmployees(props) {
         closeButton: true
     }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
         id: "contained-modal-title-vcenter"
-    }, "Active Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement("h4", null, "Centered Modal"), /*#__PURE__*/ _react["default"].createElement("p", null, "Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+    }, "View Active Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex flex-wrap place-content-center"
+    }, employees.map(function(employee) {
+        return /*#__PURE__*/ _react["default"].createElement(_activeEmployeeList["default"], {
+            employee: employee,
+            removeEmployee: props.removeEmployee,
+            onHide: props.onHide
+        });
+    })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         onClick: props.onHide
     }, "Close")));
 }
-_c = ViewActiveEmployees;
-var _default = ViewActiveEmployees;
+_c = ActiveEmployeeModal;
+var _default = ActiveEmployeeModal;
 exports["default"] = _default;
 var _c;
-$RefreshReg$(_c, "ViewActiveEmployees");
+$RefreshReg$(_c, "ActiveEmployeeModal");
 
-  $parcel$ReactRefreshHelpers$9fd0.postlude(module);
+  $parcel$ReactRefreshHelpers$0426.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"7d9a1303080e30e5":"21dqq","5f512883aff6921d":"aPzUt","4e78135587bbb623":"aNVmp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"i5LP7":[function() {},{}],"6n0o6":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"e07349b732318476":"21dqq","388af69793cc6c35":"aPzUt","fcf1e416d13b2338":"aNVmp","9a2ddcaa188d11c2":"cMC39","f5f9edac9afc2b85":"2L2I6","1ff10f82b63891ea":"jB6OV","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cMC39":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _react = require("react");
+var _themeProvider = require("./ThemeProvider");
+var _jsxRuntime = require("react/jsx-runtime");
+const Row = /*#__PURE__*/ _react.forwardRef(({ bsPrefix , className , // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+as: Component = "div" , ...props }, ref)=>{
+    const decoratedBsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "row");
+    const breakpoints = (0, _themeProvider.useBootstrapBreakpoints)();
+    const minBreakpoint = (0, _themeProvider.useBootstrapMinBreakpoint)();
+    const sizePrefix = `${decoratedBsPrefix}-cols`;
+    const classes = [];
+    breakpoints.forEach((brkPoint)=>{
+        const propValue = props[brkPoint];
+        delete props[brkPoint];
+        let cols;
+        if (propValue != null && typeof propValue === "object") ({ cols  } = propValue);
+        else cols = propValue;
+        const infix = brkPoint !== minBreakpoint ? `-${brkPoint}` : "";
+        if (cols != null) classes.push(`${sizePrefix}${infix}-${cols}`);
+    });
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(Component, {
+        ref: ref,
+        ...props,
+        className: (0, _classnamesDefault.default)(className, decoratedBsPrefix, ...classes)
+    });
+});
+Row.displayName = "Row";
+exports.default = Row;
+
+},{"classnames":"jocGM","react":"21dqq","./ThemeProvider":"dVixI","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jB6OV":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$79dd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$79dd.prelude(module);
+
+try {
+var _s = $RefreshSig$();
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("62b91b056b886c4e"));
+var _Card = _interopRequireDefault(require("26fa3f6e47c768f2"));
+var _activeEmployeeStatModal = _interopRequireDefault(require("44dd90c2ed90ade4"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function ActiveEmployeeList(props) {
+    _s();
+    var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        className: "place-items-center m-2",
+        style: {
+            width: "10rem"
+        }
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+        className: "mt-3",
+        variant: "top",
+        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png",
+        onClick: function onClick() {
+            return setModalShow(true);
+        }
+    }), props.employee.employeeName)), /*#__PURE__*/ _react["default"].createElement(_activeEmployeeStatModal["default"], {
+        show: modalShow,
+        employee: props.employee,
+        removeEmployee: props.removeEmployee,
+        onHide: function onHide() {
+            return setModalShow(false);
+        }
+    }));
+}
+_s(ActiveEmployeeList, "EcWeNYHKV1pdqSp56hDCswwS0c8=");
+_c = ActiveEmployeeList;
+var _default = ActiveEmployeeList;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ActiveEmployeeList");
+
+  $parcel$ReactRefreshHelpers$79dd.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"62b91b056b886c4e":"21dqq","26fa3f6e47c768f2":"lAynp","44dd90c2ed90ade4":"bLCUb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"bLCUb":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$07d0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$07d0.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("c68a4dcd7fb0bb1d"));
+var _Button = _interopRequireDefault(require("8b626bc076c088b3"));
+var _Modal = _interopRequireDefault(require("bfd2a40686177de7"));
+var _activeEmployeeStat = _interopRequireDefault(require("1bb1b2174b531046"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function ActiveEmployeeStatModal(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({
+        size: "sm",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true,
+        backdrop: "static"
+    }, props), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Employee Information")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_activeEmployeeStat["default"], {
+        employee: props.employee,
+        removeEmployee: props.removeEmployee,
+        onHide: props.onHide
+    })), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: props.onHide
+    }, "Close"))));
+}
+_c = ActiveEmployeeStatModal;
+var _default = ActiveEmployeeStatModal;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ActiveEmployeeStatModal");
+
+  $parcel$ReactRefreshHelpers$07d0.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"c68a4dcd7fb0bb1d":"21dqq","8b626bc076c088b3":"aPzUt","bfd2a40686177de7":"aNVmp","1bb1b2174b531046":"iP1kn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iP1kn":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$ac02 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$ac02.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("7bd885827be3bd69"));
+var _Card = _interopRequireDefault(require("e916005d42d27457"));
+var _ListGroup = _interopRequireDefault(require("5f3f0eaae988ed09"));
+var _Button = _interopRequireDefault(require("7698d6a6b011bb1d"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function ActiveEmployeeStat(props) {
+    var _useState = (0, _react.useState)(props.employee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        className: "place-items-center ",
+        style: {
+            width: "14rem"
+        }
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+        className: "mt-3",
+        variant: "top",
+        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
+    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employee.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
+        className: "list-group-flush"
+    }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employee.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[0].skillName, ": ", employee.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[1].skillName, ": ", employee.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[2].skillName, ": ", employee.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-red-500",
+        variant: "danger",
+        onClick: function onClick() {
+            props.removeEmployee(employee);
+            props.onHide();
+        }
+    }, "FIRE")))));
+}
+_c = ActiveEmployeeStat;
+var _default = ActiveEmployeeStat;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "ActiveEmployeeStat");
+
+  $parcel$ReactRefreshHelpers$ac02.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"7bd885827be3bd69":"21dqq","e916005d42d27457":"lAynp","5f3f0eaae988ed09":"4tGXh","7698d6a6b011bb1d":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"i5LP7":[function() {},{}],"6n0o6":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map

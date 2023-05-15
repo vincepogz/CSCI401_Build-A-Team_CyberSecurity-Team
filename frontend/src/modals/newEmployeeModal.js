@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import EmployeeStats from './employeeHireStat';
+import NewEmployeeStat from './newEmployeeStat';
 
-function ThreeWindowModal(props) {
+function NewEmployeeModal(props) {
   const [newHires, setNewHires] = useState(props.newHires)
 
   return (
@@ -22,7 +22,7 @@ function ThreeWindowModal(props) {
         <div className='flex flex-wrap place-content-center'>
           {newHires.map((newHire)=> {
             return(
-              <EmployeeStats 
+              <NewEmployeeStat 
                 newHire={newHire} 
                 onHide={props.onHide}
                 addEmployee={props.addEmployee}/>
@@ -37,4 +37,4 @@ function ThreeWindowModal(props) {
   );
 }
 
-export default ThreeWindowModal;
+export default NewEmployeeModal;

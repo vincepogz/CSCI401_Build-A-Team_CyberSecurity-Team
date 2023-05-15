@@ -8,6 +8,7 @@ const engine = new GenerationEngine();
 
 engine.start();
 app.use(cors({ origin: FRONTEND_ENDPOINT}));
+console.log(FRONTEND_ENDPOINT)
 app.get('/employee/new', (req,res) => {
     res.json({employee: engine.generation.newEmployee()});
 });
@@ -16,4 +17,4 @@ app.get('/mission/new', (req,res) => {
     res.json({employee: engine.generation.newMission()});
 });
 
-app.listen({PORT}, () => console.log(`Listening to port: ${PORT}`));
+app.listen(PORT, () => console.log(`Listening to port: ${PORT}`));

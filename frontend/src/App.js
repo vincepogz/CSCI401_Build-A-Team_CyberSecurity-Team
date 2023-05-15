@@ -24,41 +24,48 @@ function App() {
     const [activeMissions, setActiveMissions] = useState([]);
 
     function addEmployee(employee) {
-        const employeeDetail = JSON.parse(JSON.stringify(employee))
-        const employeeSalary = employeeDetail['newHire'].employeeSalary;
-        const new_cost = company.current_cost + employeeSalary
-
+        const new_cost = company.current_cost + employee.employeeSalary
         employees.push(employee)
-        newHires.pop(employee)
+
+        const index = newHires.findIndex(obj => obj.employeeId === employee.employeeId)
+        newHires.splice(index,1)
+
         setCompany({...company, current_cost: new_cost})
-        console.log(company)
+    };
+
+    function removeEmployee(employee) {
+        const new_cost = company.current_cost - employee.employeeSalary;
+
+        const index = newHires.findIndex(obj => obj.employeeId === employee.employeeId)
+        employees.splice(index,1)
+
+        setCompany({...company, current_cost: new_cost})
     };
 
     function setGame(newName, company) {
         setCompany({...company, name: newName})
     };
 
-    async function getNewHires(newHires) {
+    async function getNewHires() {
 
-        while (newHires.length != 3) {
+        while (newHires.length != 18) {
             const response = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
             const json = await response.json();
 
-            const newHire = {
+
+            newHires.push({
                 employeeId: json.employee.employeeId,
                 employeeTasked: json.employee.employeeTasked,
                 employeeName: json.employee.employeeName,
                 employeeGender: json.employee.employeeGender,
                 employeeType: json.employee.employeeType,
                 employeeSalary: json.employee.employeeSalary,
-                employeeSkills: json.employee.employeeSkills        
-            }
-
-            newHires.push({newHire}) 
+                employeeSkills: json.employee.employeeSkills    
+            }) 
+            
         }
+
     };
-
-
 
     return (
         <>
@@ -76,7 +83,8 @@ function App() {
                 <EmployeeDashboard 
                     employees={employees} 
                     newHires={newHires} 
-                    addEmployee={addEmployee} />
+                    addEmployee={addEmployee}
+                    removeEmployee={removeEmployee} />
             </div>
 
         </div></>

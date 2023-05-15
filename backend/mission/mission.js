@@ -16,21 +16,21 @@ const DEFAULT_PROPERTIES = {
 
 const getMissionRewardRange = function (missionLevel) {
     if (missionLevel == 'high') {
-        return [50000,75000]
+        return [17000,31600]
     } else if (missionLevel == 'medium') {
-        return [18000,20000]
+        return [9500,15800]
     } else {
-        return [7500,8000]
+        return [5000,7500]
     }
 }
 
 const getMissionRequiredPointsRange = function (missionLevel) {
     if (missionLevel == 'high') {
-        return [70,75]
+        return [210,220]
     } else if (missionLevel == 'medium') {
-        return [40,50]
+        return [130,140]
     } else {
-        return [15,20]
+        return [50,60]
     }       
 }
 
