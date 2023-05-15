@@ -26814,7 +26814,7 @@ function App() {
     }
     function removeEmployee(employee) {
         var new_cost = company.current_cost - employee.employeeSalary;
-        var index = newHires.findIndex(function(obj) {
+        var index = employees.findIndex(function(obj) {
             return obj.employeeId === employee.employeeId;
         });
         employees.splice(index, 1);
@@ -26836,7 +26836,7 @@ function App() {
             return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while(true)switch(_context.prev = _context.next){
                     case 0:
-                        if (!(newHires.length != 18)) {
+                        if (!(newHires.length != 6)) {
                             _context.next = 10;
                             break;
                         }

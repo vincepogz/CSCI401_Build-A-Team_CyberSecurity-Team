@@ -36,7 +36,7 @@ function App() {
     function removeEmployee(employee) {
         const new_cost = company.current_cost - employee.employeeSalary;
 
-        const index = newHires.findIndex(obj => obj.employeeId === employee.employeeId)
+        const index = employees.findIndex(obj => obj.employeeId === employee.employeeId)
         employees.splice(index,1)
 
         setCompany({...company, current_cost: new_cost})
@@ -48,7 +48,7 @@ function App() {
 
     async function getNewHires() {
 
-        while (newHires.length != 18) {
+        while (newHires.length != 6) {
             const response = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
             const json = await response.json();
 
