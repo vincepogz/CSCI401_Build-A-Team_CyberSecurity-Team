@@ -452,6 +452,11 @@ img, video {
   padding: 2rem;
 }
 
+.text-8xl {
+  font-size: 6rem;
+  line-height: 1;
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;

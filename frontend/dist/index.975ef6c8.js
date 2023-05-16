@@ -26351,6 +26351,7 @@ var _react = _interopRequireWildcard(require("48e951655a6cdd2"));
 var _gameSystem = _interopRequireDefault(require("a061848674532474"));
 var _companyDashboard = _interopRequireDefault(require("211529aee10b3c22"));
 var _employeeDashboard = _interopRequireDefault(require("5004080bfc6550bb"));
+var _gameRoundDashboard = _interopRequireDefault(require("1d30b1ee9d8133d4"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -26801,6 +26802,29 @@ function App() {
     var _useState5 = (0, _react.useState)([]), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
     var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
     var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
+    var _useState11 = (0, _react.useState)(null), _useState12 = _slicedToArray(_useState11, 2), timeLeft = _useState12[0], setTimeLeft = _useState12[1];
+    (0, _react.useEffect)(function() {
+        if (timeLeft === 0) updateGame();
+        if (!timeLeft) return;
+        var intervalId = setInterval(function() {
+            setTimeLeft(timeLeft - 1);
+        }, 1000);
+        return function() {
+            return clearInterval(intervalId);
+        };
+    }, [
+        timeLeft
+    ]);
+    function updateGame() {
+        if (company.current_cash <= 0) setTimeLeft(null);
+        else {
+            setTimeLeft(60);
+            var new_cash = company.current_cash - company.current_cost;
+            setCompany(_objectSpread(_objectSpread({}, company), {}, {
+                current_cash: new_cash
+            }));
+        }
+    }
     function addEmployee(employee) {
         var new_cost = company.current_cost + employee.employeeSalary;
         employees.push(employee);
@@ -26836,7 +26860,7 @@ function App() {
             return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while(true)switch(_context.prev = _context.next){
                     case 0:
-                        if (!(newHires.length != 6)) {
+                        if (!(newHires.length != 3)) {
                             _context.next = 10;
                             break;
                         }
@@ -26875,6 +26899,9 @@ function App() {
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
+        },
+        setTime: function setTime() {
+            return setTimeLeft(60);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
@@ -26887,6 +26914,8 @@ function App() {
         newHires: newHires,
         addEmployee: addEmployee,
         removeEmployee: removeEmployee
+    }), /*#__PURE__*/ _react["default"].createElement(_gameRoundDashboard["default"], {
+        timeLeft: timeLeft
     }))));
 }
 _c = App;
@@ -26900,7 +26929,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","5004080bfc6550bb":"h4Wkw","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"8zMP7":[function(require,module,exports) {
+},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","5004080bfc6550bb":"h4Wkw","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","1d30b1ee9d8133d4":"2r1Vu"}],"8zMP7":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$6d90 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -26980,6 +27009,7 @@ function GameStart(props) {
             e.preventDefault();
             props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
             props.getNewHires(props.newHires);
+            props.setTime();
         }
     }, /*#__PURE__*/ _react["default"].createElement(_InputGroup["default"], {
         size: "md"
@@ -26994,7 +27024,10 @@ function GameStart(props) {
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         type: "submit",
-        onClick: props.onHide,
+        onClick: function onClick() {
+            props.setTime();
+            props.onHide();
+        },
         form: "companyConfirm"
     }, "Confirm"))));
 }
@@ -33782,6 +33815,129 @@ $RefreshReg$(_c, "ActiveEmployeeStat");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"7bd885827be3bd69":"21dqq","e916005d42d27457":"lAynp","5f3f0eaae988ed09":"4tGXh","7698d6a6b011bb1d":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"7bd885827be3bd69":"21dqq","e916005d42d27457":"lAynp","5f3f0eaae988ed09":"4tGXh","7698d6a6b011bb1d":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"2r1Vu":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$75c5 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$75c5.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("8dde5662650960c1"));
+var _Button = _interopRequireDefault(require("4a4bc18a42c04864"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function GameRoundDashboard(props) {
+    var _useState = (0, _react.useState)(props.timeLeft), _useState2 = _slicedToArray(_useState, 1), timeLeft = _useState2[0];
+    return /*#__PURE__*/ _react["default"].createElement(_react.Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", {
+        "class": "max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        "class": "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        "class": "md:shrink-0"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        "class": "h-48 w-full object-cover md:h-full md:w-48",
+        src: "https://media.tenor.com/IGjQ2m8Wh7QAAAAi/clock.gif",
+        alt: "Modern building architecture"
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        "class": "p-8 text-8xl"
+    }, props.timeLeft, "s"))));
+}
+_c = GameRoundDashboard;
+var _default = GameRoundDashboard;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "GameRoundDashboard");
+
+  $parcel$ReactRefreshHelpers$75c5.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"8dde5662650960c1":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","4a4bc18a42c04864":"aPzUt"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map
