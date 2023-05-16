@@ -2977,7 +2977,7 @@ root.render(/*#__PURE__*/ _react["default"].createElement(_App["default"], null)
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","4283d18d473a0cf3":"i5LP7","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","5cf9f156f3c4075c":"6n0o6"}],"21dqq":[function(require,module,exports) {
+},{"ddf0ad711a894627":"21dqq","1f97e364a6a8efc9":"lOjBx","11be0f3be26c8c31":"2kQhy","5cf9f156f3c4075c":"6n0o6","4283d18d473a0cf3":"i5LP7","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"21dqq":[function(require,module,exports) {
 "use strict";
 module.exports = require("d5378d0448897613");
 
@@ -33782,6 +33782,6 @@ $RefreshReg$(_c, "ActiveEmployeeStat");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"7bd885827be3bd69":"21dqq","e916005d42d27457":"lAynp","5f3f0eaae988ed09":"4tGXh","7698d6a6b011bb1d":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"i5LP7":[function() {},{}],"6n0o6":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"7bd885827be3bd69":"21dqq","e916005d42d27457":"lAynp","5f3f0eaae988ed09":"4tGXh","7698d6a6b011bb1d":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map
