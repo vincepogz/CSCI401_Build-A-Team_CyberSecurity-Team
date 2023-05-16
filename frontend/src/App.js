@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GameStart from "./modals/gameSystem";
 import CompanyDashboard from './components/companyDashboard'
 import EmployeeDashboard from './components/employeeDashboard';
+import GameRoundDashboard from './components/gameRoundDashboard';
 
 
 function App() {
@@ -23,6 +24,34 @@ function App() {
 
     const [activeMissions, setActiveMissions] = useState([]);
 
+    const [timeLeft, setTimeLeft] = useState(null);
+
+    useEffect(() => {
+        if(timeLeft===0){
+           updateGame()
+        }
+    
+        if (!timeLeft) return;
+    
+        const intervalId = setInterval(() => {
+    
+          setTimeLeft(timeLeft - 1);
+        }, 1000);
+    
+        return () => clearInterval(intervalId);
+      }, [timeLeft]);
+
+    function updateGame() {
+        if (company.current_cash <= 0){
+            setTimeLeft(null)
+        }else{
+            setTimeLeft(60)
+            const new_cash = company.current_cash - company.current_cost
+            setCompany({...company, current_cash: new_cash})
+        }
+        
+    }
+   
     function addEmployee(employee) {
         const new_cost = company.current_cost + employee.employeeSalary
         employees.push(employee)
@@ -48,7 +77,7 @@ function App() {
 
     async function getNewHires() {
 
-        while (newHires.length != 6) {
+        while (newHires.length != 3) {
             const response = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
             const json = await response.json();
 
@@ -75,7 +104,8 @@ function App() {
             newHires = {newHires}
             getNewHires = {getNewHires}
             show={modalShow}
-            onHide={() => setModalShow(false)}/>
+            onHide={() => setModalShow(false)}
+            setTime={()=> setTimeLeft(60)}/>
         
         <div className="App">
             <div className='flex-wrap'>
@@ -85,6 +115,7 @@ function App() {
                     newHires={newHires} 
                     addEmployee={addEmployee}
                     removeEmployee={removeEmployee} />
+                <GameRoundDashboard timeLeft={timeLeft}/>
             </div>
 
         </div></>
