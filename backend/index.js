@@ -14,7 +14,7 @@ app.get('/employee/new', (req,res) => {
 });
 
 app.get('/mission/new', (req,res) => {
-    res.json({employee: engine.generation.newMission()});
+    res.json({mission: engine.generation.newMission()});
 });
 
 app.listen(PORT, () => console.log(`Listening to port: ${PORT}`));
