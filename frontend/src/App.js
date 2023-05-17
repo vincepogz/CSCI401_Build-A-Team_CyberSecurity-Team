@@ -160,7 +160,7 @@ function App() {
 
         const quantity = (Math.floor(Math.random() * 3))
 
-        while (newMissions.length != 3) {
+        while (newMissions.length != quantity) {
             const response = await fetch(process.env.BACKEND_ENDPOINT+'/mission/new');
             const json = await response.json();
 
@@ -190,7 +190,7 @@ function App() {
             getNewMissions = {getNewMissions}
             show={modalShow}
             onHide={() => setModalShow(false)}
-            setTime={()=> setTimeLeft(900)}/>
+            setTime={()=> setTimeLeft(60)}/>
         
         <div className="App">
             <div className='flex'>

@@ -26943,7 +26943,7 @@ function App() {
                         while(newMissions.length != 0)newMissions.pop();
                         quantity = Math.floor(Math.random() * 3);
                     case 2:
-                        if (!(newMissions.length != 3)) {
+                        if (!(newMissions.length != quantity)) {
                             _context2.next = 12;
                             break;
                         }
@@ -26987,7 +26987,7 @@ function App() {
             return setModalShow(false);
         },
         setTime: function setTime() {
-            return setTimeLeft(900);
+            return setTimeLeft(60);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
