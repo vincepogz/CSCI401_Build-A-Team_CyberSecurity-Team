@@ -10,7 +10,7 @@ function NewEmployeeStat(props) {
         <>
         <div>
         <Card className='place-items-center ' style={{ width: '14rem' }}>
-          <Card.Img className="mt-3" variant="top" src="https://cdn-icons-png.flaticon.com/512/912/912316.png" />
+          <Card.Img className="mt-3" variant="top" src={window.location.origin + '/images/images(2).png'} />
           <Card.Body>
             <Card.Title>{props.newHire.employeeName}</Card.Title>
             <Card.Text>

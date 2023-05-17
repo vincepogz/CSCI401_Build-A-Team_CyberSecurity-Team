@@ -26899,6 +26899,7 @@ function App() {
                             employeeId: json.employee.employeeId,
                             employeeTasked: json.employee.employeeTasked,
                             employeeName: json.employee.employeeName,
+                            employeeImg: json.employee.employeeImg,
                             employeeGender: json.employee.employeeGender,
                             employeeType: json.employee.employeeType,
                             employeeSalary: json.employee.employeeSalary,
@@ -26909,7 +26910,7 @@ function App() {
                     case 14:
                         _context.prev = 14;
                         _context.t0 = _context["catch"](2);
-                        console.log(_context.t0);
+                        console.log("Error: ", _context.t0);
                     case 17:
                         _context.next = 1;
                         break;
@@ -32511,7 +32512,7 @@ function NewEmployeeStat(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
+        src: window.location.origin + "/images/images(2).png"
     }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, props.newHire.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
         className: "list-group-flush"
     }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", props.newHire.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[0].skillName, ": ", props.newHire.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[1].skillName, ": ", props.newHire.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[2].skillName, ": ", props.newHire.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
@@ -33666,7 +33667,7 @@ function ActiveEmployeeList(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png",
+        src: window.location.origin + "/images/images(2).png",
         onClick: function onClick() {
             return setModalShow(true);
         }

@@ -11,7 +11,7 @@ function ActiveEmployeeStat(props) {
         <>
         <div>
         <Card className='place-items-center ' style={{ width: '14rem' }}>
-          <Card.Img className="mt-3" variant="top" src="https://cdn-icons-png.flaticon.com/512/912/912316.png" />
+          <Card.Img className="mt-3" variant="top" src={'images/'+props.employee.employeeImg} />
           <Card.Body>
             <Card.Title>{employee.employeeName}</Card.Title>
             <Card.Text>

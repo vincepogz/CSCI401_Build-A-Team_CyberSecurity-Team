@@ -112,13 +112,14 @@ function App() {
                     employeeId: json.employee.employeeId,
                     employeeTasked: json.employee.employeeTasked,
                     employeeName: json.employee.employeeName,
+                    employeeImg: json.employee.employeeImg,
                     employeeGender: json.employee.employeeGender,
                     employeeType: json.employee.employeeType,
                     employeeSalary: json.employee.employeeSalary,
                     employeeSkills: json.employee.employeeSkills
                 }) 
             } catch (error) {
-            console.log(error)
+            console.log('Error: ', error)
             } 
         }
     };
