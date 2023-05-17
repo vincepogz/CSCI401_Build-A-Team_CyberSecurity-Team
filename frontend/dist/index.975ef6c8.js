@@ -34671,7 +34671,7 @@ function _arrayWithHoles(arr) {
 }
 function MissionSelectEmployee(props) {
     var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
-    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/man-shape";
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/man-shape.png";
     return /*#__PURE__*/ _react["default"].createElement("div", {
         className: "d-flex justify-content-around"
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
@@ -34704,7 +34704,7 @@ function MissionSelectEmployee(props) {
         onClick: function onClick() {
             setModalShow(true);
         }
-    }, "Pick Employee ", props.index))), /*#__PURE__*/ _react["default"].createElement(_missionListEmployees["default"], {
+    }, "Pick Employee"))), /*#__PURE__*/ _react["default"].createElement(_missionListEmployees["default"], {
         employees: props.employees,
         selectEmployee: props.selectEmployee,
         index: props.index,
@@ -34901,8 +34901,7 @@ function MissionListEmployee(props) {
     var _useState = (0, _react.useState)(), _useState2 = _slicedToArray(_useState, 2), selectedEmployee = _useState2[0], setSelectedEmployee = _useState2[1];
     var _useState3 = (0, _react.useState)(props.employees), _useState4 = _slicedToArray(_useState3, 1), employees = _useState4[0];
     var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
-    var _useState5 = (0, _react.useState)(), _useState6 = _slicedToArray(_useState5, 2), img = _useState6[0], setImg = _useState6[1];
-    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/";
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
         "aria-labelledby": "contained-modal-title-vcenter",
@@ -34914,25 +34913,22 @@ function MissionListEmployee(props) {
     }, "View Available Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "flex flex-wrap place-content-center"
     }, employees.map(function(employee) {
-        if (employee.employeeTasked != true) {
-            setImg(employee.employeeImg);
-            return /*#__PURE__*/ _react["default"].createElement("div", {
-                key: employee.employeeId
-            }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
-                className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
-                style: {
-                    width: "10rem"
-                }
-            }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
-                className: "mt-3",
-                variant: "top",
-                src: image,
-                onClick: function onClick() {
-                    setSelectedEmployee(employee);
-                    setModalShow(true);
-                }
-            }), employee.employeeName));
-        }
+        if (employee.employeeTasked != true) return /*#__PURE__*/ _react["default"].createElement("div", {
+            key: employee.employeeId
+        }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+            className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
+            style: {
+                width: "10rem"
+            }
+        }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+            className: "mt-3",
+            variant: "top",
+            src: image + employee.employeeImg,
+            onClick: function onClick() {
+                setSelectedEmployee(employee);
+                setModalShow(true);
+            }
+        }), employee.employeeName));
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         onClick: function onClick() {

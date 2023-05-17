@@ -25,7 +25,7 @@ function MissionSelectEmployee(props) {
             </Placeholder>
 
 
-            <Button variant="primary" onClick={() => {setModalShow(true)}}>Pick Employee {props.index}</Button>
+            <Button variant="primary" onClick={() => {setModalShow(true)}}>Pick Employee</Button>
         </Card.Body>
         </Card>
 

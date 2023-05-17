@@ -10,8 +10,7 @@ function MissionListEmployee(props) {
     const [selectedEmployee, setSelectedEmployee] = useState();
     const [employees] = useState(props.employees);
     const [modalShow, setModalShow] = React.useState(false);
-    const [img, setImg] = useState()
-    const image = process.env.IMG_ENDPOINT + img
+    const image = process.env.IMG_ENDPOINT
 
   return (
     <>
@@ -30,13 +29,12 @@ function MissionListEmployee(props) {
         <Row>
         <div className='flex flex-wrap place-content-center'>
               {employees.map((employee)=> {
-                
                 if (employee.employeeTasked != true){
-                    setImg(employee.employeeImg)
+
                     return(
                     <div key={employee.employeeId}>
                     <Card className='px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent' style={{ width: '10rem' }}>
-                      <Card.Img className="mt-3" variant="top" src={image} onClick={() => {setSelectedEmployee(employee); setModalShow(true)}} />
+                      <Card.Img className="mt-3" variant="top" src={image+employee.employeeImg} onClick={() => {setSelectedEmployee(employee); setModalShow(true)}} />
                       {employee.employeeName}
                     </Card>
                     </div>
