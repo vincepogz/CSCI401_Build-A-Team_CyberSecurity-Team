@@ -14,7 +14,8 @@ function MissionBoard(props) {
                         <div classNameName="flex flex-wrap">
                         {props.newMissions.map((newMission)=> {
                             return(
-                            <MissionList 
+                            <MissionList
+                                key={newMission.missionId}
                                 newMission={newMission}
                                 employees={props.employees}
                                 assignMission={props.assignMission}/>

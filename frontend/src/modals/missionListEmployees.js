@@ -31,7 +31,7 @@ function MissionListEmployee(props) {
                 
                 if (employee.employeeTasked != true){
                     return(
-                    <div>
+                    <div key={employee.employeeId}>
                     <Card className='px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent' style={{ width: '10rem' }}>
                       <Card.Img className="mt-3" variant="top" src="https://cdn-icons-png.flaticon.com/512/912/912316.png" onClick={() => {setSelectedEmployee(employee); setModalShow(true)}} />
                       {employee.employeeName}

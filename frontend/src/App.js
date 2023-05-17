@@ -26,8 +26,7 @@ function App() {
     useEffect(() => {
         if(timeLeft===0){
             updateGame()
-            getNewHires()
-            getNewMissions()
+            getNewObjects()
             if (company.current_cash <= 0){
                 setTimeLeft(null)
             }else{
@@ -47,6 +46,56 @@ function App() {
 
     function setGame(newName, company) {
         setCompany({...company, name: newName})
+    };
+
+    async function getNewObjects() {
+
+        while (newHires.length != 0) {
+            newHires.pop()
+        }
+
+        while (newHires.length != 3) {
+            const newEmployees = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
+            const json = await newEmployees.json();
+
+
+            newHires.push({
+                employeeId: json.employee.employeeId,
+                employeeTasked: json.employee.employeeTasked,
+                employeeName: json.employee.employeeName,
+                employeeGender: json.employee.employeeGender,
+                employeeType: json.employee.employeeType,
+                employeeSalary: json.employee.employeeSalary,
+                employeeSkills: json.employee.employeeSkills    
+            }) 
+        
+        }
+
+        while (newMissions.length != 0) {
+            newMissions.pop()
+        }
+
+        const quantity = (Math.floor(Math.random() * 3))
+
+        while (newMissions.length != 3) {
+            const generateMissions = await fetch(process.env.BACKEND_ENDPOINT+'/mission/new');
+            const json = await generateMissions.json();
+
+            const mission = {
+                missionId: json.mission.missionId,
+                missionLevel: json.mission.missionLevel,
+                missionReward: json.mission.missionReward,
+                missionRequiredPoints: json.mission.missionRequiredPoints,
+                missionCurrentPoints: json.mission.missionCurrentPoints,
+                missionDetail: json.mission.missionDetail,
+                missionExpiration: json.mission.missionExpiration,
+                missionAssignedEmployees: json.mission.missionAssignedEmployees
+            }
+
+            newMissions.push(mission) 
+            
+        }
+
     };
 
     function updateGame() {
@@ -92,30 +141,6 @@ function App() {
         console.log("Updating Employee Tasked", employees[index])
     }
 
-    async function getNewHires() {
-
-        while (newHires.length != 0) {
-            newHires.pop()
-        }
-
-        while (newHires.length != 3) {
-            const response = await fetch(process.env.BACKEND_ENDPOINT+'/employee/new');
-            const json = await response.json();
-
-
-            newHires.push({
-                employeeId: json.employee.employeeId,
-                employeeTasked: json.employee.employeeTasked,
-                employeeName: json.employee.employeeName,
-                employeeGender: json.employee.employeeGender,
-                employeeType: json.employee.employeeType,
-                employeeSalary: json.employee.employeeSalary,
-                employeeSkills: json.employee.employeeSkills    
-            }) 
-        
-        }
-    };
-
     //=================EMPLOYEE CONFIG END HERE=====================
 
     //================MISSIONS CONFIG START HERE====================
@@ -153,37 +178,6 @@ function App() {
         console.log("Assigned: ", assignedEmployees)
     };
 
-    async function getNewMissions() {
-        while (newMissions.length != 0) {
-            newMissions.pop()
-        }
-
-        const quantity = (Math.floor(Math.random() * 3))
-
-        while (newMissions.length != 3) {
-            const response = await fetch(process.env.BACKEND_ENDPOINT+'/mission/new');
-            const json = await response.json();
-
-            const mission = {
-                missionId: json.mission.missionId,
-                missionLevel: json.mission.missionLevel,
-                missionReward: json.mission.missionReward,
-                missionRequiredPoints: json.mission.missionRequiredPoints,
-                missionCurrentPoints: json.mission.missionCurrentPoints,
-                missionDetail: json.mission.missionDetail,
-                missionExpiration: json.mission.missionExpiration,
-                missionAssignedEmployees: json.mission.missionAssignedEmployees
-            }
-
-            newMissions.push(mission) 
-            
-        }
-    };
-
-    useEffect(() => {
-        getNewMissions();
-      }, []);
-
     //=================MISSIONS CONFIG END HERE=====================
 
     return (
@@ -192,11 +186,10 @@ function App() {
             company={company}
             setGame = {setGame}
             newHires = {newHires}
-            getNewHires = {getNewHires}
-            getNewMissions = {getNewMissions}
+            getNewObjects = {getNewObjects}
             show={modalShow}
             onHide={() => setModalShow(false)}
-            setTime={()=> setTimeLeft(900)}/>
+            setTime={()=> setTimeLeft(10)}/>
         
         <div className="App">
             <div className='flex'>

@@ -27,6 +27,7 @@ function ActiveEmployeeModal(props) {
                 
                 return(
                   <ActiveEmployeeList
+                    key={employee.employeeId}
                     employee={employee}
                     removeEmployee = {props.removeEmployee}
                     onHide={props.onHide}

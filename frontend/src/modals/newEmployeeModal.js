@@ -23,6 +23,7 @@ function NewEmployeeModal(props) {
           {newHires.map((newHire)=> {
             return(
               <NewEmployeeStat 
+                key={newHire.employeeId}
                 newHire={newHire} 
                 onHide={props.onHide}
                 addEmployee={props.addEmployee}/>
