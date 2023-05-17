@@ -24,6 +24,7 @@ function MissionList(props) {
     <MissionAssignModal
         employees={props.employees}
         newMission={props.newMission}
+        addMission={props.addMission}
         assignMission={props.assignMission}
         clearEmployeeAssignment = {props.clearEmployeeAssignment}
         show={modalShow}

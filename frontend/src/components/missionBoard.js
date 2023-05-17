@@ -17,6 +17,7 @@ function MissionBoard(props) {
                             <MissionList
                                 key={newMission.missionId}
                                 newMission={newMission}
+                                addMission={props.addMission}
                                 employees={props.employees}
                                 clearEmployeeAssignment = {props.clearEmployeeAssignment}
                                 assignMission={props.assignMission}/>

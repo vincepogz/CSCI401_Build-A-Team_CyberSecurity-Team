@@ -26805,6 +26805,7 @@ function App() {
     var _useState5 = (0, _react.useState)(null), _useState6 = _slicedToArray(_useState5, 2), timeLeft = _useState6[0], setTimeLeft = _useState6[1];
     (0, _react.useEffect)(function() {
         if (timeLeft === 0) {
+            clearEmployeeAssignment();
             updateGame();
             getNewHires();
             getNewMissions();
@@ -26827,7 +26828,7 @@ function App() {
         }));
     }
     function updateGame() {
-        clearEmployeeAssignment();
+        updateMission();
         var new_cash = company.current_cash - company.current_cost;
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             current_cash: new_cash
@@ -26864,22 +26865,31 @@ function App() {
             return obj.employeeId === employee.employeeId;
         });
         employees[index].employeeTasked = newAssignment;
-        console.log("Updating Employee Tasked", employees[index]);
     }
     function clearEmployeeAssignment() {
-        var counter = 0;
         assignedEmployees.map(function(employee) {
             if (!Number.isInteger(employee)) {
-                updateEmployeeAssignment(employee);
-                return counter++;
+                console.log("Running clear Employe Assign", employee);
+                if (activeMissions.length === 0) {
+                    console.log("Clearing", employee);
+                    updateEmployeeAssignment(employee);
+                } else activeMissions.map(function(mission) {
+                    mission.missionAssignedEmployees.map(function(assignedEmployee) {
+                        console.log("assigned employee:", assignedEmployee);
+                        if (assignedEmployee == employee) console.log(employee.employeeName, "Can't Clear Employee Assignment, currently in Mission");
+                        else {
+                            console.log("Clearing", employee);
+                            updateEmployeeAssignment(employee);
+                        }
+                    });
+                });
             }
         });
         while(assignedEmployees.length != 0)assignedEmployees.pop();
         assignedEmployees.push(1);
         assignedEmployees.push(2);
         assignedEmployees.push(3);
-        console.log("Clearning Employee Assignments: ", assignedEmployees);
-        console.log("Employees: ", employees);
+        console.log(employees);
     }
     function getNewHires() {
         return _getNewHires.apply(this, arguments);
@@ -26952,21 +26962,52 @@ function App() {
         2,
         3
     ]), _useState16 = _slicedToArray(_useState15, 2), assignedEmployees = _useState16[0], setAssignEmployees = _useState16[1];
-    function addMission(mission) {}
-    function removeMission(mission) {}
-    function updateMission(mission) {}
+    function addMission(mission) {
+        assignedEmployees.map(function(employee) {
+            if (!Number.isFinite(employee)) mission.missionAssignedEmployees.push(employee);
+        });
+        activeMissions.push(mission);
+        var index = newMissions.findIndex(function(obj) {
+            return obj.missionId === mission.missionId;
+        });
+        newMissions.splice(index, 1);
+    }
+    function completeMission(mission) {
+        var missionReward = company.current_cash + mission.missionReward;
+        var index = activeMissions.findIndex(function(obj) {
+            return obj.missionId === mission.missionId;
+        });
+        activeMissions.splice(index, 1);
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            current_cash: missionReward
+        }));
+    }
+    function updateMission() {
+        activeMissions.map(function(mission) {
+            mission.missionAssignedEmployees.map(function(employee) {
+                employee.employeeSkills.map(function(skill) {
+                    if (skill.skillName === mission.missionDetail.missionType) mission.missionCurrentPoints += skill.skillValue * 1.75;
+                    else {
+                        mission.missionCurrentPoints += skill.skillValue;
+                        if (mission.missionCurrentPoints >= mission.missionRequiredPoints) completeMission(mission);
+                    }
+                });
+            });
+            console.log(mission);
+        });
+    }
     function assignMission(employee, index) {
         if (Number.isFinite(assignedEmployees[index])) {
-            console.log("empty, adding");
             updateEmployeeAssignment(employee);
+            console.log("Assigning", employee, "at", index);
             assignedEmployees.splice(index, 1, employee);
         } else {
+            console.log("Removing", employee, "at", index);
             updateEmployeeAssignment(assignedEmployees[index]);
-            console.log("Unassigned: ", assignedEmployees[index]);
+            console.log("Assigning", employee, "at", index);
             updateEmployeeAssignment(employee);
             assignedEmployees.splice(index, 1, employee);
         }
-        console.log("Assigned: ", assignedEmployees);
     }
     function getNewMissions() {
         return _getNewMissions.apply(this, arguments);
@@ -26978,9 +27019,9 @@ function App() {
                 while(true)switch(_context2.prev = _context2.next){
                     case 0:
                         while(newMissions.length != 0)newMissions.pop();
-                        quantity = Math.floor(Math.random() * 3);
+                        quantity = Math.random() * 1 | 2;
                     case 2:
-                        if (!(newMissions.length != 3)) {
+                        if (!(newMissions.length != quantity)) {
                             _context2.next = 20;
                             break;
                         }
@@ -27062,8 +27103,8 @@ function App() {
         className: "flex flex-wrap"
     }, /*#__PURE__*/ _react["default"].createElement(_missionDashboard["default"], null), /*#__PURE__*/ _react["default"].createElement(_missionBoard["default"], {
         employees: employees,
-        activeMissions: activeMissions,
         newMissions: newMissions,
+        addMission: addMission,
         clearEmployeeAssignment: clearEmployeeAssignment,
         assignMission: assignMission
     }))));
@@ -34275,6 +34316,7 @@ function MissionBoard(props) {
         return /*#__PURE__*/ _react["default"].createElement(_missionList["default"], {
             key: newMission.missionId,
             newMission: newMission,
+            addMission: props.addMission,
             employees: props.employees,
             clearEmployeeAssignment: props.clearEmployeeAssignment,
             assignMission: props.assignMission
@@ -34412,6 +34454,7 @@ function MissionList(props) {
     }, "More Details"))), /*#__PURE__*/ _react["default"].createElement(_missionAssignModal["default"], {
         employees: props.employees,
         newMission: props.newMission,
+        addMission: props.addMission,
         assignMission: props.assignMission,
         clearEmployeeAssignment: props.clearEmployeeAssignment,
         show: modalShow,
@@ -34580,7 +34623,10 @@ function MissionAssignModal(props) {
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "",
         variant: "success",
-        onClick: props.onHide
+        onClick: function onClick() {
+            props.addMission(props.newMission);
+            props.onHide();
+        }
     }, "Accept")));
 }
 _c = MissionAssignModal;

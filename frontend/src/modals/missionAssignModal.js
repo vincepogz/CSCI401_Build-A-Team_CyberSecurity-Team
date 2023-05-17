@@ -48,7 +48,7 @@ function MissionAssignModal(props) {
             </Row>
             </Modal.Body>
             <Modal.Footer>
-            <Button className="" variant="success" onClick={props.onHide}>Accept</Button>
+            <Button className="" variant="success" onClick={() => { props.addMission(props.newMission); props.onHide()}}>Accept</Button>
             </Modal.Footer>
         </Modal>
     );

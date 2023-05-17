@@ -25,6 +25,7 @@ function App() {
 
     useEffect(() => {
         if(timeLeft===0){
+            clearEmployeeAssignment()
             updateGame()
             getNewHires()
             getNewMissions()
@@ -51,7 +52,7 @@ function App() {
     };
 
     function updateGame() {
-        clearEmployeeAssignment()
+        updateMission()
         const new_cash = company.current_cash - company.current_cost
         setCompany({...company, current_cash: new_cash})
         
@@ -90,16 +91,32 @@ function App() {
 
         employees[index].employeeTasked = newAssignment
 
-        console.log("Updating Employee Tasked", employees[index])
     }
 
     function clearEmployeeAssignment() {
-        let counter = 0
+
         assignedEmployees.map((employee) =>{
             if(!Number.isInteger(employee)){
+            console.log("Running clear Employe Assign", employee)
+
+            if(activeMissions.length === 0){
+                console.log('Clearing', employee)
                 updateEmployeeAssignment(employee)
-            
-                return counter++
+            }else{
+
+                activeMissions.map((mission) => {
+                    mission.missionAssignedEmployees.map((assignedEmployee) => {
+                        console.log('assigned employee:',assignedEmployee)
+                        if (assignedEmployee == employee){
+                             console.log(employee.employeeName, "Can't Clear Employee Assignment, currently in Mission")
+                        } else {
+                            console.log('Clearing', employee)
+                            updateEmployeeAssignment(employee)
+                        }
+                    })
+                })
+            }   
+               
             }
             
         })
@@ -112,8 +129,8 @@ function App() {
         assignedEmployees.push(2)
         assignedEmployees.push(3)
 
-        console.log("Clearning Employee Assignments: ", assignedEmployees)
-        console.log("Employees: ", employees)
+        console.log(employees)
+
     }
 
     async function getNewHires() {
@@ -159,30 +176,66 @@ function App() {
 
     function addMission(mission) {
 
+        
+        assignedEmployees.map((employee) => {
+            if(!Number.isFinite(employee)) {
+                mission.missionAssignedEmployees.push(employee)
+            }
+        })
+
+        activeMissions.push(mission)
+
+        const index = newMissions.findIndex(obj => obj.missionId === mission.missionId)
+        newMissions.splice(index,1)
+
     };
 
-    function removeMission(mission) {
+    function completeMission(mission) {
+        const missionReward = company.current_cash + mission.missionReward
+        const index = activeMissions.findIndex(obj => obj.missionId === mission.missionId)
+        activeMissions.splice(index,1)
+        
+        setCompany({...company, current_cash: missionReward})
 
     };
 
-    function updateMission(mission) {
+    function updateMission() {
 
+        activeMissions.map((mission) => {
+
+            mission.missionAssignedEmployees.map((employee) => {
+                employee.employeeSkills.map((skill) => {
+                    if (skill.skillName === mission.missionDetail.missionType){
+                        mission.missionCurrentPoints += (skill.skillValue)*1.75
+                    }else {
+                        mission.missionCurrentPoints += skill.skillValue
+
+                        if(mission.missionCurrentPoints >= mission.missionRequiredPoints){
+                            completeMission(mission)
+                        }
+                    }
+                })
+            })
+            console.log(mission)
+        
+   
+        })
     };
 
     function assignMission(employee, index) {
+        
         if (Number.isFinite(assignedEmployees[index]))  {
-            console.log("empty, adding")
             updateEmployeeAssignment(employee)
+            console.log( 'Assigning', employee, 'at', index)
             assignedEmployees.splice(index, 1, employee)
         }else {
+            console.log( 'Removing', employee, 'at', index)
             updateEmployeeAssignment(assignedEmployees[index])
-            console.log("Unassigned: ", assignedEmployees[index])
+            console.log( 'Assigning', employee, 'at', index)
             updateEmployeeAssignment(employee)
             assignedEmployees.splice(index, 1, employee)
         }
 
-
-        console.log("Assigned: ", assignedEmployees)
     };
 
     async function getNewMissions() {
@@ -191,9 +244,9 @@ function App() {
             newMissions.pop()
         }
 
-        const quantity = (Math.floor(Math.random() * 3))
+        const quantity = (Math.random() * (3-2)|2)
 
-        while (newMissions.length != 3) {
+        while (newMissions.length != quantity) {
 
             try {
                 const response = await fetch(process.env.BACKEND_ENDPOINT+'/mission/new');
@@ -248,8 +301,8 @@ function App() {
                 <MissionDashboard />
                 <MissionBoard 
                     employees = {employees}
-                    activeMissions={activeMissions}
                     newMissions={newMissions}
+                    addMission={addMission}
                     clearEmployeeAssignment = {clearEmployeeAssignment}
                     assignMission={assignMission}/>
             </div>
