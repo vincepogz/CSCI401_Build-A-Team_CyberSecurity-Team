@@ -15,6 +15,7 @@ function MissionBoard(props) {
                         {props.newMissions.map((newMission)=> {
                             return(
                             <MissionList
+                                assignedEmployees = {props.assignedEmployees}
                                 key={newMission.missionId}
                                 newMission={newMission}
                                 addMission={props.addMission}

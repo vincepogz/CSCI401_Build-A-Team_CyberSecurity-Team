@@ -94,28 +94,23 @@ function App() {
     }
 
     function clearEmployeeAssignment() {
-
         assignedEmployees.map((employee) =>{
             if(!Number.isInteger(employee)){
-            console.log("Running clear Employe Assign", employee)
+                
+                if(activeMissions.length == 0){
+                    updateEmployeeAssignment(employee)
+                }else{
 
-            if(activeMissions.length === 0){
-                console.log('Clearing', employee)
-                updateEmployeeAssignment(employee)
-            }else{
-
-                activeMissions.map((mission) => {
-                    mission.missionAssignedEmployees.map((assignedEmployee) => {
-                        console.log('assigned employee:',assignedEmployee)
-                        if (assignedEmployee == employee){
-                             console.log(employee.employeeName, "Can't Clear Employee Assignment, currently in Mission")
-                        } else {
-                            console.log('Clearing', employee)
-                            updateEmployeeAssignment(employee)
-                        }
+                    activeMissions.map((mission) => {
+                        mission.missionAssignedEmployees.map((assignedEmployee) => {
+                            if (assignedEmployee == employee){
+                                console.log(employee.employeeName, "Can't Clear Employee Assignment, currently in Mission")
+                            } else {
+                                updateEmployeeAssignment(employee)
+                            }
+                        })
                     })
-                })
-            }   
+                }   
                
             }
             
@@ -180,13 +175,16 @@ function App() {
         assignedEmployees.map((employee) => {
             if(!Number.isFinite(employee)) {
                 mission.missionAssignedEmployees.push(employee)
+
             }
         })
 
         activeMissions.push(mission)
+        clearEmployeeAssignment()
 
         const index = newMissions.findIndex(obj => obj.missionId === mission.missionId)
         newMissions.splice(index,1)
+
 
     };
 
@@ -216,7 +214,6 @@ function App() {
                     }
                 })
             })
-            console.log(mission)
         
    
         })
@@ -226,15 +223,14 @@ function App() {
         
         if (Number.isFinite(assignedEmployees[index]))  {
             updateEmployeeAssignment(employee)
-            console.log( 'Assigning', employee, 'at', index)
             assignedEmployees.splice(index, 1, employee)
         }else {
-            console.log( 'Removing', employee, 'at', index)
             updateEmployeeAssignment(assignedEmployees[index])
-            console.log( 'Assigning', employee, 'at', index)
             updateEmployeeAssignment(employee)
             assignedEmployees.splice(index, 1, employee)
         }
+
+        console.log('Assigned Employee',assignedEmployees)
 
     };
 
@@ -285,7 +281,7 @@ function App() {
             getNewMissions = {getNewMissions}
             show={modalShow}
             onHide={() => setModalShow(false)}
-            setTime={()=> setTimeLeft(10)}/>
+            setTime={()=> setTimeLeft(60)}/>
         
         <div className="App">
             <div className='flex'>
@@ -301,6 +297,7 @@ function App() {
                 <MissionDashboard />
                 <MissionBoard 
                     employees = {employees}
+                    assignedEmployees = {assignedEmployees}
                     newMissions={newMissions}
                     addMission={addMission}
                     clearEmployeeAssignment = {clearEmployeeAssignment}

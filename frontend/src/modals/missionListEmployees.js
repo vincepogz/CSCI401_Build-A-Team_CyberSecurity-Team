@@ -6,7 +6,6 @@ import Card from 'react-bootstrap/Card';
 import MissionSelectedEmployeeModal from './missionSelectedEmployeeModal';
 
 function MissionListEmployee(props) {
-
     const [selectedEmployee, setSelectedEmployee] = useState();
     const [employees] = useState(props.employees);
     const [modalShow, setModalShow] = React.useState(false);

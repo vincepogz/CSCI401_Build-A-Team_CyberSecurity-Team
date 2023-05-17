@@ -6,8 +6,7 @@ import Col from 'react-bootstrap/Col';
 import MissionSelectEmployee from './missionSelectEmployees';
 
 function MissionAssignModal(props) {
-    const [assignEmployees, setAssignEmployees] = useState([]) //pass In props.newMission.missionAssignedEmployees() to push elements
-    const [selectEmployee, setSelectEmployee] = useState([1,2,3])
+    const [assignedEmployees] = useState(props.assignedEmployees) //pass In props.newMission.missionAssignedEmployees() to push elements
 
     return (
         <Modal
@@ -26,22 +25,22 @@ function MissionAssignModal(props) {
             <Row >
                 <Col>
                     <MissionSelectEmployee
+                    assignedEmployee = {assignedEmployees}
                     employees = {props.employees}
-                    selectEmployee = {selectEmployee}
                     assignMission={props.assignMission}
                     index={0}/>
                 </Col>
                 <Col>
                     <MissionSelectEmployee 
+                    assignedEmployee = {assignedEmployees}
                     employees = {props.employees}
-                    selectEmployee = {selectEmployee}
                     assignMission={props.assignMission}
                     index={1}/>
                 </Col>
                 <Col>
                     <MissionSelectEmployee 
+                    assignedEmployee = {assignedEmployees}
                     employees = {props.employees}
-                    selectEmployee = {selectEmployee}
                     assignMission={props.assignMission}
                     index={2}/>
                 </Col>

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import MissionAssignModal from './missionAssignModal';
 
 function MissionList(props) {
+    const [assignedEmployees] = useState(props.assignedEmployees)
     const [modalShow, setModalShow] = useState(false);
 
     return(
@@ -25,6 +26,7 @@ function MissionList(props) {
         employees={props.employees}
         newMission={props.newMission}
         addMission={props.addMission}
+        assignedEmployees = {assignedEmployees}
         assignMission={props.assignMission}
         clearEmployeeAssignment = {props.clearEmployeeAssignment}
         show={modalShow}

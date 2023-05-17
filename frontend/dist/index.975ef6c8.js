@@ -26869,18 +26869,11 @@ function App() {
     function clearEmployeeAssignment() {
         assignedEmployees.map(function(employee) {
             if (!Number.isInteger(employee)) {
-                console.log("Running clear Employe Assign", employee);
-                if (activeMissions.length === 0) {
-                    console.log("Clearing", employee);
-                    updateEmployeeAssignment(employee);
-                } else activeMissions.map(function(mission) {
+                if (activeMissions.length == 0) updateEmployeeAssignment(employee);
+                else activeMissions.map(function(mission) {
                     mission.missionAssignedEmployees.map(function(assignedEmployee) {
-                        console.log("assigned employee:", assignedEmployee);
                         if (assignedEmployee == employee) console.log(employee.employeeName, "Can't Clear Employee Assignment, currently in Mission");
-                        else {
-                            console.log("Clearing", employee);
-                            updateEmployeeAssignment(employee);
-                        }
+                        else updateEmployeeAssignment(employee);
                     });
                 });
             }
@@ -26967,6 +26960,7 @@ function App() {
             if (!Number.isFinite(employee)) mission.missionAssignedEmployees.push(employee);
         });
         activeMissions.push(mission);
+        clearEmployeeAssignment();
         var index = newMissions.findIndex(function(obj) {
             return obj.missionId === mission.missionId;
         });
@@ -26993,21 +26987,18 @@ function App() {
                     }
                 });
             });
-            console.log(mission);
         });
     }
     function assignMission(employee, index) {
         if (Number.isFinite(assignedEmployees[index])) {
             updateEmployeeAssignment(employee);
-            console.log("Assigning", employee, "at", index);
             assignedEmployees.splice(index, 1, employee);
         } else {
-            console.log("Removing", employee, "at", index);
             updateEmployeeAssignment(assignedEmployees[index]);
-            console.log("Assigning", employee, "at", index);
             updateEmployeeAssignment(employee);
             assignedEmployees.splice(index, 1, employee);
         }
+        console.log("Assigned Employee", assignedEmployees);
     }
     function getNewMissions() {
         return _getNewMissions.apply(this, arguments);
@@ -27084,7 +27075,7 @@ function App() {
             return setModalShow(false);
         },
         setTime: function setTime() {
-            return setTimeLeft(10);
+            return setTimeLeft(60);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
@@ -27103,6 +27094,7 @@ function App() {
         className: "flex flex-wrap"
     }, /*#__PURE__*/ _react["default"].createElement(_missionDashboard["default"], null), /*#__PURE__*/ _react["default"].createElement(_missionBoard["default"], {
         employees: employees,
+        assignedEmployees: assignedEmployees,
         newMissions: newMissions,
         addMission: addMission,
         clearEmployeeAssignment: clearEmployeeAssignment,
@@ -34314,6 +34306,7 @@ function MissionBoard(props) {
         classNameName: "flex flex-wrap"
     }, props.newMissions.map(function(newMission) {
         return /*#__PURE__*/ _react["default"].createElement(_missionList["default"], {
+            assignedEmployees: props.assignedEmployees,
             key: newMission.missionId,
             newMission: newMission,
             addMission: props.addMission,
@@ -34431,7 +34424,8 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function MissionList(props) {
-    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    var _useState = (0, _react.useState)(props.assignedEmployees), _useState2 = _slicedToArray(_useState, 1), assignedEmployees = _useState2[0];
+    var _useState3 = (0, _react.useState)(false), _useState4 = _slicedToArray(_useState3, 2), modalShow = _useState4[0], setModalShow = _useState4[1];
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "py-8 px-8 max-w-sm mx-auto bg-white rounded-xl border border-2  border-indigo-600 space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6"
     }, /*#__PURE__*/ _react["default"].createElement("img", {
@@ -34455,6 +34449,7 @@ function MissionList(props) {
         employees: props.employees,
         newMission: props.newMission,
         addMission: props.addMission,
+        assignedEmployees: assignedEmployees,
         assignMission: props.assignMission,
         clearEmployeeAssignment: props.clearEmployeeAssignment,
         show: modalShow,
@@ -34585,12 +34580,7 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function MissionAssignModal(props) {
-    var _useState = (0, _react.useState)([]), _useState2 = _slicedToArray(_useState, 2), assignEmployees = _useState2[0], setAssignEmployees = _useState2[1]; //pass In props.newMission.missionAssignedEmployees() to push elements
-    var _useState3 = (0, _react.useState)([
-        1,
-        2,
-        3
-    ]), _useState4 = _slicedToArray(_useState3, 2), selectEmployee = _useState4[0], setSelectEmployee = _useState4[1];
+    var _useState = (0, _react.useState)(props.assignedEmployees), _useState2 = _slicedToArray(_useState, 1), assignedEmployees = _useState2[0]; //pass In props.newMission.missionAssignedEmployees() to push elements
     return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
         "aria-labelledby": "contained-modal-title-vcenter",
@@ -34606,18 +34596,18 @@ function MissionAssignModal(props) {
     }, "New Mission: ", props.newMission.missionDetail.missionType)), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, {
         className: "flex flex-wrap place-content-center"
     }, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        assignedEmployee: assignedEmployees,
         employees: props.employees,
-        selectEmployee: selectEmployee,
         assignMission: props.assignMission,
         index: 0
     })), /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        assignedEmployee: assignedEmployees,
         employees: props.employees,
-        selectEmployee: selectEmployee,
         assignMission: props.assignMission,
         index: 1
     })), /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        assignedEmployee: assignedEmployees,
         employees: props.employees,
-        selectEmployee: selectEmployee,
         assignMission: props.assignMission,
         index: 2
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
@@ -34665,6 +34655,7 @@ var _Button = _interopRequireDefault(require("d45637816540e19b"));
 var _Card = _interopRequireDefault(require("d8810ba95178287f"));
 var _Placeholder = _interopRequireDefault(require("119fb0877d110408"));
 var _missionListEmployees = _interopRequireDefault(require("2502881ec835c0f4"));
+var _missionEmployeeModalStat = _interopRequireDefault(require("248d57ac38d45dd9"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -34740,11 +34731,14 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function MissionSelectEmployee(props) {
-    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    var _useState = (0, _react.useState)(props.index), _useState2 = _slicedToArray(_useState, 1), index = _useState2[0];
+    var _useState3 = (0, _react.useState)(props.assignedEmployee), _useState4 = _slicedToArray(_useState3, 1), assignedEmployee = _useState4[0];
+    var _useState5 = (0, _react.useState)(false), _useState6 = _slicedToArray(_useState5, 2), modalShow = _useState6[0], setModalShow = _useState6[1];
     var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/man-shape.png";
+    var employeeExist = Number.isFinite(assignedEmployee[index]);
     return /*#__PURE__*/ _react["default"].createElement("div", {
-        className: "d-flex justify-content-around"
-    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        className: "justify-content-around"
+    }, employeeExist ? /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         style: {
             width: "14rem"
         }
@@ -34769,14 +34763,15 @@ function MissionSelectEmployee(props) {
         xs: 6
     }), " ", /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
         xs: 8
-    })), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+    })))) : /*#__PURE__*/ _react["default"].createElement(_missionEmployeeModalStat["default"], {
+        selectedEmployee: assignedEmployee[index]
+    }), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         variant: "primary",
         onClick: function onClick() {
             setModalShow(true);
         }
-    }, "Pick Employee"))), /*#__PURE__*/ _react["default"].createElement(_missionListEmployees["default"], {
+    }, "Pick Employee"), /*#__PURE__*/ _react["default"].createElement(_missionListEmployees["default"], {
         employees: props.employees,
-        selectEmployee: props.selectEmployee,
         index: props.index,
         assignMission: props.assignMission,
         show: modalShow,
@@ -34796,7 +34791,7 @@ $RefreshReg$(_c, "MissionSelectEmployee");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"1a053e723c8a4b8":"21dqq","d45637816540e19b":"aPzUt","d8810ba95178287f":"lAynp","119fb0877d110408":"fw5xV","2502881ec835c0f4":"6HaeL","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"fw5xV":[function(require,module,exports) {
+},{"1a053e723c8a4b8":"21dqq","d45637816540e19b":"aPzUt","d8810ba95178287f":"lAynp","119fb0877d110408":"fw5xV","2502881ec835c0f4":"6HaeL","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","248d57ac38d45dd9":"4yeS9"}],"fw5xV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _react = require("react");
@@ -35254,6 +35249,132 @@ $RefreshReg$(_c, "MissionSelectedEmployeeStat");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"63f00eba3ba371f2":"21dqq","c5d5bac2922a2597":"lAynp","af010ec29cb457f1":"4tGXh","b7305eca6c881695":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"63f00eba3ba371f2":"21dqq","c5d5bac2922a2597":"lAynp","af010ec29cb457f1":"4tGXh","b7305eca6c881695":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"4yeS9":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$fc59 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$fc59.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("84149fe6e20dc46e"));
+var _Card = _interopRequireDefault(require("c0d0e7689d398aef"));
+var _ListGroup = _interopRequireDefault(require("6ac957cb9053375"));
+var _Button = _interopRequireDefault(require("735a4dab30c92948"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionEmployeeModalStat(props) {
+    var _useState = (0, _react.useState)(props.selectedEmployee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
+    var _useState3 = (0, _react.useState)(employee.employeeImg), _useState4 = _slicedToArray(_useState3, 1), img = _useState4[0];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        className: "place-items-center ",
+        style: {
+            width: "14rem"
+        }
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+        className: "mt-3",
+        variant: "top",
+        src: image
+    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employee.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
+        className: "list-group-flush"
+    }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employee.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[0].skillName, ": ", employee.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[1].skillName, ": ", employee.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[2].skillName, ": ", employee.employeeSkills[2].skillValue)))));
+}
+_c = MissionEmployeeModalStat;
+var _default = MissionEmployeeModalStat;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionEmployeeModalStat");
+
+  $parcel$ReactRefreshHelpers$fc59.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"84149fe6e20dc46e":"21dqq","c0d0e7689d398aef":"lAynp","6ac957cb9053375":"4tGXh","735a4dab30c92948":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map
