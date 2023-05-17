@@ -160,11 +160,11 @@ function App() {
 
         const quantity = (Math.floor(Math.random() * 3))
 
-        while (newMissions.length != quantity) {
+        while (newMissions.length != 3) {
             const response = await fetch(process.env.BACKEND_ENDPOINT+'/mission/new');
             const json = await response.json();
 
-            newMissions.push({
+            const mission = {
                 missionId: json.mission.missionId,
                 missionLevel: json.mission.missionLevel,
                 missionReward: json.mission.missionReward,
@@ -173,10 +173,16 @@ function App() {
                 missionDetail: json.mission.missionDetail,
                 missionExpiration: json.mission.missionExpiration,
                 missionAssignedEmployees: json.mission.missionAssignedEmployees
-            }) 
+            }
+
+            newMissions.push(mission) 
             
         }
     };
+
+    useEffect(() => {
+        getNewMissions();
+      }, []);
 
     //=================MISSIONS CONFIG END HERE=====================
 
@@ -190,7 +196,7 @@ function App() {
             getNewMissions = {getNewMissions}
             show={modalShow}
             onHide={() => setModalShow(false)}
-            setTime={()=> setTimeLeft(60)}/>
+            setTime={()=> setTimeLeft(900)}/>
         
         <div className="App">
             <div className='flex'>

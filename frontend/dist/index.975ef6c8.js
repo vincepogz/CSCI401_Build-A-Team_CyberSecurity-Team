@@ -26936,15 +26936,15 @@ function App() {
     }
     function _getNewMissions() {
         _getNewMissions = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee2() {
-            var quantity, response, json;
+            var quantity, response, json, mission;
             return _regeneratorRuntime().wrap(function _callee2$(_context2) {
                 while(true)switch(_context2.prev = _context2.next){
                     case 0:
                         while(newMissions.length != 0)newMissions.pop();
                         quantity = Math.floor(Math.random() * 3);
                     case 2:
-                        if (!(newMissions.length != quantity)) {
-                            _context2.next = 12;
+                        if (!(newMissions.length != 3)) {
+                            _context2.next = 13;
                             break;
                         }
                         _context2.next = 5;
@@ -26955,7 +26955,7 @@ function App() {
                         return response.json();
                     case 8:
                         json = _context2.sent;
-                        newMissions.push({
+                        mission = {
                             missionId: json.mission.missionId,
                             missionLevel: json.mission.missionLevel,
                             missionReward: json.mission.missionReward,
@@ -26964,10 +26964,11 @@ function App() {
                             missionDetail: json.mission.missionDetail,
                             missionExpiration: json.mission.missionExpiration,
                             missionAssignedEmployees: json.mission.missionAssignedEmployees
-                        });
+                        };
+                        newMissions.push(mission);
                         _context2.next = 2;
                         break;
-                    case 12:
+                    case 13:
                     case "end":
                         return _context2.stop();
                 }
@@ -26975,6 +26976,9 @@ function App() {
         }));
         return _getNewMissions.apply(this, arguments);
     }
+    (0, _react.useEffect)(function() {
+        getNewMissions();
+    }, []);
     //=================MISSIONS CONFIG END HERE=====================
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
         company: company,
@@ -26987,7 +26991,7 @@ function App() {
             return setModalShow(false);
         },
         setTime: function setTime() {
-            return setTimeLeft(60);
+            return setTimeLeft(900);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
