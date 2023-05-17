@@ -26352,6 +26352,8 @@ var _gameSystem = _interopRequireDefault(require("a061848674532474"));
 var _companyDashboard = _interopRequireDefault(require("211529aee10b3c22"));
 var _employeeDashboard = _interopRequireDefault(require("5004080bfc6550bb"));
 var _gameRoundDashboard = _interopRequireDefault(require("1d30b1ee9d8133d4"));
+var _missionDashboard = _interopRequireDefault(require("58d988cb2ad4802b"));
+var _missionBoard = _interopRequireDefault(require("4905ff908cfec6d"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
@@ -26792,6 +26794,7 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function App() {
+    //=================SYSTEM CONFIG START HERE=====================
     var _useState = (0, _react.useState)(true), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
     var _useState3 = (0, _react.useState)({
         name: "New Company",
@@ -26799,12 +26802,15 @@ function App() {
         current_cost: 0,
         img: "https://www.jjay.cuny.edu/sites/default/files/marketing_development/logos/JJC_Logo.png"
     }), _useState4 = _slicedToArray(_useState3, 2), company = _useState4[0], setCompany = _useState4[1];
-    var _useState5 = (0, _react.useState)([]), _useState6 = _slicedToArray(_useState5, 2), employees = _useState6[0], setEmployees = _useState6[1];
-    var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), newHires = _useState8[0], setNewHires = _useState8[1];
-    var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), activeMissions = _useState10[0], setActiveMissions = _useState10[1];
-    var _useState11 = (0, _react.useState)(null), _useState12 = _slicedToArray(_useState11, 2), timeLeft = _useState12[0], setTimeLeft = _useState12[1];
+    var _useState5 = (0, _react.useState)(null), _useState6 = _slicedToArray(_useState5, 2), timeLeft = _useState6[0], setTimeLeft = _useState6[1];
     (0, _react.useEffect)(function() {
-        if (timeLeft === 0) updateGame();
+        if (timeLeft === 0) {
+            updateGame();
+            getNewHires();
+            getNewMissions();
+            if (company.current_cash <= 0) setTimeLeft(null);
+            else setTimeLeft(60);
+        }
         if (!timeLeft) return;
         var intervalId = setInterval(function() {
             setTimeLeft(timeLeft - 1);
@@ -26815,16 +26821,21 @@ function App() {
     }, [
         timeLeft
     ]);
-    function updateGame() {
-        if (company.current_cash <= 0) setTimeLeft(null);
-        else {
-            setTimeLeft(60);
-            var new_cash = company.current_cash - company.current_cost;
-            setCompany(_objectSpread(_objectSpread({}, company), {}, {
-                current_cash: new_cash
-            }));
-        }
+    function setGame(newName, company) {
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            name: newName
+        }));
     }
+    function updateGame() {
+        var new_cash = company.current_cash - company.current_cost;
+        setCompany(_objectSpread(_objectSpread({}, company), {}, {
+            current_cash: new_cash
+        }));
+    }
+    //==================SYSTEM CONFIG END HERE======================
+    //================EMPLOYEE CONFIG START HERE====================
+    var _useState7 = (0, _react.useState)([]), _useState8 = _slicedToArray(_useState7, 2), employees = _useState8[0], setEmployees = _useState8[1];
+    var _useState9 = (0, _react.useState)([]), _useState10 = _slicedToArray(_useState9, 2), newHires = _useState10[0], setNewHires = _useState10[1];
     function addEmployee(employee) {
         var new_cost = company.current_cost + employee.employeeSalary;
         employees.push(employee);
@@ -26846,10 +26857,13 @@ function App() {
             current_cost: new_cost
         }));
     }
-    function setGame(newName, company) {
-        setCompany(_objectSpread(_objectSpread({}, company), {}, {
-            name: newName
-        }));
+    function updateEmployeeAssignment(employee) {
+        var newAssignment = !employee.employeeTasked;
+        var index = employees.findIndex(function(obj) {
+            return obj.employeeId === employee.employeeId;
+        });
+        employees[index].employeeTasked = newAssignment;
+        console.log("Updating Employee Tasked", employees[index]);
     }
     function getNewHires() {
         return _getNewHires.apply(this, arguments);
@@ -26860,17 +26874,19 @@ function App() {
             return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while(true)switch(_context.prev = _context.next){
                     case 0:
+                        while(newHires.length != 0)newHires.pop();
+                    case 1:
                         if (!(newHires.length != 3)) {
-                            _context.next = 10;
+                            _context.next = 11;
                             break;
                         }
-                        _context.next = 3;
+                        _context.next = 4;
                         return fetch("http://localhost:3000/employee/new");
-                    case 3:
+                    case 4:
                         response = _context.sent;
-                        _context.next = 6;
+                        _context.next = 7;
                         return response.json();
-                    case 6:
+                    case 7:
                         json = _context.sent;
                         newHires.push({
                             employeeId: json.employee.employeeId,
@@ -26881,9 +26897,9 @@ function App() {
                             employeeSalary: json.employee.employeeSalary,
                             employeeSkills: json.employee.employeeSkills
                         });
-                        _context.next = 0;
+                        _context.next = 1;
                         break;
-                    case 10:
+                    case 11:
                     case "end":
                         return _context.stop();
                 }
@@ -26891,22 +26907,92 @@ function App() {
         }));
         return _getNewHires.apply(this, arguments);
     }
+    //=================EMPLOYEE CONFIG END HERE=====================
+    //================MISSIONS CONFIG START HERE====================
+    var _useState11 = (0, _react.useState)([]), _useState12 = _slicedToArray(_useState11, 2), activeMissions = _useState12[0], setActiveMissions = _useState12[1];
+    var _useState13 = (0, _react.useState)([]), _useState14 = _slicedToArray(_useState13, 2), newMissions = _useState14[0], setNewMissions = _useState14[1];
+    var _useState15 = (0, _react.useState)([
+        ,
+        , 
+    ]), _useState16 = _slicedToArray(_useState15, 2), assignedEmployees = _useState16[0], setAssignEmployees = _useState16[1];
+    function addMission(mission) {}
+    function removeMission(mission) {}
+    function updateMission(mission) {}
+    function assignMission(employee, index) {
+        if (assignedEmployees[index] == null) {
+            console.log("empty, adding");
+            updateEmployeeAssignment(employee);
+            assignedEmployees.splice(index, 0, employee);
+        } else {
+            updateEmployeeAssignment(assignedEmployees[index]);
+            console.log("Unassigned: ", assignedEmployees[index]);
+            updateEmployeeAssignment(employee);
+            assignedEmployees.splice(index, 1, employee);
+        }
+        console.log("Assigned: ", assignedEmployees);
+    }
+    function getNewMissions() {
+        return _getNewMissions.apply(this, arguments);
+    }
+    function _getNewMissions() {
+        _getNewMissions = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee2() {
+            var quantity, response, json;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+                while(true)switch(_context2.prev = _context2.next){
+                    case 0:
+                        while(newMissions.length != 0)newMissions.pop();
+                        quantity = Math.floor(Math.random() * 3);
+                    case 2:
+                        if (!(newMissions.length != 3)) {
+                            _context2.next = 12;
+                            break;
+                        }
+                        _context2.next = 5;
+                        return fetch("http://localhost:3000/mission/new");
+                    case 5:
+                        response = _context2.sent;
+                        _context2.next = 8;
+                        return response.json();
+                    case 8:
+                        json = _context2.sent;
+                        newMissions.push({
+                            missionId: json.mission.missionId,
+                            missionLevel: json.mission.missionLevel,
+                            missionReward: json.mission.missionReward,
+                            missionRequiredPoints: json.mission.missionRequiredPoints,
+                            missionCurrentPoints: json.mission.missionCurrentPoints,
+                            missionDetail: json.mission.missionDetail,
+                            missionExpiration: json.mission.missionExpiration,
+                            missionAssignedEmployees: json.mission.missionAssignedEmployees
+                        });
+                        _context2.next = 2;
+                        break;
+                    case 12:
+                    case "end":
+                        return _context2.stop();
+                }
+            }, _callee2);
+        }));
+        return _getNewMissions.apply(this, arguments);
+    }
+    //=================MISSIONS CONFIG END HERE=====================
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
         company: company,
         setGame: setGame,
         newHires: newHires,
         getNewHires: getNewHires,
+        getNewMissions: getNewMissions,
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
         },
         setTime: function setTime() {
-            return setTimeLeft(60);
+            return setTimeLeft(900);
         }
     }), /*#__PURE__*/ _react["default"].createElement("div", {
         className: "App"
     }, /*#__PURE__*/ _react["default"].createElement("div", {
-        className: "flex-wrap"
+        className: "flex"
     }, /*#__PURE__*/ _react["default"].createElement(_companyDashboard["default"], {
         company: company
     }), /*#__PURE__*/ _react["default"].createElement(_employeeDashboard["default"], {
@@ -26916,6 +27002,13 @@ function App() {
         removeEmployee: removeEmployee
     }), /*#__PURE__*/ _react["default"].createElement(_gameRoundDashboard["default"], {
         timeLeft: timeLeft
+    })), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex flex-wrap"
+    }, /*#__PURE__*/ _react["default"].createElement(_missionDashboard["default"], null), /*#__PURE__*/ _react["default"].createElement(_missionBoard["default"], {
+        employees: employees,
+        activeMissions: activeMissions,
+        newMissions: newMissions,
+        assignMission: assignMission
     }))));
 }
 _c = App;
@@ -26929,7 +27022,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","5004080bfc6550bb":"h4Wkw","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","1d30b1ee9d8133d4":"2r1Vu"}],"8zMP7":[function(require,module,exports) {
+},{"48e951655a6cdd2":"21dqq","a061848674532474":"8zMP7","211529aee10b3c22":"eKbuG","5004080bfc6550bb":"h4Wkw","1d30b1ee9d8133d4":"2r1Vu","58d988cb2ad4802b":"6TjzO","4905ff908cfec6d":"5g9jV","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"8zMP7":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$6d90 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27008,7 +27101,8 @@ function GameStart(props) {
         onSubmit: function onSubmit(e) {
             e.preventDefault();
             props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
-            props.getNewHires(props.newHires);
+            props.getNewHires();
+            props.getNewMissions();
             props.setTime();
         }
     }, /*#__PURE__*/ _react["default"].createElement(_InputGroup["default"], {
@@ -33466,51 +33560,17 @@ $parcel$ReactRefreshHelpers$79dd.prelude(module);
 try {
 var _s = $RefreshSig$();
 "use strict";
-function _typeof(obj) {
-    "@babel/helpers - typeof";
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-        return typeof obj;
-    } : function(obj) {
-        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
-}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireWildcard(require("62b91b056b886c4e"));
+var _react = _interopRequireDefault(require("62b91b056b886c4e"));
 var _Card = _interopRequireDefault(require("26fa3f6e47c768f2"));
 var _activeEmployeeStatModal = _interopRequireDefault(require("44dd90c2ed90ade4"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
-}
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interopRequireWildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) return obj;
-    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
-        "default": obj
-    };
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) return cache.get(obj);
-    var newObj = {};
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
-        else newObj[key] = obj[key];
-    }
-    newObj["default"] = obj;
-    if (cache) cache.set(obj, newObj);
-    return newObj;
 }
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -33559,7 +33619,7 @@ function ActiveEmployeeList(props) {
     _s();
     var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
-        className: "place-items-center m-2",
+        className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
         style: {
             width: "10rem"
         }
@@ -33660,18 +33720,14 @@ function ActiveEmployeeStatModal(props) {
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({
         size: "sm",
         "aria-labelledby": "contained-modal-title-vcenter",
-        centered: true,
-        backdrop: "static"
+        centered: true
     }, props), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
         id: "contained-modal-title-vcenter"
     }, "Employee Information")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_activeEmployeeStat["default"], {
         employee: props.employee,
         removeEmployee: props.removeEmployee,
         onHide: props.onHide
-    })), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
-        className: "bg-sky-500",
-        onClick: props.onHide
-    }, "Close"))));
+    }))));
 }
 _c = ActiveEmployeeStatModal;
 var _default = ActiveEmployeeStatModal;
@@ -33938,6 +33994,1031 @@ $RefreshReg$(_c, "GameRoundDashboard");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"8dde5662650960c1":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","4a4bc18a42c04864":"aPzUt"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
+},{"8dde5662650960c1":"21dqq","4a4bc18a42c04864":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6TjzO":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6df6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$6df6.prelude(module);
+
+try {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireDefault(require("4a1caffc28b7a0ea"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function MissionDashboard(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, "H")));
+}
+_c = MissionDashboard;
+var _default = MissionDashboard;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionDashboard");
+
+  $parcel$ReactRefreshHelpers$6df6.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"4a1caffc28b7a0ea":"21dqq","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"5g9jV":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$8483 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$8483.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("5a7688abc553d9c3"));
+var _Button = _interopRequireDefault(require("9e8bf00e49581b9c"));
+var _missionList = _interopRequireDefault(require("b8b3caaf0165f5fd"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function MissionBoard(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "md:flex"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        classNameName: "p-8"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "mb-5 uppercase tracking-wide text-lg text-indigo-500 font-semibold"
+    }, "MISSION BOARD"), /*#__PURE__*/ _react["default"].createElement("div", {
+        classNameName: "flex flex-wrap"
+    }, props.newMissions.map(function(newMission) {
+        return /*#__PURE__*/ _react["default"].createElement(_missionList["default"], {
+            newMission: newMission,
+            employees: props.employees,
+            assignMission: props.assignMission
+        });
+    }))))));
+}
+_c = MissionBoard;
+var _default = MissionBoard;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionBoard");
+
+  $parcel$ReactRefreshHelpers$8483.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"5a7688abc553d9c3":"21dqq","9e8bf00e49581b9c":"aPzUt","b8b3caaf0165f5fd":"ahoQa","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"ahoQa":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$540b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$540b.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("192aa767f8d8bfd2"));
+var _missionAssignModal = _interopRequireDefault(require("dd65e139932962"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionList(props) {
+    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "py-8 px-8 max-w-sm mx-auto bg-white rounded-xl border border-2  border-indigo-600 space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6"
+    }, /*#__PURE__*/ _react["default"].createElement("img", {
+        className: "block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0",
+        src: "https://cdn-icons-png.flaticon.com/512/1409/1409014.png",
+        alt: "Woman's Face"
+    }), /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "text-center space-y-2 sm:text-left"
+    }, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "space-y-0.5"
+    }, /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "text-lg text-black font-semibold"
+    }, props.newMission.missionDetail.missionType), /*#__PURE__*/ _react["default"].createElement("p", {
+        className: "text-slate-500 font-medium"
+    }, "Reward: $", props.newMission.missionReward)), /*#__PURE__*/ _react["default"].createElement("button", {
+        className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border bg-green-600 border-green-200 hover:text-white hover:bg-green-600 hover:border-transparent",
+        onClick: function onClick() {
+            return setModalShow(true);
+        }
+    }, "More Details"))), /*#__PURE__*/ _react["default"].createElement(_missionAssignModal["default"], {
+        employees: props.employees,
+        newMission: props.newMission,
+        assignMission: props.assignMission,
+        show: modalShow,
+        onHide: function onHide() {
+            return setModalShow(false);
+        }
+    }));
+}
+_c = MissionList;
+var _default = MissionList;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionList");
+
+  $parcel$ReactRefreshHelpers$540b.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"192aa767f8d8bfd2":"21dqq","dd65e139932962":"9NmXb","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"9NmXb":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$4520 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$4520.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("7bd070a9d55fd720"));
+var _Button = _interopRequireDefault(require("17b594281a68d5b8"));
+var _Modal = _interopRequireDefault(require("a146e71348e45828"));
+var _Row = _interopRequireDefault(require("6c9c4f4306ec5c6d"));
+var _Col = _interopRequireDefault(require("6e815224f20721b8"));
+var _missionSelectEmployees = _interopRequireDefault(require("d14190bf2b43b5c9"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionAssignModal(props) {
+    var _useState = (0, _react.useState)([]), _useState2 = _slicedToArray(_useState, 2), assignEmployees = _useState2[0], setAssignEmployees = _useState2[1]; //pass In props.newMission.missionAssignedEmployees() to push elements
+    var _useState3 = (0, _react.useState)([
+        1,
+        2,
+        3
+    ]), _useState4 = _slicedToArray(_useState3, 2), selectEmployee = _useState4[0], setSelectEmployee = _useState4[1];
+    return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "New Mission: ", props.newMission.missionDetail.missionType)), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, {
+        className: "flex flex-wrap place-content-center"
+    }, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        employees: props.employees,
+        selectEmployee: selectEmployee,
+        assignMission: props.assignMission,
+        index: 0
+    })), /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        employees: props.employees,
+        selectEmployee: selectEmployee,
+        assignMission: props.assignMission,
+        index: 1
+    })), /*#__PURE__*/ _react["default"].createElement(_Col["default"], null, /*#__PURE__*/ _react["default"].createElement(_missionSelectEmployees["default"], {
+        employees: props.employees,
+        selectEmployee: selectEmployee,
+        assignMission: props.assignMission,
+        index: 2
+    })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "",
+        variant: "success",
+        onClick: props.onHide
+    }, "Accept")));
+}
+_c = MissionAssignModal;
+var _default = MissionAssignModal;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionAssignModal");
+
+  $parcel$ReactRefreshHelpers$4520.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"7bd070a9d55fd720":"21dqq","17b594281a68d5b8":"aPzUt","a146e71348e45828":"aNVmp","6c9c4f4306ec5c6d":"cMC39","6e815224f20721b8":"2L2I6","d14190bf2b43b5c9":"4jzVM","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"4jzVM":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$26c3 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$26c3.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("1a053e723c8a4b8"));
+var _Button = _interopRequireDefault(require("d45637816540e19b"));
+var _Card = _interopRequireDefault(require("d8810ba95178287f"));
+var _Placeholder = _interopRequireDefault(require("119fb0877d110408"));
+var _missionListEmployees = _interopRequireDefault(require("2502881ec835c0f4"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionSelectEmployee(props) {
+    var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    return /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "d-flex justify-content-around"
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        style: {
+            width: "14rem"
+        }
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+        variant: "top",
+        src: "holder.js/100px180"
+    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        as: _Card["default"].Title,
+        animation: "glow"
+    }, /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 6
+    })), /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        as: _Card["default"].Text,
+        animation: "glow"
+    }, /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 7
+    }), " ", /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 4
+    }), " ", /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 4
+    }), " ", /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 6
+    }), " ", /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
+        xs: 8
+    })), /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        variant: "primary",
+        onClick: function onClick() {
+            setModalShow(true);
+        }
+    }, "Pick Employee ", props.index))), /*#__PURE__*/ _react["default"].createElement(_missionListEmployees["default"], {
+        employees: props.employees,
+        selectEmployee: props.selectEmployee,
+        index: props.index,
+        assignMission: props.assignMission,
+        show: modalShow,
+        onHide: function onHide() {
+            setModalShow(false);
+        }
+    }));
+}
+_c = MissionSelectEmployee;
+var _default = MissionSelectEmployee;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionSelectEmployee");
+
+  $parcel$ReactRefreshHelpers$26c3.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"1a053e723c8a4b8":"21dqq","d45637816540e19b":"aPzUt","d8810ba95178287f":"lAynp","119fb0877d110408":"fw5xV","2502881ec835c0f4":"6HaeL","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"fw5xV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+var _usePlaceholder = require("./usePlaceholder");
+var _usePlaceholderDefault = parcelHelpers.interopDefault(_usePlaceholder);
+var _placeholderButton = require("./PlaceholderButton");
+var _placeholderButtonDefault = parcelHelpers.interopDefault(_placeholderButton);
+var _jsxRuntime = require("react/jsx-runtime");
+const Placeholder = /*#__PURE__*/ _react.forwardRef(({ as: Component = "span" , ...props }, ref)=>{
+    const placeholderProps = (0, _usePlaceholderDefault.default)(props);
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(Component, {
+        ...placeholderProps,
+        ref: ref
+    });
+});
+Placeholder.displayName = "Placeholder";
+exports.default = Object.assign(Placeholder, {
+    Button: (0, _placeholderButtonDefault.default)
+});
+
+},{"react":"21dqq","./usePlaceholder":"4BAv2","./PlaceholderButton":"dRc7O","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4BAv2":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _themeProvider = require("./ThemeProvider");
+var _col = require("./Col");
+function usePlaceholder({ animation , bg , bsPrefix , size , ...props }) {
+    bsPrefix = (0, _themeProvider.useBootstrapPrefix)(bsPrefix, "placeholder");
+    const [{ className , ...colProps }] = (0, _col.useCol)(props);
+    return {
+        ...colProps,
+        className: (0, _classnamesDefault.default)(className, animation ? `${bsPrefix}-${animation}` : bsPrefix, size && `${bsPrefix}-${size}`, bg && `bg-${bg}`)
+    };
+}
+exports.default = usePlaceholder;
+
+},{"classnames":"jocGM","./ThemeProvider":"dVixI","./Col":"2L2I6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dRc7O":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _react = require("react");
+var _button = require("./Button");
+var _buttonDefault = parcelHelpers.interopDefault(_button);
+var _usePlaceholder = require("./usePlaceholder");
+var _usePlaceholderDefault = parcelHelpers.interopDefault(_usePlaceholder);
+var _jsxRuntime = require("react/jsx-runtime");
+const PlaceholderButton = /*#__PURE__*/ _react.forwardRef((props, ref)=>{
+    const placeholderProps = (0, _usePlaceholderDefault.default)(props);
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)((0, _buttonDefault.default), {
+        ...placeholderProps,
+        ref: ref,
+        disabled: true,
+        tabIndex: -1
+    });
+});
+PlaceholderButton.displayName = "PlaceholderButton";
+exports.default = PlaceholderButton;
+
+},{"react":"21dqq","./Button":"aPzUt","./usePlaceholder":"4BAv2","react/jsx-runtime":"6AEwr","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6HaeL":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$bff9 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$bff9.prelude(module);
+
+try {
+var _s = $RefreshSig$();
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("bf92f430f8ededeb"));
+var _Modal = _interopRequireDefault(require("834859146a6761a"));
+var _Row = _interopRequireDefault(require("c3935e88a3ea18ea"));
+var _Button = _interopRequireDefault(require("5cc9a6166e1270c0"));
+var _Card = _interopRequireDefault(require("32a19c84f2d244fc"));
+var _missionSelectedEmployeeModal = _interopRequireDefault(require("ca225c7a1cc19895"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionListEmployee(props) {
+    _s();
+    var _useState = (0, _react.useState)(), _useState2 = _slicedToArray(_useState, 2), selectedEmployee = _useState2[0], setSelectedEmployee = _useState2[1];
+    var _useState3 = (0, _react.useState)(props.employees), _useState4 = _slicedToArray(_useState3, 1), employees = _useState4[0];
+    var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
+        size: "lg",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
+        closeButton: true
+    }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "View Available Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement("div", {
+        className: "flex flex-wrap place-content-center"
+    }, employees.map(function(employee) {
+        if (employee.employeeTasked != true) return /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+            className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
+            style: {
+                width: "10rem"
+            }
+        }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+            className: "mt-3",
+            variant: "top",
+            src: "https://cdn-icons-png.flaticon.com/512/912/912316.png",
+            onClick: function onClick() {
+                setSelectedEmployee(employee);
+                setModalShow(true);
+            }
+        }), employee.employeeName));
+    })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-sky-500",
+        onClick: function onClick() {
+            props.onHide();
+        }
+    }, "Close"))), /*#__PURE__*/ _react["default"].createElement(_missionSelectedEmployeeModal["default"], {
+        selectedEmployee: selectedEmployee,
+        assignMission: props.assignMission,
+        index: props.index,
+        show: modalShow,
+        onHide: function onHide() {
+            setModalShow(false);
+        },
+        bothHide: function bothHide() {
+            setModalShow(false);
+            props.onHide();
+        }
+    }));
+}
+_s(MissionListEmployee, "EcWeNYHKV1pdqSp56hDCswwS0c8=");
+_c = MissionListEmployee;
+var _default = MissionListEmployee;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionListEmployee");
+
+  $parcel$ReactRefreshHelpers$bff9.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"bf92f430f8ededeb":"21dqq","834859146a6761a":"aNVmp","c3935e88a3ea18ea":"cMC39","5cc9a6166e1270c0":"aPzUt","32a19c84f2d244fc":"lAynp","ca225c7a1cc19895":"dI4wp","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"dI4wp":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$b2b3 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$b2b3.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("1ecfb6840b790a01"));
+var _Button = _interopRequireDefault(require("620924f98ec894c"));
+var _Modal = _interopRequireDefault(require("ebb686e9f5e05752"));
+var _missionSelectedEmployeeStat = _interopRequireDefault(require("5e853dc5f518e73e"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _extends() {
+    _extends = Object.assign ? Object.assign.bind() : function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
+function MissionSelectedEmployeeModal(props) {
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({
+        size: "sm",
+        "aria-labelledby": "contained-modal-title-vcenter",
+        centered: true
+    }, props), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
+        id: "contained-modal-title-vcenter"
+    }, "Employee Information")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_missionSelectedEmployeeStat["default"], {
+        selectedEmployee: props.selectedEmployee,
+        assignMission: props.assignMission,
+        index: props.index,
+        onHide: props.onHide,
+        bothHide: props.bothHide
+    }))));
+}
+_c = MissionSelectedEmployeeModal;
+var _default = MissionSelectedEmployeeModal;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionSelectedEmployeeModal");
+
+  $parcel$ReactRefreshHelpers$b2b3.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"1ecfb6840b790a01":"21dqq","620924f98ec894c":"aPzUt","ebb686e9f5e05752":"aNVmp","5e853dc5f518e73e":"lWzAK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lWzAK":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$8b8c = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$8b8c.prelude(module);
+
+try {
+"use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports["default"] = void 0;
+var _react = _interopRequireWildcard(require("63f00eba3ba371f2"));
+var _Card = _interopRequireDefault(require("c5d5bac2922a2597"));
+var _ListGroup = _interopRequireDefault(require("af010ec29cb457f1"));
+var _Button = _interopRequireDefault(require("b7305eca6c881695"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        "default": obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
+function MissionSelectedEmployeeStat(props) {
+    var _useState = (0, _react.useState)(props.selectedEmployee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
+    return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+        className: "place-items-center ",
+        style: {
+            width: "14rem"
+        }
+    }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+        className: "mt-3",
+        variant: "top",
+        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
+    }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employee.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
+        className: "list-group-flush"
+    }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employee.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[0].skillName, ": ", employee.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[1].skillName, ": ", employee.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[2].skillName, ": ", employee.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
+        className: "bg-red-500",
+        variant: "success",
+        onClick: function onClick() {
+            props.assignMission(employee, props.index);
+            props.bothHide();
+        }
+    }, "Accept")))));
+}
+_c = MissionSelectedEmployeeStat;
+var _default = MissionSelectedEmployeeStat;
+exports["default"] = _default;
+var _c;
+$RefreshReg$(_c, "MissionSelectedEmployeeStat");
+
+  $parcel$ReactRefreshHelpers$8b8c.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"63f00eba3ba371f2":"21dqq","c5d5bac2922a2597":"lAynp","af010ec29cb457f1":"4tGXh","b7305eca6c881695":"aPzUt","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6n0o6":[function() {},{}],"i5LP7":[function() {},{}]},["1xC6H","jC2qd","8lqZg"], "8lqZg", "parcelRequire10c2")
 
 //# sourceMappingURL=index.975ef6c8.js.map

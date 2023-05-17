@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import ActiveEmployeeStat from "./activeEmployeeStat";
+import MissionSelectedEmployeeStat from "./missionSelectedEmployeeStat";
 
-function ActiveEmployeeStatModal(props) {
+function MissionSelectedEmployeeModal(props) {
     
     return (
         <>     
@@ -20,10 +20,12 @@ function ActiveEmployeeStatModal(props) {
             </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <ActiveEmployeeStat 
-            employee={props.employee}
-            removeEmployee = {props.removeEmployee}
+            <MissionSelectedEmployeeStat 
+            selectedEmployee={props.selectedEmployee}
+            assignMission={props.assignMission}
+            index = {props.index}
             onHide = {props.onHide}
+            bothHide = {props.bothHide}
             />
 
         </Modal.Body>
@@ -34,4 +36,4 @@ function ActiveEmployeeStatModal(props) {
     );
     }
 
-export default ActiveEmployeeStatModal;
+export default MissionSelectedEmployeeModal;

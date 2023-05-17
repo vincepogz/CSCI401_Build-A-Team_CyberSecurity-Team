@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ActiveEmployeeStatModal from './activeEmployeeStatModal';
 
@@ -9,7 +9,7 @@ function ActiveEmployeeList(props) {
     return(
         <>
         <div>
-        <Card className='place-items-center m-2' style={{ width: '10rem' }}>
+        <Card className='px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent' style={{ width: '10rem' }}>
           <Card.Img className="mt-3" variant="top" src="https://cdn-icons-png.flaticon.com/512/912/912316.png" onClick={() => setModalShow(true)} />
           {props.employee.employeeName}
         </Card>
