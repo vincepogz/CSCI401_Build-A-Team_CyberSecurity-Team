@@ -1,11 +1,14 @@
+const fetch = require('node-fetch')
 const SKILLS = require('./employeeSkills.json')
 const EMPLOYEE_NAMES = require('./employeeNames.json')
+const EMPLOYEE_IMAGES = require('./employeeImages.json')
 employeeCount = 1; 
 
 const DEFAULT_PROPERTIES = {
     
     employeeId: 0,
     employeeTasked: false,
+    employeeImg: 'unset',
     employeeName: 'unnamed',
     employeeGender: 'unset',
     employeeType: 'unset',
@@ -40,6 +43,18 @@ const getEmployeeName = function (employeeGender) {
     }
 
 }
+
+const getEmployeeImg =  function () {
+    
+    const employeeImg = EMPLOYEE_IMAGES.image[
+        Math.floor(Math.random() * EMPLOYEE_IMAGES.image.length)
+    ].location
+
+    return employeeImg
+
+}
+
+
 
 const getSalaryRange = function (employeeType) {
     if (employeeType == 'high') {
@@ -100,12 +115,14 @@ class Employee {
     constructor(employeeType, employeeGender) {
         this.employeeId = employeeCount++ || DEFAULT_PROPERTIES.employeeId;
         this.employeeTasked = DEFAULT_PROPERTIES.employeeTasked;
+        this.employeeImg = getEmployeeImg() || DEFAULT_PROPERTIES.employeeImg;
         this.employeeName = getEmployeeName(employeeGender) || DEFAULT_PROPERTIES.employeeName;
         this.employeeGender = employeeGender || DEFAULT_PROPERTIES.employeeGender;
         this.employeeType = employeeType || DEFAULT_PROPERTIES.employeeType;
         this.employeeSalary = getEmployeeSalary(employeeType) || DEFAULT_PROPERTIES.employeeSalary;
         this.employeeSkills = getEmployeeSkills(employeeType) || DEFAULT_PROPERTIES.employeeSkills;
     }
+
 }
 
 module.exports = Employee;
