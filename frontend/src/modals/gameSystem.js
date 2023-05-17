@@ -29,7 +29,8 @@ function GameStart(props) {
                 onSubmit={(e) => {
                     e.preventDefault();
                     props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
-                    props.getNewObjects();
+                    props.getNewHires()
+                    props.getNewMissions()
                     props.setTime();
                 }}
             >

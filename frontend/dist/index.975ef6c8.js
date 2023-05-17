@@ -26806,7 +26806,8 @@ function App() {
     (0, _react.useEffect)(function() {
         if (timeLeft === 0) {
             updateGame();
-            getNewObjects();
+            getNewHires();
+            getNewMissions();
             if (company.current_cash <= 0) setTimeLeft(null);
             else setTimeLeft(60);
         }
@@ -26824,77 +26825,6 @@ function App() {
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             name: newName
         }));
-    }
-    function getNewObjects() {
-        return _getNewObjects.apply(this, arguments);
-    }
-    function _getNewObjects() {
-        _getNewObjects = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee() {
-            var newEmployees, json, quantity, generateMissions, _json, mission;
-            return _regeneratorRuntime().wrap(function _callee$(_context) {
-                while(true)switch(_context.prev = _context.next){
-                    case 0:
-                        while(newHires.length != 0)newHires.pop();
-                    case 1:
-                        if (!(newHires.length != 3)) {
-                            _context.next = 11;
-                            break;
-                        }
-                        _context.next = 4;
-                        return fetch("http://localhost:3000/employee/new");
-                    case 4:
-                        newEmployees = _context.sent;
-                        _context.next = 7;
-                        return newEmployees.json();
-                    case 7:
-                        json = _context.sent;
-                        newHires.push({
-                            employeeId: json.employee.employeeId,
-                            employeeTasked: json.employee.employeeTasked,
-                            employeeName: json.employee.employeeName,
-                            employeeGender: json.employee.employeeGender,
-                            employeeType: json.employee.employeeType,
-                            employeeSalary: json.employee.employeeSalary,
-                            employeeSkills: json.employee.employeeSkills
-                        });
-                        _context.next = 1;
-                        break;
-                    case 11:
-                        while(newMissions.length != 0)newMissions.pop();
-                        quantity = Math.floor(Math.random() * 3);
-                    case 13:
-                        if (!(newMissions.length != 3)) {
-                            _context.next = 24;
-                            break;
-                        }
-                        _context.next = 16;
-                        return fetch("http://localhost:3000/mission/new");
-                    case 16:
-                        generateMissions = _context.sent;
-                        _context.next = 19;
-                        return generateMissions.json();
-                    case 19:
-                        _json = _context.sent;
-                        mission = {
-                            missionId: _json.mission.missionId,
-                            missionLevel: _json.mission.missionLevel,
-                            missionReward: _json.mission.missionReward,
-                            missionRequiredPoints: _json.mission.missionRequiredPoints,
-                            missionCurrentPoints: _json.mission.missionCurrentPoints,
-                            missionDetail: _json.mission.missionDetail,
-                            missionExpiration: _json.mission.missionExpiration,
-                            missionAssignedEmployees: _json.mission.missionAssignedEmployees
-                        };
-                        newMissions.push(mission);
-                        _context.next = 13;
-                        break;
-                    case 24:
-                    case "end":
-                        return _context.stop();
-                }
-            }, _callee);
-        }));
-        return _getNewObjects.apply(this, arguments);
     }
     function updateGame() {
         var new_cash = company.current_cash - company.current_cost;
@@ -26935,6 +26865,67 @@ function App() {
         employees[index].employeeTasked = newAssignment;
         console.log("Updating Employee Tasked", employees[index]);
     }
+    function getNewHires() {
+        return _getNewHires.apply(this, arguments);
+    }
+    function _getNewHires() {
+        _getNewHires = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee() {
+            var response, json;
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+                while(true)switch(_context.prev = _context.next){
+                    case 0:
+                        while(newHires.length != 0)newHires.pop();
+                    case 1:
+                        if (!(newHires.length != 3)) {
+                            _context.next = 19;
+                            break;
+                        }
+                        _context.prev = 2;
+                        _context.next = 5;
+                        return fetch("http://localhost:3000/employee/new");
+                    case 5:
+                        response = _context.sent;
+                        if (response.ok) {
+                            _context.next = 8;
+                            break;
+                        }
+                        throw new Error("HTTP error ".concat(response.status));
+                    case 8:
+                        _context.next = 10;
+                        return response.json();
+                    case 10:
+                        json = _context.sent;
+                        newHires.push({
+                            employeeId: json.employee.employeeId,
+                            employeeTasked: json.employee.employeeTasked,
+                            employeeName: json.employee.employeeName,
+                            employeeGender: json.employee.employeeGender,
+                            employeeType: json.employee.employeeType,
+                            employeeSalary: json.employee.employeeSalary,
+                            employeeSkills: json.employee.employeeSkills
+                        });
+                        _context.next = 17;
+                        break;
+                    case 14:
+                        _context.prev = 14;
+                        _context.t0 = _context["catch"](2);
+                        console.log(_context.t0);
+                    case 17:
+                        _context.next = 1;
+                        break;
+                    case 19:
+                    case "end":
+                        return _context.stop();
+                }
+            }, _callee, null, [
+                [
+                    2,
+                    14
+                ]
+            ]);
+        }));
+        return _getNewHires.apply(this, arguments);
+    }
     //=================EMPLOYEE CONFIG END HERE=====================
     //================MISSIONS CONFIG START HERE====================
     var _useState11 = (0, _react.useState)([]), _useState12 = _slicedToArray(_useState11, 2), activeMissions = _useState12[0], setActiveMissions = _useState12[1];
@@ -26959,12 +26950,76 @@ function App() {
         }
         console.log("Assigned: ", assignedEmployees);
     }
+    function getNewMissions() {
+        return _getNewMissions.apply(this, arguments);
+    }
+    function _getNewMissions() {
+        _getNewMissions = _asyncToGenerator(/*#__PURE__*/ _regeneratorRuntime().mark(function _callee2() {
+            var quantity, response, json;
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+                while(true)switch(_context2.prev = _context2.next){
+                    case 0:
+                        while(newMissions.length != 0)newMissions.pop();
+                        quantity = Math.floor(Math.random() * 3);
+                    case 2:
+                        if (!(newMissions.length != 3)) {
+                            _context2.next = 20;
+                            break;
+                        }
+                        _context2.prev = 3;
+                        _context2.next = 6;
+                        return fetch("http://localhost:3000/mission/new");
+                    case 6:
+                        response = _context2.sent;
+                        if (response.ok) {
+                            _context2.next = 9;
+                            break;
+                        }
+                        throw new Error("HTTP error ".concat(response.status));
+                    case 9:
+                        _context2.next = 11;
+                        return response.json();
+                    case 11:
+                        json = _context2.sent;
+                        newMissions.push({
+                            missionId: json.mission.missionId,
+                            missionLevel: json.mission.missionLevel,
+                            missionReward: json.mission.missionReward,
+                            missionRequiredPoints: json.mission.missionRequiredPoints,
+                            missionCurrentPoints: json.mission.missionCurrentPoints,
+                            missionDetail: json.mission.missionDetail,
+                            missionExpiration: json.mission.missionExpiration,
+                            missionAssignedEmployees: json.mission.missionAssignedEmployees
+                        });
+                        _context2.next = 18;
+                        break;
+                    case 15:
+                        _context2.prev = 15;
+                        _context2.t0 = _context2["catch"](3);
+                        console.log(_context2.t0);
+                    case 18:
+                        _context2.next = 2;
+                        break;
+                    case 20:
+                    case "end":
+                        return _context2.stop();
+                }
+            }, _callee2, null, [
+                [
+                    3,
+                    15
+                ]
+            ]);
+        }));
+        return _getNewMissions.apply(this, arguments);
+    }
     //=================MISSIONS CONFIG END HERE=====================
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_gameSystem["default"], {
         company: company,
         setGame: setGame,
         newHires: newHires,
-        getNewObjects: getNewObjects,
+        getNewHires: getNewHires,
+        getNewMissions: getNewMissions,
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
@@ -27084,7 +27139,8 @@ function GameStart(props) {
         onSubmit: function onSubmit(e) {
             e.preventDefault();
             props.setGame(e.currentTarget.elements.companyConfirm.value, props.company);
-            props.getNewObjects();
+            props.getNewHires();
+            props.getNewMissions();
             props.setTime();
         }
     }, /*#__PURE__*/ _react["default"].createElement(_InputGroup["default"], {
