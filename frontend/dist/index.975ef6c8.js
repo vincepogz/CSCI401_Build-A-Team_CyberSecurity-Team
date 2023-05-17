@@ -35151,7 +35151,7 @@ function _arrayWithHoles(arr) {
 }
 function MissionSelectedEmployeeStat(props) {
     var _useState = (0, _react.useState)(props.selectedEmployee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
-    var _useState3 = (0, _react.useState)(props.employee.employeeImg), _useState4 = _slicedToArray(_useState3, 1), img = _useState4[0];
+    var _useState3 = (0, _react.useState)(employee.employeeImg), _useState4 = _slicedToArray(_useState3, 1), img = _useState4[0];
     var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "place-items-center ",

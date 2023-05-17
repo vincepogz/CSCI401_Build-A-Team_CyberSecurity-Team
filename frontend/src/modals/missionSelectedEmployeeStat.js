@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 function MissionSelectedEmployeeStat(props) {
 
     const [employee] = useState(props.selectedEmployee)
-    const [img] = useState(props.employee.employeeImg)
+    const [img] = useState(employee.employeeImg)
     const image = process.env.IMG_ENDPOINT + img
 
     return(
