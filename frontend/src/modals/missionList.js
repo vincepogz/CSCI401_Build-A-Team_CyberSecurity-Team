@@ -3,7 +3,7 @@ import MissionAssignModal from './missionAssignModal';
 
 function MissionList(props) {
     const [modalShow, setModalShow] = useState(false);
-    
+
     return(
         <>
     <div className="py-8 px-8 max-w-sm mx-auto bg-white rounded-xl border border-2  border-indigo-600 space-y-2 sm:py-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-6">
@@ -25,6 +25,7 @@ function MissionList(props) {
         employees={props.employees}
         newMission={props.newMission}
         assignMission={props.assignMission}
+        clearEmployeeAssignment = {props.clearEmployeeAssignment}
         show={modalShow}
         onHide={() => setModalShow(false)}/>
     </>

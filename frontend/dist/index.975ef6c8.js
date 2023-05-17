@@ -26827,6 +26827,7 @@ function App() {
         }));
     }
     function updateGame() {
+        clearEmployeeAssignment();
         var new_cash = company.current_cash - company.current_cost;
         setCompany(_objectSpread(_objectSpread({}, company), {}, {
             current_cash: new_cash
@@ -26864,6 +26865,21 @@ function App() {
         });
         employees[index].employeeTasked = newAssignment;
         console.log("Updating Employee Tasked", employees[index]);
+    }
+    function clearEmployeeAssignment() {
+        var counter = 0;
+        assignedEmployees.map(function(employee) {
+            if (!Number.isInteger(employee)) {
+                updateEmployeeAssignment(employee);
+                return counter++;
+            }
+        });
+        while(assignedEmployees.length != 0)assignedEmployees.pop();
+        assignedEmployees.push(1);
+        assignedEmployees.push(2);
+        assignedEmployees.push(3);
+        console.log("Clearning Employee Assignments: ", assignedEmployees);
+        console.log("Employees: ", employees);
     }
     function getNewHires() {
         return _getNewHires.apply(this, arguments);
@@ -26932,17 +26948,18 @@ function App() {
     var _useState11 = (0, _react.useState)([]), _useState12 = _slicedToArray(_useState11, 2), activeMissions = _useState12[0], setActiveMissions = _useState12[1];
     var _useState13 = (0, _react.useState)([]), _useState14 = _slicedToArray(_useState13, 2), newMissions = _useState14[0], setNewMissions = _useState14[1];
     var _useState15 = (0, _react.useState)([
-        ,
-        , 
+        1,
+        2,
+        3
     ]), _useState16 = _slicedToArray(_useState15, 2), assignedEmployees = _useState16[0], setAssignEmployees = _useState16[1];
     function addMission(mission) {}
     function removeMission(mission) {}
     function updateMission(mission) {}
     function assignMission(employee, index) {
-        if (assignedEmployees[index] == null) {
+        if (Number.isFinite(assignedEmployees[index])) {
             console.log("empty, adding");
             updateEmployeeAssignment(employee);
-            assignedEmployees.splice(index, 0, employee);
+            assignedEmployees.splice(index, 1, employee);
         } else {
             updateEmployeeAssignment(assignedEmployees[index]);
             console.log("Unassigned: ", assignedEmployees[index]);
@@ -27047,6 +27064,7 @@ function App() {
         employees: employees,
         activeMissions: activeMissions,
         newMissions: newMissions,
+        clearEmployeeAssignment: clearEmployeeAssignment,
         assignMission: assignMission
     }))));
 }
@@ -34258,6 +34276,7 @@ function MissionBoard(props) {
             key: newMission.missionId,
             newMission: newMission,
             employees: props.employees,
+            clearEmployeeAssignment: props.clearEmployeeAssignment,
             assignMission: props.assignMission
         });
     }))))));
@@ -34394,6 +34413,7 @@ function MissionList(props) {
         employees: props.employees,
         newMission: props.newMission,
         assignMission: props.assignMission,
+        clearEmployeeAssignment: props.clearEmployeeAssignment,
         show: modalShow,
         onHide: function onHide() {
             return setModalShow(false);
@@ -34531,9 +34551,13 @@ function MissionAssignModal(props) {
     return /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
         "aria-labelledby": "contained-modal-title-vcenter",
-        centered: true
+        centered: true,
+        backdrop: "static"
     }), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Header, {
-        closeButton: true
+        closeButton: true,
+        onClick: function onClick() {
+            return props.clearEmployeeAssignment();
+        }
     }, /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Title, {
         id: "contained-modal-title-vcenter"
     }, "New Mission: ", props.newMission.missionDetail.missionType)), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, {

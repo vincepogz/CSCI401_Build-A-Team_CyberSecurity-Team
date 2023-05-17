@@ -15,8 +15,9 @@ function MissionAssignModal(props) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            backdrop="static"
         >
-            <Modal.Header closeButton>
+            <Modal.Header closeButton onClick={() => props.clearEmployeeAssignment()}>
             <Modal.Title id="contained-modal-title-vcenter">
                 New Mission: {props.newMission.missionDetail.missionType}
             </Modal.Title>

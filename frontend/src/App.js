@@ -28,6 +28,7 @@ function App() {
             updateGame()
             getNewHires()
             getNewMissions()
+            
             if (company.current_cash <= 0){
                 setTimeLeft(null)
             }else{
@@ -50,7 +51,7 @@ function App() {
     };
 
     function updateGame() {
-
+        clearEmployeeAssignment()
         const new_cash = company.current_cash - company.current_cost
         setCompany({...company, current_cash: new_cash})
         
@@ -92,6 +93,29 @@ function App() {
         console.log("Updating Employee Tasked", employees[index])
     }
 
+    function clearEmployeeAssignment() {
+        let counter = 0
+        assignedEmployees.map((employee) =>{
+            if(!Number.isInteger(employee)){
+                updateEmployeeAssignment(employee)
+            
+                return counter++
+            }
+            
+        })
+
+        while (assignedEmployees.length != 0){
+            assignedEmployees.pop()
+        }
+
+        assignedEmployees.push(1)
+        assignedEmployees.push(2)
+        assignedEmployees.push(3)
+
+        console.log("Clearning Employee Assignments: ", assignedEmployees)
+        console.log("Employees: ", employees)
+    }
+
     async function getNewHires() {
 
         while (newHires.length != 0) {
@@ -131,7 +155,7 @@ function App() {
 
     const [newMissions, setNewMissions] = useState([]);
 
-    const [assignedEmployees, setAssignEmployees] = useState([,,])
+    const [assignedEmployees, setAssignEmployees] = useState([1,2,3])
 
     function addMission(mission) {
 
@@ -146,10 +170,10 @@ function App() {
     };
 
     function assignMission(employee, index) {
-        if (assignedEmployees[index] == null)  {
+        if (Number.isFinite(assignedEmployees[index]))  {
             console.log("empty, adding")
             updateEmployeeAssignment(employee)
-            assignedEmployees.splice(index, 0, employee)
+            assignedEmployees.splice(index, 1, employee)
         }else {
             updateEmployeeAssignment(assignedEmployees[index])
             console.log("Unassigned: ", assignedEmployees[index])
@@ -226,6 +250,7 @@ function App() {
                     employees = {employees}
                     activeMissions={activeMissions}
                     newMissions={newMissions}
+                    clearEmployeeAssignment = {clearEmployeeAssignment}
                     assignMission={assignMission}/>
             </div>
 
