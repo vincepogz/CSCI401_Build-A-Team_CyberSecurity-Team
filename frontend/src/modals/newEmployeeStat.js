@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
 function NewEmployeeStat(props) {
+    const [img] = useState(props.newHire.employeeImg)
+    const image = process.env.IMG_ENDPOINT + img
 
 
     return(
         <>
         <div>
         <Card className='place-items-center ' style={{ width: '14rem' }}>
-          <Card.Img className="mt-3" variant="top" src={window.location.origin + '/images/images(2).png'} />
+          <Card.Img className="mt-3" variant="top" src={image} />
           <Card.Body>
             <Card.Title>{props.newHire.employeeName}</Card.Title>
             <Card.Text>

@@ -6,12 +6,14 @@ import Button from 'react-bootstrap/Button';
 function MissionSelectedEmployeeStat(props) {
 
     const [employee] = useState(props.selectedEmployee)
+    const [img] = useState(props.employee.employeeImg)
+    const image = process.env.IMG_ENDPOINT + img
 
     return(
         <>
         <div>
         <Card className='place-items-center ' style={{ width: '14rem' }}>
-          <Card.Img className="mt-3" variant="top" src="https://cdn-icons-png.flaticon.com/512/912/912316.png" />
+          <Card.Img className="mt-3" variant="top" src={image} />
           <Card.Body>
             <Card.Title>{employee.employeeName}</Card.Title>
             <Card.Text>

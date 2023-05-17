@@ -4,14 +4,15 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
 function ActiveEmployeeStat(props) {
-
-    const [employee] = useState(props.employee)
+  const [img] = useState(props.employee.employeeImg)
+  const image = process.env.IMG_ENDPOINT + img
+  const [employee] = useState(props.employee)
 
     return(
         <>
         <div>
         <Card className='place-items-center ' style={{ width: '14rem' }}>
-          <Card.Img className="mt-3" variant="top" src={'images/'+props.employee.employeeImg} />
+          <Card.Img className="mt-3" variant="top" src={image} />
           <Card.Body>
             <Card.Title>{employee.employeeName}</Card.Title>
             <Card.Text>

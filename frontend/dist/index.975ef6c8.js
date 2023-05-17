@@ -32490,11 +32490,19 @@ $parcel$ReactRefreshHelpers$a7ca.prelude(module);
 
 try {
 "use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("c5e6e8a44b2e0986"));
+var _react = _interopRequireWildcard(require("c5e6e8a44b2e0986"));
 var _Card = _interopRequireDefault(require("d2a459ec8e19ff16"));
 var _ListGroup = _interopRequireDefault(require("f05fb3c58270a7b7"));
 var _Button = _interopRequireDefault(require("389d35c158843314"));
@@ -32503,7 +32511,78 @@ function _interopRequireDefault(obj) {
         "default": obj
     };
 }
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
+}
+function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+    return arr2;
+}
+function _iterableToArrayLimit(arr, i) {
+    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    if (null != _i) {
+        var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1;
+        try {
+            if (_x = (_i = _i.call(arr)).next, 0 === i) {
+                if (Object(_i) !== _i) return;
+                _n = !1;
+            } else for(; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } catch (err) {
+            _d = !0, _e = err;
+        } finally{
+            try {
+                if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+            } finally{
+                if (_d) throw _e;
+            }
+        }
+        return _arr;
+    }
+}
+function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+}
 function NewEmployeeStat(props) {
+    var _useState = (0, _react.useState)(props.newHire.employeeImg), _useState2 = _slicedToArray(_useState, 1), img = _useState2[0];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "place-items-center ",
         style: {
@@ -32512,7 +32591,7 @@ function NewEmployeeStat(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: window.location.origin + "/images/images(2).png"
+        src: image
     }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, props.newHire.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
         className: "list-group-flush"
     }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", props.newHire.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[0].skillName, ": ", props.newHire.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[1].skillName, ": ", props.newHire.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, props.newHire.employeeSkills[2].skillName, ": ", props.newHire.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
@@ -33601,17 +33680,51 @@ $parcel$ReactRefreshHelpers$79dd.prelude(module);
 try {
 var _s = $RefreshSig$();
 "use strict";
+function _typeof(obj) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return typeof obj;
+    } : function(obj) {
+        return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+}
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("62b91b056b886c4e"));
+var _react = _interopRequireWildcard(require("62b91b056b886c4e"));
 var _Card = _interopRequireDefault(require("26fa3f6e47c768f2"));
 var _activeEmployeeStatModal = _interopRequireDefault(require("44dd90c2ed90ade4"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         "default": obj
     };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interopRequireWildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) return obj;
+    if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") return {
+        "default": obj
+    };
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) return cache.get(obj);
+    var newObj = {};
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj)if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+        var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+        if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+        else newObj[key] = obj[key];
+    }
+    newObj["default"] = obj;
+    if (cache) cache.set(obj, newObj);
+    return newObj;
 }
 function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -33659,6 +33772,8 @@ function _arrayWithHoles(arr) {
 function ActiveEmployeeList(props) {
     _s();
     var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
+    var _useState = (0, _react.useState)(props.employee.employeeImg), _useState2 = _slicedToArray(_useState, 1), img = _useState2[0];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
         style: {
@@ -33667,7 +33782,7 @@ function ActiveEmployeeList(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: window.location.origin + "/images/images(2).png",
+        src: image,
         onClick: function onClick() {
             return setModalShow(true);
         }
@@ -33880,7 +33995,9 @@ function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
 }
 function ActiveEmployeeStat(props) {
-    var _useState = (0, _react.useState)(props.employee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
+    var _useState = (0, _react.useState)(props.employee.employeeImg), _useState2 = _slicedToArray(_useState, 1), img = _useState2[0];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
+    var _useState3 = (0, _react.useState)(props.employee), _useState4 = _slicedToArray(_useState3, 1), employee = _useState4[0];
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "place-items-center ",
         style: {
@@ -33889,7 +34006,7 @@ function ActiveEmployeeStat(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
+        src: image
     }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employee.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
         className: "list-group-flush"
     }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employee.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[0].skillName, ": ", employee.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[1].skillName, ": ", employee.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[2].skillName, ": ", employee.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
@@ -34554,6 +34671,7 @@ function _arrayWithHoles(arr) {
 }
 function MissionSelectEmployee(props) {
     var _useState = (0, _react.useState)(false), _useState2 = _slicedToArray(_useState, 2), modalShow = _useState2[0], setModalShow = _useState2[1];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/man-shape";
     return /*#__PURE__*/ _react["default"].createElement("div", {
         className: "d-flex justify-content-around"
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
@@ -34562,7 +34680,7 @@ function MissionSelectEmployee(props) {
         }
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         variant: "top",
-        src: "holder.js/100px180"
+        src: image
     }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Placeholder["default"], {
         as: _Card["default"].Title,
         animation: "glow"
@@ -34783,6 +34901,8 @@ function MissionListEmployee(props) {
     var _useState = (0, _react.useState)(), _useState2 = _slicedToArray(_useState, 2), selectedEmployee = _useState2[0], setSelectedEmployee = _useState2[1];
     var _useState3 = (0, _react.useState)(props.employees), _useState4 = _slicedToArray(_useState3, 1), employees = _useState4[0];
     var _React$useState = _react["default"].useState(false), _React$useState2 = _slicedToArray(_React$useState, 2), modalShow = _React$useState2[0], setModalShow = _React$useState2[1];
+    var _useState5 = (0, _react.useState)(), _useState6 = _slicedToArray(_useState5, 2), img = _useState6[0], setImg = _useState6[1];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement(_Modal["default"], _extends({}, props, {
         size: "lg",
         "aria-labelledby": "contained-modal-title-vcenter",
@@ -34794,22 +34914,25 @@ function MissionListEmployee(props) {
     }, "View Available Employees")), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Row["default"], null, /*#__PURE__*/ _react["default"].createElement("div", {
         className: "flex flex-wrap place-content-center"
     }, employees.map(function(employee) {
-        if (employee.employeeTasked != true) return /*#__PURE__*/ _react["default"].createElement("div", {
-            key: employee.employeeId
-        }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
-            className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
-            style: {
-                width: "10rem"
-            }
-        }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
-            className: "mt-3",
-            variant: "top",
-            src: "https://cdn-icons-png.flaticon.com/512/912/912316.png",
-            onClick: function onClick() {
-                setSelectedEmployee(employee);
-                setModalShow(true);
-            }
-        }), employee.employeeName));
+        if (employee.employeeTasked != true) {
+            setImg(employee.employeeImg);
+            return /*#__PURE__*/ _react["default"].createElement("div", {
+                key: employee.employeeId
+            }, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
+                className: "px-4 py-1 text-sm text-black-600 font-semibold rounded-full border hover:text-white hover:bg-blue-200 hover:border-transparent",
+                style: {
+                    width: "10rem"
+                }
+            }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
+                className: "mt-3",
+                variant: "top",
+                src: image,
+                onClick: function onClick() {
+                    setSelectedEmployee(employee);
+                    setModalShow(true);
+                }
+            }), employee.employeeName));
+        }
     })))), /*#__PURE__*/ _react["default"].createElement(_Modal["default"].Footer, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {
         className: "bg-sky-500",
         onClick: function onClick() {
@@ -35032,6 +35155,8 @@ function _arrayWithHoles(arr) {
 }
 function MissionSelectedEmployeeStat(props) {
     var _useState = (0, _react.useState)(props.selectedEmployee), _useState2 = _slicedToArray(_useState, 1), employee = _useState2[0];
+    var _useState3 = (0, _react.useState)(props.employee.employeeImg), _useState4 = _slicedToArray(_useState3, 1), img = _useState4[0];
+    var image = "https://raw.githubusercontent.com/vincepogz/CSCI401_Build-A-Team_CyberSecurity-Team/master/frontend/public/images/" + img;
     return /*#__PURE__*/ _react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/ _react["default"].createElement("div", null, /*#__PURE__*/ _react["default"].createElement(_Card["default"], {
         className: "place-items-center ",
         style: {
@@ -35040,7 +35165,7 @@ function MissionSelectedEmployeeStat(props) {
     }, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Img, {
         className: "mt-3",
         variant: "top",
-        src: "https://cdn-icons-png.flaticon.com/512/912/912316.png"
+        src: image
     }), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Card["default"].Title, null, employee.employeeName), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Text, null)), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"], {
         className: "list-group-flush"
     }, /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, "Salary: $", employee.employeeSalary), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[0].skillName, ": ", employee.employeeSkills[0].skillValue, " "), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[1].skillName, ": ", employee.employeeSkills[1].skillValue), /*#__PURE__*/ _react["default"].createElement(_ListGroup["default"].Item, null, employee.employeeSkills[2].skillName, ": ", employee.employeeSkills[2].skillValue)), /*#__PURE__*/ _react["default"].createElement(_Card["default"].Body, null, /*#__PURE__*/ _react["default"].createElement(_Button["default"], {

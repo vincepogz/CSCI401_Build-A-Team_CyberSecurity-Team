@@ -6,6 +6,7 @@ import MissionListEmployee from './missionListEmployees';
 
 function MissionSelectEmployee(props) {
     const [modalShow, setModalShow] = useState(false);
+    const image = process.env.IMG_ENDPOINT + "man-shape.png"
 
     return (
     <div className="d-flex justify-content-around">
@@ -13,7 +14,7 @@ function MissionSelectEmployee(props) {
         <Card style={{ width: '14rem' }}>
 
 
-        <Card.Img variant="top" src="holder.js/100px180" />
+        <Card.Img variant="top" src={image} />
         <Card.Body>
             <Placeholder as={Card.Title} animation="glow">
             <Placeholder xs={6} />
