@@ -178,13 +178,12 @@ function App() {
 
             }
         })
-
         activeMissions.push(mission)
-        clearEmployeeAssignment()
 
         const index = newMissions.findIndex(obj => obj.missionId === mission.missionId)
         newMissions.splice(index,1)
 
+        clearEmployeeAssignment()
 
     };
 
